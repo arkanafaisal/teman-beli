@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TemanBeli - Patungan Hemat Kampus Ecosystem</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: "#eff6ff",
+                100: "#dbeafe",
+                500: "#3b82f6",
+                600: "#2563eb",
+                700: "#1d4ed8",
+                800: "#1e40af",
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- AOS CSS CDN (Animate On Scroll) -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+      /* Dynamic Screen Height Helper for Mobile Browsers */
+      .min-h-screen-dvh {
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+      .h-screen-dvh {
+        height: 100vh;
+        height: 100dvh;
+      }
+
+      #main-header {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      /* Smooth scroll behavior with safe offset for mobile sticky headers */
+      html {
+        scroll-padding-top: 5rem;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300 selection:bg-blue-500 selection:text-white">
+    <!-- Floating Sticky Header / Navbar Wrapper -->
+    <div class="sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 md:px-8 pt-4 sm:pt-5" id="header-wrapper">
+      <header id="main-header" class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 rounded-2xl shadow-sm">
+        <!-- Brand Logo -->
+        <a href="index.html" class="flex items-center gap-2 font-extrabold text-lg sm:text-xl tracking-tight text-blue-600 dark:text-blue-400">
+          <span class="p-1.5 bg-blue-100 dark:bg-blue-950/80 rounded-xl text-base sm:text-lg">🎓</span>
+          <span>Patungan<span class="text-slate-900 dark:text-white">Aja!</span></span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="index.html" class="text-blue-600 dark:text-blue-400 transition">Beranda</a>
+          <a href="eksplor.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Eksplor</a>
+          <!-- <a href="riwayat.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Riwayat</a> -->
+          <a href="infokomun.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Komunitas</a>
+          <a href="profil.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Profil</a>
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Dark Mode Toggle -->
+          <button onclick="toggleTheme()" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition" aria-label="Toggle Theme">
+            <span class="dark:hidden text-sm sm:text-base">🌙</span>
+            <span class="hidden dark:inline text-sm sm:text-base">☀️</span>
+          </button>
+
+          <div id="auth-nav" class="hidden sm:block"></div>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none active:scale-95 transition" aria-label="Open Menu">
+            <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </header>
+    </div>
+
+    <!-- Mobile Drawer Menu (Slide-down) -->
+    <div id="mobile-menu" class="fixed inset-x-4 top-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl p-6 z-40 hidden md:hidden shadow-2xl transition-all duration-300">
+      <nav class="flex flex-col gap-4 text-base font-semibold text-slate-700 dark:text-slate-200">
+        <a href="index.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 text-blue-600 dark:text-blue-400">Beranda</a>
+        <a href="eksplor.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Eksplor</a>
+        <!-- <a href="riwayat.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Riwayat</a> -->
+        <a href="infokomun.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Komunitas</a>
+        <a href="profil.html" onclick="toggleMobileMenu()" class="py-2 hover:text-blue-600 dark:hover:text-blue-400">Profil</a>
+
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
+          <a href="eksplor.html" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition"> Masuk SSO Kampus </a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Hero Section (Full Screen 100dvh on Mobile) -->
+    <section class="relative overflow-hidden min-h-screen-dvh flex flex-col justify-between pt-4 pb-8 sm:py-20 md:py-28">
+      <div class="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.blue.100),transparent)] dark:bg-[radial-gradient(45rem_50rem_at_top,theme(colors.blue.950/40%),transparent)] opacity-70"></div>
+
+      <!-- Spacer Top for flex centering -->
+      <div class="hidden sm:block"></div>
+
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center my-auto">
+        <!-- Campus Badge -->
+        <!-- <div data-aos="fade-down" data-aos-duration="800" class="inline-flex items-center gap-2 px-3 py-1.5 sm:px-3.5 sm:py-1.5 rounded-full bg-blue-50 dark:bg-blue-950/80 border border-blue-200 dark:border-blue-800/80 text-blue-700 dark:text-blue-300 text-[11px] sm:text-xs font-semibold mb-4 sm:mb-6 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+        <span>Closed Campus Ecosystem &bull; Khusus Mahasiswa</span>
+      </div> -->
+
+        <!-- Headline -->
+        <h1 data-aos="fade-up" data-aos-duration="1000" class="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.18] mb-4 sm:mb-6">
+          Beli Grosir Lebih Hemat, <br />
+          <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-400 dark:to-indigo-400"> Bayar Sesuai Porsi Kamu. </span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000" class="text-sm sm:text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-6 sm:mb-10 leading-relaxed px-2 sm:px-0">
+          Solusi patungan belanja kertas HVS, bahan praktikum, alat lukis, hingga kebutuhan kost khusus sesama mahasiswa kampus. Otomatis, terverifikasi, dan transparan.
+        </p>
+
+        <!-- Call To Action Buttons -->
+        <div data-aos="zoom-in" data-aos-delay="400" class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto w-full px-2 sm:px-0">
+          <a
+            href="eksplor.html"
+            class="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold px-7 py-3.5 rounded-2xl shadow-lg shadow-blue-500/25 transition flex items-center justify-center gap-2 group active:scale-95"
+          >
+            <span>Jelajahi Patungan</span>
+            <span class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+          </a>
+          <a
+            href="#history-hemat"
+            class="w-full sm:w-auto bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold px-6 py-3.5 rounded-2xl transition text-center shadow-sm active:scale-95"
+          >
+            Rekap Penghematan
+          </a>
+        </div>
+      </div>
+
+      <!-- Stat Counter Preview (Grip Grid for Mobile) -->
+      <div data-aos="fade-up" data-aos-delay="600" class="max-w-3xl mx-auto px-4 w-full mt-6 sm:mt-12">
+        <div class="grid grid-cols-3 gap-2 sm:gap-6 pt-6 border-t border-slate-200/60 dark:border-slate-800/80 text-center">
+          <div class="p-2 sm:p-0">
+            <p class="text-xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400">100%</p>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 sm:mt-1 leading-tight">Verified Mahasiswa</p>
+          </div>
+          <div class="p-2 sm:p-0">
+            <p class="text-xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400">Rp 0</p>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 sm:mt-1 leading-tight">Biaya Admin Platform</p>
+          </div>
+          <div class="p-2 sm:p-0">
+            <p class="text-xl sm:text-3xl font-extrabold text-blue-600 dark:text-blue-400">Otomatis</p>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5 sm:mt-1 leading-tight">Kalkulasi Satuan</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Kategori Populer Section -->
+    <section id="kategori" class="py-12 sm:py-16 bg-white dark:bg-slate-800/40 border-y border-slate-200/80 dark:border-slate-800">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div data-aos="fade-up" class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+          <h2 class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">Pilihan Hemat</h2>
+          <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Kategori Patungan Populer</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
+          <div data-aos="zoom-in" data-aos-delay="100" class="p-4 sm:p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 text-center hover:border-blue-500 transition active:scale-95">
+            <span class="text-2xl sm:text-3xl block mb-2">📚</span>
+            <h3 class="font-bold text-xs sm:text-sm mb-1 text-slate-900 dark:text-white">Alat Tulis & Cetak</h3>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 leading-tight">Kertas HVS, Jilid, Banner</p>
+          </div>
+          <div data-aos="zoom-in" data-aos-delay="200" class="p-4 sm:p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 text-center hover:border-blue-500 transition active:scale-95">
+            <span class="text-2xl sm:text-3xl block mb-2">🧪</span>
+            <h3 class="font-bold text-xs sm:text-sm mb-1 text-slate-900 dark:text-white">Bahan Praktikum</h3>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 leading-tight">Komponen Elektro, Kimia</p>
+          </div>
+          <div data-aos="zoom-in" data-aos-delay="300" class="p-4 sm:p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 text-center hover:border-blue-500 transition active:scale-95">
+            <span class="text-2xl sm:text-3xl block mb-2">🍿</span>
+            <h3 class="font-bold text-xs sm:text-sm mb-1 text-slate-900 dark:text-white">Snack Grosir</h3>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 leading-tight">Snack Box, Minuman Dus</p>
+          </div>
+          <div data-aos="zoom-in" data-aos-delay="400" class="p-4 sm:p-5 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 text-center hover:border-blue-500 transition active:scale-95">
+            <span class="text-2xl sm:text-3xl block mb-2">🏠</span>
+            <h3 class="font-bold text-xs sm:text-sm mb-1 text-slate-900 dark:text-white">Kebutuhan Kost</h3>
+            <p class="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 leading-tight">Detergen, Galon Bersama</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fitur Utama Section -->
+    <section id="fitur" class="py-12 sm:py-20 md:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div data-aos="fade-up" class="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
+          <h2 class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">Keunggulan Platform</h2>
+          <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Dirancang Khusus untuk Ekosistem Kampus</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8">
+          <div
+            data-aos="fade-up"
+            data-aos-delay="100"
+            class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-700/60 hover:shadow-xl hover:-translate-y-1 transition duration-300"
+          >
+            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-6 font-bold">🛡️</div>
+            <h3 class="font-bold text-lg sm:text-xl mb-2 sm:mb-3 text-slate-900 dark:text-white">Keamanan SSO Kampus</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Hanya akun verified email kampus yang dapat membuat pengumuman patungan. Mencegah potensi penipuan dari pihak luar.</p>
+          </div>
+
+          <div
+            data-aos="fade-up"
+            data-aos-delay="200"
+            class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-700/60 hover:shadow-xl hover:-translate-y-1 transition duration-300"
+          >
+            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-6 font-bold">🧮</div>
+            <h3 class="font-bold text-lg sm:text-xl mb-2 sm:mb-3 text-slate-900 dark:text-white">Sistem Hitung Otomatis</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Kreator cukup masukkan total harga dan kuota target, sistem otomatis membagi estimasi harga per satuan secara presisi.</p>
+          </div>
+
+          <div
+            data-aos="fade-up"
+            data-aos-delay="300"
+            class="bg-white dark:bg-slate-800 p-6 sm:p-8 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-700/60 hover:shadow-xl hover:-translate-y-1 transition duration-300"
+          >
+            <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-xl sm:text-2xl mb-4 sm:mb-6 font-bold">📍</div>
+            <h3 class="font-bold text-lg sm:text-xl mb-2 sm:mb-3 text-slate-900 dark:text-white">Titik Kumpul Kampus</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Pilih lokasi serah terima di area favorit kampus (Kantin, Perpustakaan, atau Gedung Fakultas) yang praktis dijangkau.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tracker Penghematan & History Section -->
+    <section id="history-hemat" class="py-12 sm:py-16 bg-slate-100 dark:bg-slate-800/60 border-y border-slate-200/80 dark:border-slate-800">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6">
+        <div data-aos="fade-up" class="text-center mb-8 sm:mb-10">
+          <h2 class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">Dampak Nyata TemanBeli</h2>
+          <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Rekap & History Penghematan</p>
+        </div>
+
+        <div data-aos="zoom-in" class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 items-start">
+          <!-- Card Left: Ringkasan Total Savings -->
+          <div class="bg-gradient-to-br from-blue-600 to-indigo-700 text-white p-6 sm:p-7 rounded-2xl sm:rounded-3xl shadow-xl flex flex-col justify-between h-full">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-blue-200">Total Uang Dihemat</span>
+                <span class="px-2.5 py-1 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-semibold text-white">Otomatis</span>
+              </div>
+              <p id="total-savings-amount" class="text-3xl sm:text-4xl font-black mt-3 mb-1">Rp 0</p>
+              <p id="total-savings-count" class="text-xs text-blue-100">Dari 0x transaksi patungan selesai</p>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-blue-400/30 flex items-center justify-between text-xs">
+              <span class="text-blue-200">Rata-rata hemat / transaksi:</span>
+              <span id="avg-savings-amount" class="font-extrabold text-emerald-300">~Rp 0</span>
+            </div>
+          </div>
+
+          <!-- Card Right: History Patungan (Maksimal 3 + See More Button) -->
+          <div class="md:col-span-2 bg-white dark:bg-slate-800 p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div class="flex items-center justify-between mb-4 pb-2 border-b border-slate-100 dark:border-slate-700/60">
+              <h3 class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <span>History Patungan Selesai</span>
+              </h3>
+              <span class="text-[10px] sm:text-xs px-2.5 py-1 bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 font-semibold rounded-full">Terverifikasi</span>
+            </div>
+
+            <!-- Container untuk History List -->
+            <div id="history-list-container" class="space-y-3">
+              <!-- Diisi via JS -->
+            </div>
+
+            <!-- Tombol See More / Lihat Semua -->
+            <div id="see-more-container" class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-700/50 text-center hidden">
+              <button onclick="toggleSeeMore()" id="see-more-btn" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition inline-flex items-center gap-1 active:scale-95">
+                <span id="see-more-text">Lihat Lebih Banyak</span>
+                <span id="see-more-icon" class="transition-transform duration-200">&darr;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimoni Section -->
+    <section id="testimoni" class="py-12 sm:py-20 md:py-24">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6">
+        <div data-aos="fade-up" class="text-center max-w-2xl mx-auto mb-10 sm:mb-16">
+          <h2 class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">Pendapat Mereka</h2>
+          <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">Kata Teman Mahasiswa</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8">
+          <div data-aos="fade-up" data-aos-delay="100" class="p-5 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 sm:mb-6 italic leading-relaxed">"Beli kertas HVS 1 rim kemahalan kalo dipake sendiri. Berkat TemanBeli bisa dapet porsi 100 lembar doang dengan harga pas!"</p>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs sm:text-sm">A</div>
+              <div>
+                <h4 class="font-bold text-xs sm:text-sm">Amelia S.</h4>
+                <p class="text-[10px] sm:text-xs text-slate-400">Informatika UNS</p>
+              </div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="200" class="p-5 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 sm:mb-6 italic leading-relaxed">"Paling seneng karena login-nya pake SSO Kampus, jadi ga takut ditipu anak luar pas transaksi patungan praktikum."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs sm:text-sm">R</div>
+              <div>
+                <h4 class="font-bold text-xs sm:text-sm">Rian F.</h4>
+                <p class="text-[10px] sm:text-xs text-slate-400">Teknik Elektro</p>
+              </div>
+            </div>
+          </div>
+
+          <div data-aos="fade-up" data-aos-delay="300" class="p-5 sm:p-6 bg-white dark:bg-slate-800 rounded-2xl sm:rounded-3xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm">
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mb-4 sm:mb-6 italic leading-relaxed">"Langsung terhubung ke WA Kreator tanpa ribet. Janjian tikum di Kantin FITDS langsung beres jam itu juga."</p>
+            <div class="flex items-center gap-3">
+              <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs sm:text-sm">D</div>
+              <div>
+                <h4 class="font-bold text-xs sm:text-sm">Dinda A.</h4>
+                <p class="text-[10px] sm:text-xs text-slate-400">Desain Komunikasi Visual</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="py-12 sm:py-16 bg-white dark:bg-slate-800/40 border-t border-slate-200/80 dark:border-slate-800">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6">
+        <div data-aos="fade-up" class="text-center mb-8 sm:mb-12">
+          <h2 class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">Pertanyaan Umum</h2>
+          <p class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">FAQ TemanBeli</p>
+        </div>
+
+        <div class="space-y-3 sm:space-y-4">
+          <details
+            data-aos="fade-up"
+            data-aos-delay="100"
+            class="group p-4 sm:p-5 bg-slate-50 dark:bg-slate-800 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-700 [&_summary::-webkit-details-marker]:hidden cursor-pointer"
+          >
+            <summary class="flex items-center justify-between font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100">
+              <span>Apakah Guest (tanpa login) bisa melihat pengumuman?</span>
+              <span class="transition group-open:rotate-180 text-blue-600 dark:text-blue-400 ml-2">&darr;</span>
+            </summary>
+            <p class="mt-2.5 sm:mt-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Bisa! Guest bisa melihat feed dan detail estimasi harga. Namun untuk melihat kontak Kreator dan ikut patungan, pengguna diwajibkan login SSO Kampus.
+            </p>
+          </details>
+
+          <details
+            data-aos="fade-up"
+            data-aos-delay="200"
+            class="group p-4 sm:p-5 bg-slate-50 dark:bg-slate-800 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-700 [&_summary::-webkit-details-marker]:hidden cursor-pointer"
+          >
+            <summary class="flex items-center justify-between font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100">
+              <span>Bagaimana metode pembayarannya?</span>
+              <span class="transition group-open:rotate-180 text-blue-600 dark:text-blue-400 ml-2">&darr;</span>
+            </summary>
+            <p class="mt-2.5 sm:mt-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Pembayaran dilakukan secara langsung antara Partisipan dan Kreator (via Transfer Bank/E-Wallet/Tunai saat serah terima) sesuai kesepakatan obrolan WhatsApp.
+            </p>
+          </details>
+
+          <details
+            data-aos="fade-up"
+            data-aos-delay="300"
+            class="group p-4 sm:p-5 bg-slate-50 dark:bg-slate-800 rounded-xl sm:rounded-2xl border border-slate-200 dark:border-slate-700 [&_summary::-webkit-details-marker]:hidden cursor-pointer"
+          >
+            <summary class="flex items-center justify-between font-bold text-xs sm:text-sm text-slate-800 dark:text-slate-100">
+              <span>Apakah ada biaya admin platform?</span>
+              <span class="transition group-open:rotate-180 text-blue-600 dark:text-blue-400 ml-2">&darr;</span>
+            </summary>
+            <p class="mt-2.5 sm:mt-3 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">Tidak ada! TemanBeli 100% gratis digunakan untuk mendukung ekosistem hemat antar mahasiswa kampus.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner Section -->
+    <section class="max-w-5xl mx-auto px-4 sm:px-6 my-10 sm:my-16">
+      <div data-aos="zoom-in" class="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 dark:from-blue-700 dark:to-indigo-900 rounded-2xl sm:rounded-3xl p-6 sm:p-12 text-white text-center shadow-xl">
+        <div class="relative z-10 max-w-2xl mx-auto">
+          <h2 class="text-xl sm:text-3xl md:text-4xl font-black mb-3 sm:mb-4 tracking-tight">Siap Hemat Bersama Teman Kampus?</h2>
+          <p class="text-blue-100 text-xs sm:text-base mb-6 sm:mb-8 leading-relaxed">Mulai cari barang patungan aktif sekarang atau posting barang grosir yang ingin kamu beli!</p>
+          <a
+            href="eksplor.html"
+            class="inline-block bg-white hover:bg-blue-50 text-blue-700 font-extrabold px-6 py-3.5 sm:px-8 sm:py-4 rounded-xl sm:rounded-2xl shadow-lg hover:scale-105 transition transform active:scale-95 text-sm sm:text-base"
+          >
+            Masuk Katalog Patungan &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-800 py-6 sm:py-8 bg-white dark:bg-slate-900">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left text-xs text-slate-500 dark:text-slate-400">
+        <p>&copy; 2026 TemanBeli. Built for Closed Campus Ecosystem.</p>
+        <div class="flex items-center gap-4 sm:gap-6">
+          <a href="eksplor.html" class="hover:underline">Eksplor Feed</a>
+          <a href="#fitur" class="hover:underline">Fitur</a>
+          <a href="#faq" class="hover:underline">FAQ</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JS Dependencies -->
+    <script src="/assets/js/storage.js"></script>
+    <script src="/assets/js/app.js"></script>
+
+    <!-- AOS JS CDN & Init -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        once: true,
+        duration: 700,
+        easing: "ease-in-out",
+      });
+
+      // Mobile Drawer Navigation Toggle
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        const iconOpen = document.getElementById("menu-icon-open");
+        const iconClose = document.getElementById("menu-icon-close");
+
+        menu.classList.toggle("hidden");
+        iconOpen.classList.toggle("hidden");
+        iconClose.classList.toggle("hidden");
+      }
+
+      // Dynamic Header Morph
+      const headerWrapper = document.getElementById("header-wrapper");
+      const mainHeader = document.getElementById("main-header");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 30) {
+          // Saat di-scroll ke bawah: Padding atas mengecil
+          headerWrapper.classList.remove("pt-4", "sm:pt-5");
+          headerWrapper.classList.add("pt-2");
+
+          mainHeader.classList.remove("max-w-6xl");
+          mainHeader.classList.add("max-w-4xl", "shadow-md", "h-14");
+        } else {
+          // Saat kembali ke paling atas: Kembali ke padding awal yang lega
+          headerWrapper.classList.remove("pt-2");
+          headerWrapper.classList.add("pt-4", "sm:pt-5");
+
+          mainHeader.classList.add("max-w-6xl");
+          mainHeader.classList.remove("max-w-4xl", "shadow-md", "h-14");
+        }
+      });
+
+      // Mock Data History Patungan
+      const mockHistoryData = [
+        { id: "P-001", nama: "Kertas HVS A4 80gr (100 lembar)", kategori: "📚", porsi: "5 orang", tanggal: "12 Sep 2026", hargaEceran: 50000, hargaPorsiGrosir: 28000 },
+        { id: "P-002", nama: "Breadboard & Kabel Jumper Praktikum", kategori: "🧪", porsi: "3 orang", tanggal: "02 Sep 2026", hargaEceran: 70000, hargaPorsiGrosir: 35000 },
+        { id: "P-003", nama: "Detergen Cair & Galon Bersama Kost", kategori: "🏠", porsi: "4 orang", tanggal: "21 Ags 2026", hargaEceran: 48000, hargaPorsiGrosir: 26000 },
+        { id: "P-004", nama: "Snack Box & Teh Botol Dus-dusan", kategori: "🍿", porsi: "6 orang", tanggal: "10 Ags 2026", hargaEceran: 35000, hargaPorsiGrosir: 19000 },
+        { id: "P-005", nama: "Spidol Boardmaker & Tinta Refill", kategori: "📚", porsi: "4 orang", tanggal: "28 Jul 2026", hargaEceran: 40000, hargaPorsiGrosir: 22000 },
+      ];
+
+      let showAllHistory = false;
+
+      function renderHistoryList() {
+        const container = document.getElementById("history-list-container");
+        const seeMoreContainer = document.getElementById("see-more-container");
+        if (!container) return;
+
+        // Hitung total hemat akumulatif
+        let totalHematAcc = 0;
+        mockHistoryData.forEach((item) => {
+          totalHematAcc += item.hargaEceran - item.hargaPorsiGrosir;
+        });
+
+        // Tentukan data yang ditampilkan (maksimal 3 jika showAllHistory = false)
+        const visibleData = showAllHistory ? mockHistoryData : mockHistoryData.slice(0, 3);
+
+        container.innerHTML = visibleData
+          .map((item) => {
+            const hematItem = item.hargaEceran - item.hargaPorsiGrosir;
+            const persenItem = Math.round((hematItem / item.hargaEceran) * 100);
+
+            return `
+          <div class="flex items-center justify-between p-3 sm:p-3.5 rounded-xl bg-slate-50 dark:bg-slate-700/50 border border-slate-100 dark:border-slate-700/80 transition hover:bg-slate-100/70 dark:hover:bg-slate-700">
+            <div class="flex items-center gap-3">
+              <span class="p-2 sm:p-2.5 bg-blue-100 dark:bg-blue-950/80 rounded-xl text-base sm:text-lg">${item.kategori}</span>
+              <div>
+                <p class="font-bold text-xs sm:text-sm text-slate-900 dark:text-white leading-tight">${item.nama}</p>
+                <p class="text-[10px] sm:text-xs text-slate-400 mt-0.5">Patungan ${item.porsi} &bull; ${item.tanggal}</p>
+              </div>
+            </div>
+            <div class="text-right pl-2">
+              <p class="font-bold text-xs sm:text-sm text-emerald-600 dark:text-emerald-400">+Rp ${hematItem.toLocaleString("id-ID")}</p>
+              <p class="text-[10px] text-slate-400">Hemat ${persenItem}%</p>
+            </div>
+          </div>
+        `;
+          })
+          .join("");
+
+        // Update Card Ringkasan Total Hemat
+        const count = mockHistoryData.length;
+        const avg = count > 0 ? Math.round(totalHematAcc / count) : 0;
+
+        document.getElementById("total-savings-amount").innerText = `Rp ${totalHematAcc.toLocaleString("id-ID")}`;
+        document.getElementById("total-savings-count").innerText = `Dari ${count}x transaksi patungan selesai`;
+        document.getElementById("avg-savings-amount").innerText = `~Rp ${avg.toLocaleString("id-ID")}`;
+
+        // Tampilkan tombol See More jika jumlah data > 3
+        if (mockHistoryData.length > 3) {
+          seeMoreContainer.classList.remove("hidden");
+        } else {
+          seeMoreContainer.classList.add("hidden");
+        }
+      }
+
+      // Toggle Tampilan See More / Show Less
+      function toggleSeeMore() {
+        showAllHistory = !showAllHistory;
+        const seeMoreText = document.getElementById("see-more-text");
+        const seeMoreIcon = document.getElementById("see-more-icon");
+
+        if (showAllHistory) {
+          seeMoreText.innerText = "Tampilkan Lebih Sedikit";
+          seeMoreIcon.classList.add("rotate-180");
+        } else {
+          seeMoreText.innerText = "Lihat Lebih Banyak";
+          seeMoreIcon.classList.remove("rotate-180");
+        }
+
+        renderHistoryList();
+      }
+
+      // Run render saat dokumen siap
+      document.addEventListener("DOMContentLoaded", renderHistoryList);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Katalog Patungan - TemanBeli</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: "#eff6ff",
+                100: "#dbeafe",
+                500: "#3b82f6",
+                600: "#2563eb",
+                700: "#1d4ed8",
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- AOS CSS CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+
+    <style>
+      #main-header {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300">
+    <!-- Floating Sticky Header / Navbar Wrapper -->
+    <div class="sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 md:px-8 pt-4 sm:pt-5" id="header-wrapper">
+      <header id="main-header" class="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex items-center justify-between bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 rounded-2xl shadow-sm">
+        <!-- Brand Logo -->
+        <a href="index.html" class="flex items-center gap-2 font-extrabold text-lg sm:text-xl tracking-tight text-blue-600 dark:text-blue-400">
+          <span class="p-1.5 bg-blue-100 dark:bg-blue-950/80 rounded-xl text-base sm:text-lg">🎓</span>
+          <span>Patungan<span class="text-slate-900 dark:text-white">Aja!</span></span>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <a href="index.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Beranda</a>
+          <a href="eksplor.html" class="text-blue-600 dark:text-blue-400 transition">Eksplor</a>
+          <!-- <a href="riwayat.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Riwayat</a> -->
+          <a href="infokomun.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Komunitas</a>
+          <a href="profil.html" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Profil</a>
+        </nav>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <!-- Dark Mode Toggle -->
+          <button onclick="toggleTheme()" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition" aria-label="Toggle Theme">
+            <span class="dark:hidden text-sm sm:text-base">🌙</span>
+            <span class="hidden dark:inline text-sm sm:text-base">☀️</span>
+          </button>
+
+          <div id="auth-nav" class="hidden sm:block"></div>
+
+          <!-- Mobile Menu Toggle Button -->
+          <button id="mobile-menu-btn" onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none active:scale-95 transition" aria-label="Open Menu">
+            <svg id="menu-icon-open" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            <svg id="menu-icon-close" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+          </button>
+        </div>
+      </header>
+    </div>
+
+    <!-- Mobile Drawer Menu (Slide-down) -->
+    <div id="mobile-menu" class="fixed inset-x-4 top-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl p-6 z-40 hidden md:hidden shadow-2xl transition-all duration-300">
+      <nav class="flex flex-col gap-4 text-base font-semibold text-slate-700 dark:text-slate-200">
+        <a href="index.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Beranda</a>
+        <a href="eksplor.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 text-blue-600 dark:text-blue-400">Eksplor</a>
+        <!-- <a href="riwayat.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Riwayat</a> -->
+        <a href="infokomun.html" onclick="toggleMobileMenu()" class="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Komunitas</a>
+        <a href="profil.html" onclick="toggleMobileMenu()" class="py-2 hover:text-blue-600 dark:hover:text-blue-400">Profil</a>
+
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
+          <a href="eksplor.html" class="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition"> Masuk SSO Kampus </a>
+        </div>
+      </nav>
+    </div>
+
+    <!-- Main Feed Container -->
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
+      <!-- Header Title & Action -->
+      <div data-aos="fade-down" class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Katalog Patungan Aktif</h1>
+          <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">Cari penawaran barang grosir yang butuh partisipan di sekitarmu.</p>
+        </div>
+        <button onclick="checkCreateAccess()" class="bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white font-semibold px-6 py-3 rounded-2xl shadow-lg shadow-blue-500/25 transition flex items-center justify-center gap-2 group">
+          <span>+ Buat Patungan Baru</span>
+        </button>
+      </div>
+
+      <!-- Search & Filter Controls -->
+      <div data-aos="fade-up" data-aos-delay="100" class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm mb-8 flex flex-col md:flex-row gap-4 justify-between items-center">
+        <!-- Input Search Bar -->
+        <div class="relative w-full md:w-96">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">🔍</span>
+          <input
+            type="text"
+            id="search-input"
+            onkeyup="filterFeed()"
+            placeholder="Cari barang atau titik kumpul..."
+            class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 dark:bg-slate-900/50 text-sm focus:ring-2 ring-blue-500 outline-none transition"
+          />
+        </div>
+
+        <!-- Category Filter Pills -->
+        <div class="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none text-xs font-medium">
+          <button onclick="setCategory('All')" class="cat-btn active px-4 py-2 rounded-xl bg-blue-600 text-white transition whitespace-nowrap" data-cat="All">Semua</button>
+          <button
+            onclick="setCategory('Alat Tulis & Cetak')"
+            class="cat-btn px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition whitespace-nowrap"
+            data-cat="Alat Tulis & Cetak"
+          >
+            📚 Alat Tulis
+          </button>
+          <button
+            onclick="setCategory('Bahan Praktikum')"
+            class="cat-btn px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition whitespace-nowrap"
+            data-cat="Bahan Praktikum"
+          >
+            🧪 Praktikum
+          </button>
+          <button
+            onclick="setCategory('Makanan / Snacking')"
+            class="cat-btn px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition whitespace-nowrap"
+            data-cat="Makanan / Snacking"
+          >
+            🍿 Makanan
+          </button>
+          <button
+            onclick="setCategory('Kebutuhan Kost')"
+            class="cat-btn px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition whitespace-nowrap"
+            data-cat="Kebutuhan Kost"
+          >
+            🏠 Kost
+          </button>
+        </div>
+      </div>
+
+      <!-- Feed Cards Grid -->
+      <div id="patungan-feed" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Diisi secara dinamis oleh JavaScript -->
+      </div>
+    </main>
+
+    <!-- JS Dependencies -->
+    <script src="/assets/js/storage.js"></script>
+    <script src="/assets/js/app.js"></script>
+
+    <!-- AOS JS CDN & Init -->
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+      let activeCategory = "All";
+
+      AOS.init({
+        once: false,
+        mirror: true,
+        duration: 700,
+        easing: "ease-in-out",
+      });
+
+      // Mobile Drawer Navigation Toggle
+      function toggleMobileMenu() {
+        const menu = document.getElementById("mobile-menu");
+        const iconOpen = document.getElementById("menu-icon-open");
+        const iconClose = document.getElementById("menu-icon-close");
+
+        menu.classList.toggle("hidden");
+        iconOpen.classList.toggle("hidden");
+        iconClose.classList.toggle("hidden");
+      }
+
+      // Dynamic Header Morph
+      const headerWrapper = document.getElementById("header-wrapper");
+      const mainHeader = document.getElementById("main-header");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 30) {
+          // Saat di-scroll ke bawah: Padding atas mengecil
+          headerWrapper.classList.remove("pt-4", "sm:pt-5");
+          headerWrapper.classList.add("pt-2");
+
+          mainHeader.classList.remove("max-w-6xl");
+          mainHeader.classList.add("max-w-4xl", "shadow-md", "h-14");
+        } else {
+          // Saat kembali ke paling atas: Kembali ke padding awal yang lega
+          headerWrapper.classList.remove("pt-2");
+          headerWrapper.classList.add("pt-4", "sm:pt-5");
+
+          mainHeader.classList.add("max-w-6xl");
+          mainHeader.classList.remove("max-w-4xl", "shadow-md", "h-14");
+        }
+      });
+
+      // Filter Logic
+      function setCategory(cat) {
+        activeCategory = cat;
+        document.querySelectorAll(".cat-btn").forEach((btn) => {
+          if (btn.getAttribute("data-cat") === cat) {
+            btn.className = "cat-btn active px-4 py-2 rounded-xl bg-blue-600 text-white transition whitespace-nowrap";
+          } else {
+            btn.className = "cat-btn px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600 transition whitespace-nowrap";
+          }
+        });
+        filterFeed();
+      }
+
+      function filterFeed() {
+        const query = document.getElementById("search-input").value.toLowerCase();
+        const allItems = DB.getPatungan();
+
+        const filtered = allItems.filter((item) => {
+          const matchCat = activeCategory === "All" || item.category === activeCategory;
+          const matchQuery = item.title.toLowerCase().includes(query) || item.area.toLowerCase().includes(query);
+          return matchCat && matchQuery;
+        });
+
+        renderFeedCards(filtered);
+      }
+
+      function renderFeedCards(items) {
+        const feedContainer = document.getElementById("patungan-feed");
+
+        if (items.length === 0) {
+          feedContainer.innerHTML = `
+          <div data-aos="fade-up" class="col-span-full py-16 text-center bg-white dark:bg-slate-800 rounded-3xl border border-slate-200/80 dark:border-slate-700/60 p-8">
+            <span class="text-4xl block mb-3">🔍</span>
+            <p class="font-bold text-slate-700 dark:text-slate-200">Tidak ada patungan yang cocok.</p>
+            <p class="text-xs text-slate-400 mt-1">Coba kata kunci lain atau pilih kategori yang berbeda.</p>
+          </div>
+        `;
+          return;
+        }
+
+        feedContainer.innerHTML = items
+          .map((item, idx) => {
+            const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
+            const delay = (idx % 3) * 100;
+
+            return `
+          <div data-aos="fade-up" data-aos-delay="${delay}" onclick="window.location.href='detail.html?id=${item.id}'" class="bg-white dark:bg-slate-800 rounded-3xl p-6 border border-slate-200/80 dark:border-slate-700/60 hover:shadow-2xl hover:border-blue-500/50 hover:-translate-y-1 transition duration-300 cursor-pointer flex flex-col justify-between group">
+            <div>
+              <div class="flex items-center justify-between gap-2 mb-4">
+                <span class="text-xs font-semibold px-3 py-1 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300 rounded-full border border-blue-200/60 dark:border-blue-800/80">
+                  ${item.category}
+                </span>
+                <span class="text-xs text-slate-400">s.d. ${item.deadline}</span>
+              </div>
+
+              <h3 class="font-bold text-lg mb-2 text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition line-clamp-1">${item.title}</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mb-5 flex items-center gap-1.5">📍 <span class="font-medium text-slate-700 dark:text-slate-300">${item.area}</span></p>
+
+              <!-- Progress Bar -->
+              <div class="mb-5 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-2xl border border-slate-100 dark:border-slate-700/50">
+                <div class="flex justify-between text-xs font-semibold mb-1.5">
+                  <span class="text-slate-600 dark:text-slate-400">Terkumpul: ${item.currentQuota}/${item.targetQuota} ${item.unit}</span>
+                  <span class="text-blue-600 dark:text-blue-400">${percent}%</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                  <div class="bg-blue-600 h-full rounded-full transition-all duration-500" style="width: ${percent}%"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] uppercase font-bold text-slate-400 block tracking-wider">Estimasi Porsi</span>
+                <span class="font-extrabold text-blue-600 dark:text-blue-400 text-base">Rp ${item.unitPrice.toLocaleString("id-ID")}</span>
+                <span class="text-xs text-slate-500">/${item.unit}</span>
+              </div>
+              <span class="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                Detail &rarr;
+              </span>
+            </div>
+          </div>
+        `;
+          })
+          .join("");
+
+        AOS.refresh();
+      }
+
+      function checkCreateAccess() {
+        const user = DB.getUser();
+        if (!user.isLoggedIn) {
+          alert("Masuk dulu yuk untuk lanjut membuat patungan!");
+          handleLoginSSO();
+        } else {
+          window.location.href = "create.html";
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        filterFeed();
+      });
+    </script>
+  </body>
+</html>
