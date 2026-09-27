@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detail Patungan - TemanBeli</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen">
+
+  <header class="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="text-sm font-medium text-blue-600 dark:text-blue-400">&larr; Kembali ke Beranda</a>
+      <div id="auth-nav"></div>
+    </div>
+  </header>
+
+  <main class="max-w-3xl mx-auto px-4 py-8">
+    <div id="detail-container" class="space-y-6"></div>
+  </main>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const patunganId = urlParams.get('id');
+
+    function renderDetail() {
+      const items = DB.getPatungan();
+      const item = items.find(i => i.id === patunganId);
+      const user = DB.getUser();
+      const container = document.getElementById('detail-container');
+
+      if (!item) {
+        container.innerHTML = `<p class="text-center py-10">Data patungan tidak ditemukan.</p>`;
+        return;
+      }
+
+      const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
+      const remainingQuota = item.targetQuota - item.currentQuota;
+      const waText = encodeURIComponent(`Halo ${item.creatorName}, saya mau ikut patungan "${item.title}" yang di-post di TemanBeli. Masih ada slot?`);
+      const waLink = `https://wa.me/${item.whatsapp}?text=${waText}`;
+
+      container.innerHTML = `
+        <div class="bg-white dark:bg-slate-800 p-6 md:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+          <div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-semibold px-2.5 py-1 bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-300 rounded-full border border-blue-200 dark:border-blue-800">
+                ${item.category}
+              </span>
+              <span class="text-xs text-slate-400">Deadline: ${item.deadline}</span>
+            </div>
+            <h1 class="text-2xl font-bold mb-2">${item.title}</h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400">📍 Titik Kumpul: <span class="font-medium text-slate-700 dark:text-slate-200">${item.area}</span></p>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 bg-slate-50 dark:bg-slate-700/50 rounded-xl border border-slate-100 dark:border-slate-700">
+            <div>
+              <span class="text-xs text-slate-400 block">Estimasi Harga</span>
+              <span class="text-lg font-bold text-blue-600 dark:text-blue-400">Rp ${item.unitPrice.toLocaleString('id-ID')}</span>
+              <span class="text-xs text-slate-500">/${item.unit}</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-400 block">Sisa Kuota</span>
+              <span class="text-lg font-bold ${remainingQuota > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-500'}">
+                ${remainingQuota > 0 ? `${remainingQuota}${item.unit}` : 'Penuh'}
+              </span>
+            </div>
+            <div class="col-span-2 md:col-span-1">
+              <span class="text-xs text-slate-400 block">Total Target</span>
+              <span class="text-lg font-bold">${item.targetQuota} ${item.unit}</span>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-xs font-medium mb-1">
+              <span>Progres Terkumpul (${item.currentQuota} ${item.unit})</span>
+              <span class="text-blue-600 font-bold">${percent}%</span>
+            </div>
+            <div class="w-full bg-slate-100 dark:bg-slate-700 h-3 rounded-full overflow-hidden">
+              <div class="bg-blue-600 h-full rounded-full" style="width: ${percent}%"></div>
+            </div>
+          </div>
+
+          <div class="space-y-3 pt-2">
+            <h3 class="font-semibold text-sm">Catatan Kreator:</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${item.notes || 'Tidak ada catatan khusus.'}</p>
+            ${item.refLink ? `<a href="${item.refLink}" target="_blank" class="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline">🔗 Tautan / Foto Referensi</a>` : ''}
+          </div>
+
+          <div class="p-4 border border-slate-200 dark:border-slate-700 rounded-xl flex items-center justify-between">
+            <div>
+              <span class="text-xs text-slate-400 block">Dibuat oleh:</span>
+              <span class="font-semibold text-sm">${user.isLoggedIn ? item.creatorName : '•••••••••••• (Terproteksi)'}</span>
+              ${user.isLoggedIn ? `<span class="ml-2 text-xs text-blue-600 font-semibold">✓ Verified Mahasiswa</span>` : ''}
+            </div>
+          </div>
+
+          <div>
+            ${user.isLoggedIn ? `
+              <a href="${waLink}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2">
+                💬 Hubungi Kreator via WhatsApp
+              </a>
+            ` : `
+              <button onclick="alert('Masuk dulu yuk untuk lanjut!'); handleLoginSSO();" class="w-full bg-slate-300 dark:bg-slate-700 text-slate-600 dark:text-slate-300 font-medium py-3 rounded-xl transition flex items-center justify-center gap-2">
+                🔒 Masuk dengan SSO Kampus untuk Ikut Patungan
+              </button>
+            `}
+          </div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+          <h3 class="font-bold text-base flex items-center gap-2">
+            <span>📢 Log Pembaruan Status</span>
+            <span class="text-xs font-normal text-slate-400">(Khusus Kreator)</span>
+          </h3>
+
+          <div class="space-y-3">
+            ${item.replies && item.replies.length > 0 ? item.replies.map(r => `
+              <div class="p-3 bg-slate-50 dark:bg-slate-700/40 rounded-xl text-xs space-y-1">
+                <span class="text-slate-400 font-medium">${r.date}</span>
+                <p class="text-slate-700 dark:text-slate-200">${r.text}</p>
+              </div>
+            `).join('') : '<p class="text-xs text-slate-400 italic">Belum ada pembaruan dari kreator.</p>'}
+          </div>
+
+          ${user.isLoggedIn ? `
+            <div class="pt-3 border-t border-slate-100 dark:border-slate-700 flex gap-2">
+              <input type="text" id="replyText" placeholder="Tambah update status..." class="flex-1 px-3 py-2 text-xs rounded-lg border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:outline-none">
+              <button onclick="addReply()" class="bg-blue-600 text-white text-xs px-4 py-2 rounded-lg font-medium">Kirim</button>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function addReply() {
+      const text = document.getElementById('replyText').value.trim();
+      if (!text) return;
+
+      const items = DB.getPatungan();
+      const itemIndex = items.findIndex(i => i.id === patunganId);
+      
+      if (itemIndex !== -1) {
+        items[itemIndex].replies = items[itemIndex].replies || [];
+        items[itemIndex].replies.push({
+          date: new Date().toISOString().split('T')[0],
+          text: text
+        });
+        localStorage.setItem(DB.KEY_PATUNGAN, JSON.stringify(items));
+        renderDetail();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', renderDetail);
+  </script>
+</body>
+</html>

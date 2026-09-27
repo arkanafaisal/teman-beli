@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buat Patungan Baru - TemanBeli</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen">
+
+  <header class="border-b border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+    <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="index.html" class="text-sm font-medium text-blue-600 dark:text-blue-400">&larr; Batal & Kembali</a>
+      <h1 class="font-bold text-lg">Buat Patungan Baru</h1>
+      <div></div>
+    </div>
+  </header>
+
+  <main class="max-w-2xl mx-auto px-4 py-8">
+    <form id="form-create" class="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-5">
+      
+      <div>
+        <label class="block text-sm font-medium mb-1">Nama Barang / Pengumuman *</label>
+        <input type="text" id="title" required placeholder="Contoh: Kertas HVS A4 80gsm 1 Rim" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Kategori *</label>
+          <select id="category" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+            <option value="Alat Tulis & Cetak">Alat Tulis & Cetak</option>
+            <option value="Bahan Praktikum">Bahan Praktikum</option>
+            <option value="Makanan / Snacking">Makanan / Snacking</option>
+            <option value="Kebutuhan Kost">Kebutuhan Kost</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Satuan Barang *</label>
+          <input type="text" id="unit" required placeholder="lembar, meter, kg, pcs" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Total Target Buy *</label>
+          <input type="number" id="targetQuota" required placeholder="500" oninput="calculateUnitPrice()" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Total Harga (Rp) *</label>
+          <input type="number" id="totalPrice" required placeholder="50000" oninput="calculateUnitPrice()" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Porsi Kamu (Awal) *</label>
+          <input type="number" id="currentQuota" required placeholder="100" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+        </div>
+      </div>
+
+      <div class="p-3 bg-blue-50 dark:bg-blue-950/50 rounded-xl border border-blue-200 dark:border-blue-900 text-xs text-blue-700 dark:text-blue-300">
+        💡 Estimasi Harga per Satuan: <span id="unitPricePreview" class="font-bold">Rp 0</span>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium mb-1">Estimasi Titik Kumpul *</label>
+          <input type="text" id="area" required placeholder="Contoh: Kantin FITDS UNS" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Batas Waktu (Deadline) *</label>
+          <input type="date" id="deadline" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Nomor WhatsApp (Aktif) *</label>
+        <input type="text" id="whatsapp" required placeholder="6281234567890" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+        <span class="text-xs text-slate-400">Format menggunakan kode negara 62...</span>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Catatan Tambahan (Opsional)</label>
+        <textarea id="notes" rows="3" placeholder="Penjelasan detail barang, lokasi toko offline, dll." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none"></textarea>
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Link Referensi (Opsional)</label>
+        <input type="url" id="refLink" placeholder="https://tokopedia.com/..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none">
+      </div>
+
+      <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-blue-500/20">
+        Posting Pengumuman
+      </button>
+    </form>
+  </main>
+
+  <script src="assets/js/storage.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    function calculateUnitPrice() {
+      const target = parseFloat(document.getElementById('targetQuota').value) || 0;
+      const price = parseFloat(document.getElementById('totalPrice').value) || 0;
+      const unitPrice = target > 0 ? Math.round(price / target) : 0;
+      document.getElementById('unitPricePreview').innerText = `Rp ${unitPrice.toLocaleString('id-ID')}`;
+    }
+
+    document.getElementById('form-create').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const user = DB.getUser();
+      if (!user.isLoggedIn) {
+        alert('Anda harus login terlebih dahulu!');
+        return;
+      }
+
+      const targetQuota = parseFloat(document.getElementById('targetQuota').value);
+      const totalPrice = parseFloat(document.getElementById('totalPrice').value);
+      
+      const newPatungan = {
+        id: 'pat-' + Date.now(),
+        title: document.getElementById('title').value,
+        category: document.getElementById('category').value,
+        unit: document.getElementById('unit').value,
+        targetQuota: targetQuota,
+        currentQuota: parseFloat(document.getElementById('currentQuota').value),
+        totalPrice: totalPrice,
+        unitPrice: Math.round(totalPrice / targetQuota),
+        creatorName: user.name,
+        creatorCampus: 'Universitas Sebelas Maret',
+        isVerified: true,
+        whatsapp: document.getElementById('whatsapp').value,
+        area: document.getElementById('area').value,
+        deadline: document.getElementById('deadline').value,
+        notes: document.getElementById('notes').value,
+        refLink: document.getElementById('refLink').value,
+        status: 'open',
+        replies: []
+      };
+
+      DB.addPatungan(newPatungan);
+      alert('Pengumuman patungan berhasil diposting!');
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>
