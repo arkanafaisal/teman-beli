@@ -1,0 +1,277 @@
+========== HALAMAN UTAMA (index.html) ==========
+
+[BAGIAN NAVIGASI / HEADER]
+🎓 PatunganAja!
+[Link: Beranda] (Aktif)
+[Link: Eksplor] -> Mengarah ke eksplor.html
+[Link: Komunitas] -> Mengarah ke infokomun.html
+[Link: Profil] -> Mengarah ke profil.html
+[Tombol: 🌙 / ☀️] (Toggle Tema)
+[Tombol: Menu Mobile] (Icon Garis Tiga)
+
+[BAGIAN HERO SECTION]
+Beli Grosir Lebih Hemat,
+Bayar Sesuai Porsi Kamu.
+Solusi patungan belanja kertas HVS, bahan praktikum, alat lukis, hingga kebutuhan kost khusus sesama mahasiswa kampus. Otomatis, terverifikasi, dan transparan.
+[Tombol: Jelajahi Patungan →] -> Mengarah ke eksplor.html
+[Tombol: Rekap Penghematan] -> Scroll ke #history-hemat
+
+[BAGIAN STATISTIK SINGKAT]
+100%
+Verified Mahasiswa
+Rp 0
+Biaya Admin Platform
+Otomatis
+Kalkulasi Satuan
+
+[BAGIAN KATEGORI POPULER]
+Pilihan Hemat
+Kategori Patungan Populer
+
+📚
+Alat Tulis & Cetak
+Kertas HVS, Jilid, Banner
+
+🧪
+Bahan Praktikum
+Komponen Elektro, Kimia
+
+🍿
+Snack Grosir
+Snack Box, Minuman Dus
+
+🏠
+Kebutuhan Kost
+Detergen, Galon Bersama
+
+[BAGIAN KEUNGGULAN PLATFORM]
+Keunggulan Platform
+Dirancang Khusus untuk Ekosistem Kampus
+
+🛡️
+Keamanan SSO Kampus
+Hanya akun verified email kampus yang dapat membuat pengumuman patungan. Mencegah potensi penipuan dari pihak luar.
+
+🧮
+Sistem Hitung Otomatis
+Kreator cukup masukkan total harga dan kuota target, sistem otomatis membagi estimasi harga per satuan secara presisi.
+
+📍
+Titik Kumpul Kampus
+Pilih lokasi serah terima di area favorit kampus (Kantin, Perpustakaan, atau Gedung Fakultas) yang praktis dijangkau.
+
+[BAGIAN REKAP & HISTORY PENGHEMATAN]
+Dampak Nyata TemanBeli
+Rekap & History Penghematan
+
+Total Uang Dihemat
+Otomatis
+Rp 113.000
+Dari 5x transaksi patungan selesai
+Rata-rata hemat / transaksi: ~Rp 22.600
+
+History Patungan Selesai
+Terverifikasi
+
+📚
+Kertas HVS A4 80gr (100 lembar)
+Patungan 5 orang • 12 Sep 2026
++Rp 22.000
+Hemat 44%
+
+🧪
+Breadboard & Kabel Jumper Praktikum
+Patungan 3 orang • 02 Sep 2026
++Rp 35.000
+Hemat 50%
+
+🏠
+Detergen Cair & Galon Bersama Kost
+Patungan 4 orang • 21 Ags 2026
++Rp 22.000
+Hemat 46%
+
+[Tombol: Lihat Lebih Banyak] -> Membuka daftar sisa history (2 transaksi lainnya)
+
+[BAGIAN TESTIMONI]
+Pendapat Mereka
+Kata Teman Mahasiswa
+
+"Beli kertas HVS 1 rim kemahalan kalo dipake sendiri. Berkat TemanBeli bisa dapet porsi 100 lembar doang dengan harga pas!"
+A
+Amelia S.
+Informatika UNS
+
+"Paling seneng karena login-nya pake SSO Kampus, jadi ga takut ditipu anak luar pas transaksi patungan praktikum."
+R
+Rian F.
+Teknik Elektro
+
+"Langsung terhubung ke WA Kreator tanpa ribet. Janjian tikum di Kantin FITDS langsung beres jam itu juga."
+D
+Dinda A.
+Desain Komunikasi Visual
+
+[BAGIAN FAQ (PERTANYAAN UMUM)]
+Pertanyaan Umum
+FAQ TemanBeli
+
+Apakah Guest (tanpa login) bisa melihat pengumuman? ↓
+Bisa! Guest bisa melihat feed dan detail estimasi harga. Namun untuk melihat kontak Kreator dan ikut patungan, pengguna diwajibkan login SSO Kampus.
+
+Bagaimana metode pembayarannya? ↓
+Pembayaran dilakukan secara langsung antara Partisipan dan Kreator (via Transfer Bank/E-Wallet/Tunai saat serah terima) sesuai kesepakatan obrolan WhatsApp.
+
+Apakah ada biaya admin platform? ↓
+Tidak ada! TemanBeli 100% gratis digunakan untuk mendukung ekosistem hemat antar mahasiswa kampus.
+
+[BAGIAN BANNER CTA]
+Siap Hemat Bersama Teman Kampus?
+Mulai cari barang patungan aktif sekarang atau posting barang grosir yang ingin kamu beli!
+[Tombol: Masuk Katalog Patungan →] -> Mengarah ke eksplor.html
+
+[BAGIAN FOOTER]
+© 2026 TemanBeli. Built for Closed Campus Ecosystem.
+[Link: Eksplor Feed]
+[Link: Fitur]
+[Link: FAQ]
+
+========== HALAMAN KATALOG PATUNGAN (eksplor.html) ==========
+
+[BAGIAN NAVIGASI / HEADER]
+🎓 PatunganAja!
+[Link: Beranda]
+[Link: Eksplor] (Aktif)
+[Link: Komunitas]
+[Link: Profil]
+[Tombol: 🌙 / ☀️] (Toggle Tema)
+[Tombol: Menu Mobile] (Icon Garis Tiga)
+
+[BAGIAN HEADER KATALOG]
+Katalog Patungan Aktif
+Cari penawaran barang grosir yang butuh partisipan di sekitarmu.
+[Tombol: + Buat Patungan Baru] -> JIKA belum login muncul alert login, JIKA sudah login menuju create.html
+
+[BAGIAN FILTER & PENCARIAN]
+🔍
+[Input Text: Cari barang atau titik kumpul...]
+[Tombol: Semua] (Aktif)
+[Tombol: 📚 Alat Tulis]
+[Tombol: 🧪 Praktikum]
+[Tombol: 🍿 Makanan]
+[Tombol: 🏠 Kost]
+
+[BAGIAN FEED PATUNGAN]
+(Menampilkan list hasil render dari storage.js)
+
+Alat Tulis & Cetak
+s.d. 2026-10-05
+Kertas HVS A4 80gsm 1 Rim
+📍 Kantin Gedung C FITDS
+Terkumpul: 100/500 lembar
+20%
+Estimasi Porsi
+Rp 100 /lembar
+[Link: Detail →] -> Mengarah ke detail.html?id=pat-1
+
+[BAGIAN FOOTER]
+© 2026 TemanBeli. Built for Closed Campus Ecosystem.
+[Link: Eksplor Feed]
+[Link: Fitur]
+[Link: FAQ]
+
+========== HALAMAN BUAT PATUNGAN (create.html) ==========
+
+[BAGIAN NAVIGASI ATAS]
+[Link: ← Batal & Kembali] -> Mengarah ke eksplor.html
+
+[BAGIAN HEADER]
+Buat Pengumuman Patungan
+
+[BAGIAN FORM INPUT]
+Nama Barang / Judul Pengumuman
+[Input Text: Contoh: Kertas HVS A4 80gsm 1 Rim]
+
+Kategori
+[Select Option: 📚 Alat Tulis & Cetak, 🧪 Bahan Praktikum, 🍿 Snack Grosir, 🏠 Kebutuhan Kost]
+
+Satuan Barang (Porsi)
+[Input Text: Contoh: lembar / pcs / kg]
+
+Total Target (Kuota Dibutuhkan)
+[Input Number: Contoh: 500]
+
+Total Harga Grosir (Rp)
+[Input Number: Contoh: 50000]
+
+Porsi Kamu Awal
+[Input Number: Berapa yang kamu ambil sendiri?]
+
+Estimasi Harga per Satuan (Otomatis)
+Rp 0
+
+Estimasi Titik Kumpul
+[Input Text: Contoh: Kantin Gedung C]
+
+Batas Waktu (Deadline)
+[Input Date]
+
+Nomor WhatsApp Aktif
+[Input Tel: Contoh: 08123456789]
+
+Catatan Tambahan
+[Textarea: Contoh: Beli di toko Makmur, butuh cepat buat tugas akhir.]
+
+Link Referensi E-Commerce (Opsional)
+[Input Url: https://tokopedia.com/...]
+
+[Tombol: Posting Pengumuman] -> JIKA diklik akan menyimpan ke storage.js dan diarahkan kembali ke eksplor.html
+
+========== HALAMAN DETAIL PATUNGAN (detail.html) ==========
+
+[BAGIAN NAVIGASI ATAS]
+[Link: ← Kembali ke Eksplor] -> Mengarah ke eksplor.html
+
+[BAGIAN INFO BARANG (Data render pat-1)]
+Alat Tulis & Cetak
+s.d. 2026-10-05
+Kertas HVS A4 80gsm 1 Rim
+📍 Kantin Gedung C FITDS
+
+Estimasi Harga Satuan
+Rp 100 / lembar
+
+Sisa Kuota Dibutuhkan
+400 lembar
+Dari Total: 500 lembar
+
+Terkumpul: 100 / 500
+20%
+
+[BAGIAN CATATAN KREATOR]
+Catatan Kreator:
+Dibutuhkan untuk cetak draf tugas akhir/laporan. Beli di Manggala.
+Referensi Toko:
+[Link: https://tokopedia.com]
+
+[BAGIAN PROFIL KREATOR]
+Pembuat Pengumuman
+A
+Amelia S.
+Universitas Sebelas Maret
+Verified Mahasiswa
+
+[BAGIAN TOMBOL AKSI]
+JIKA user sudah login:
+[Tombol: 💬 Hubungi Kreator via WhatsApp] -> Buka tab WA ke nomor kreator
+JIKA user belum login:
+[Tombol: 🔒 Masuk dengan SSO Kampus untuk Ikut Patungan] -> Simulasi login SSO
+
+[BAGIAN LOG STATUS]
+Log Pembaruan Status
+2026-09-27
+Barang ready di toko online, slot tersisa 400 lembar lagi ya!
+
+JIKA user sudah login:
+[Input Text: Tambah status baru...]
+[Tombol: Kirim]
