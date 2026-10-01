@@ -35,7 +35,10 @@ export default function ProfileHistory() {
         ))}
       </div>
       
-      <button className="w-full mt-5 py-3 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-xl transition mt-auto">
+      <button 
+        onClick={() => window.location.href = "/riwayat"}
+        className="w-full mt-5 py-3 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-xl transition mt-auto"
+      >
         Lihat Semua Riwayat
       </button>
     </div>

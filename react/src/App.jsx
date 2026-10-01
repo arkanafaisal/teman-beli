@@ -7,6 +7,7 @@ import Detail from "./pages/Detail";
 import Create from "./pages/Create";
 import Community from "./pages/Community";
 import Profile from "./pages/Profile";
+import History from "./pages/History";
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -39,6 +40,8 @@ function App() {
     PageComponent = Community;
   } else if (currentPath === "/profil" || currentPath === "/profil.html") {
     PageComponent = Profile;
+  } else if (currentPath === "/riwayat" || currentPath === "/riwayat.html") {
+    PageComponent = History;
   }
 
   const isPlainLayout = currentPath.startsWith("/detail") || currentPath.startsWith("/create");
