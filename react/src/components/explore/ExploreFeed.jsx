@@ -13,14 +13,12 @@ export default function ExploreFeed({ items }) {
   }
 
   return (
-    <div className="py-8 sm:py-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {items.map((item, idx) => (
-          <div key={item.id} data-aos="fade-up" data-aos-delay={(idx % 3) * 100}>
-            <FeedCard item={item} />
-          </div>
-        ))}
-      </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {items.map((item, idx) => (
+        <div key={item.id} data-aos="fade-up" data-aos-delay={(idx % 3) * 100}>
+          <FeedCard item={item} />
+        </div>
+      ))}
     </div>
   );
 }

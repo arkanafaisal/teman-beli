@@ -19,7 +19,6 @@ export default function Explore() {
     });
   }, []);
 
-  // Use useEffect to refresh AOS on feed change just like vanilla
   useEffect(() => {
     AOS.refresh();
   }, [searchQuery, activeCategory]);
@@ -31,7 +30,7 @@ export default function Explore() {
   });
 
   return (
-    <main className="min-h-screen pb-20">
+    <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
       <ExploreHeader />
       <ExploreFilter 
         searchQuery={searchQuery}
