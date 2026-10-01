@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -6,6 +7,8 @@ export default function Header() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
   });
+  
+  const { user, login, logout } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -67,7 +70,20 @@ export default function Header() {
               )}
             </button>
 
-            <div className="hidden sm:block"></div>
+            <div className="hidden sm:block">
+              {user.isLoggedIn ? (
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
+                    Hi, {user.name} <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-xs px-2 py-0.5 rounded-full font-semibold">Verified</span>
+                  </span>
+                  <button onClick={logout} className="text-xs text-red-500 hover:underline">Keluar</button>
+                </div>
+              ) : (
+                <button onClick={login} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition">
+                  Masuk SSO Kampus
+                </button>
+              )}
+            </div>
 
             {/* Mobile Menu Toggle Button */}
             <button 
@@ -95,7 +111,11 @@ export default function Header() {
             <a href="/profil" className="py-2 hover:text-blue-600 dark:hover:text-blue-400">Profil</a>
 
             <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
-              <a href="/eksplor" className="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition"> Masuk SSO Kampus </a>
+              {user.isLoggedIn ? (
+                <button onClick={logout} className="w-full text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl shadow-md transition"> Keluar </button>
+              ) : (
+                <button onClick={login} className="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition"> Masuk SSO Kampus </button>
+              )}
             </div>
           </nav>
         </div>

@@ -4,10 +4,11 @@ import { exploreData } from "../data/explore";
 import DetailHeader from "../components/detail/DetailHeader";
 import DetailInfo from "../components/detail/DetailInfo";
 import DetailReplies from "../components/detail/DetailReplies";
+import { useAuth } from "../context/AuthContext";
 
 export default function Detail() {
   const [item, setItem] = useState(null);
-  const [user, setUser] = useState({ isLoggedIn: false }); // Mocking user state
+  const { user, login } = useAuth();
 
   useEffect(() => {
     // Determine the patungan ID from the URL path or query string
@@ -53,7 +54,7 @@ export default function Detail() {
 
   const handleLogin = () => {
     alert('Masuk dulu yuk untuk lanjut!'); 
-    setUser({isLoggedIn: true}); 
+    login(); 
   };
 
   return (
