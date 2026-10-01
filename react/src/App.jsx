@@ -16,6 +16,15 @@ function App() {
     return () => window.removeEventListener("popstate", handleLocationChange);
   }, []);
 
+  useEffect(() => {
+    // Global dark mode initialization
+    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
   let PageComponent = Home;
   if (currentPath === "/eksplor" || currentPath === "/eksplor.html") {
     PageComponent = Explore;
