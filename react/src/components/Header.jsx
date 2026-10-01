@@ -9,6 +9,7 @@ export default function Header() {
   });
   
   const { user, login, logout } = useAuth();
+  const currentPath = window.location.pathname;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,6 +32,19 @@ export default function Header() {
     }
   };
 
+  const isActive = (path) => {
+    if (path === '/') return currentPath === '/' || currentPath === '/index.html';
+    return currentPath.startsWith(path);
+  };
+
+  const getDesktopClass = (path) => isActive(path) 
+    ? "text-blue-600 dark:text-blue-400 transition font-bold" 
+    : "hover:text-blue-600 dark:hover:text-blue-400 transition";
+
+  const getMobileClass = (path) => isActive(path)
+    ? "py-2 border-b border-slate-100 dark:border-slate-800 text-blue-600 dark:text-blue-400 font-bold"
+    : "py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400";
+
   return (
     <>
       <div 
@@ -49,10 +63,10 @@ export default function Header() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
-            <a href="/" className="text-blue-600 dark:text-blue-400 transition">Beranda</a>
-            <a href="/eksplor" className="hover:text-blue-600 dark:hover:text-blue-400 transition">Eksplor</a>
-            <a href="/komunitas" className="hover:text-blue-600 dark:hover:text-blue-400 transition">Komunitas</a>
-            <a href="/profil" className="hover:text-blue-600 dark:hover:text-blue-400 transition">Profil</a>
+            <a href="/" className={getDesktopClass("/")}>Beranda</a>
+            <a href="/eksplor" className={getDesktopClass("/eksplor")}>Eksplor</a>
+            <a href="/komunitas" className={getDesktopClass("/komunitas")}>Komunitas</a>
+            <a href="/profil" className={getDesktopClass("/profil")}>Profil</a>
           </nav>
 
           {/* Action Buttons */}
@@ -105,10 +119,10 @@ export default function Header() {
       {isMobileMenuOpen && (
         <div className="fixed inset-x-4 top-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl p-6 z-40 md:hidden shadow-2xl transition-all duration-300">
           <nav className="flex flex-col gap-4 text-base font-semibold text-slate-700 dark:text-slate-200">
-            <a href="/" className="py-2 border-b border-slate-100 dark:border-slate-800 text-blue-600 dark:text-blue-400">Beranda</a>
-            <a href="/eksplor" className="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Eksplor</a>
-            <a href="/komunitas" className="py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400">Komunitas</a>
-            <a href="/profil" className="py-2 hover:text-blue-600 dark:hover:text-blue-400">Profil</a>
+            <a href="/" className={getMobileClass("/")}>Beranda</a>
+            <a href="/eksplor" className={getMobileClass("/eksplor")}>Eksplor</a>
+            <a href="/komunitas" className={getMobileClass("/komunitas")}>Komunitas</a>
+            <a href="/profil" className={getMobileClass("/profil")}>Profil</a>
 
             <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
               {user.isLoggedIn ? (
