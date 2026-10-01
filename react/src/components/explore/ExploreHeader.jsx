@@ -1,9 +1,11 @@
 import { exploreData } from "../../data/explore";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ExploreHeader() {
+  const { user } = useAuth();
+  
   const handleCreate = () => {
-    const isLoggedIn = false;
-    if (!isLoggedIn) {
+    if (!user.isLoggedIn) {
       alert(exploreData.alerts.loginRequired);
     } else {
       window.location.href = "/create";

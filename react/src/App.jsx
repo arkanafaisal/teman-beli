@@ -4,6 +4,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Detail from "./pages/Detail";
+import Create from "./pages/Create";
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -30,9 +31,11 @@ function App() {
     PageComponent = Explore;
   } else if (currentPath.startsWith("/detail")) {
     PageComponent = Detail;
+  } else if (currentPath.startsWith("/create") || currentPath === "/create.html") {
+    PageComponent = Create;
   }
 
-  const isPlainLayout = currentPath.startsWith("/detail");
+  const isPlainLayout = currentPath.startsWith("/detail") || currentPath.startsWith("/create");
 
   return (
     <div className="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300 selection:bg-blue-500 selection:text-white">
