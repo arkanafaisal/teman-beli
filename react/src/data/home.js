@@ -1,4 +1,4 @@
-export const berandaData = {
+export const homeData = {
   hero: {
     titleLine1: "Beli Grosir Lebih Hemat,",
     titleLine2: "Bayar Sesuai Porsi Kamu.",
@@ -11,7 +11,7 @@ export const berandaData = {
     { value: "Rp 0", label: "Biaya Admin Platform" },
     { value: "Otomatis", label: "Kalkulasi Satuan" }
   ],
-  kategori: {
+  categories: {
     tag: "Pilihan Hemat",
     title: "Kategori Patungan Populer",
     items: [
@@ -21,7 +21,7 @@ export const berandaData = {
       { icon: "🏠", title: "Kebutuhan Kost", desc: "Detergen, Galon Bersama" }
     ]
   },
-  fitur: {
+  features: {
     tag: "Keunggulan Platform",
     title: "Dirancang Khusus untuk Ekosistem Kampus",
     items: [
@@ -54,14 +54,14 @@ export const berandaData = {
     btnShowLess: "Tampilkan Lebih Sedikit",
     isMock: true,
     mockData: [
-      { id: "P-001", nama: "Kertas HVS A4 80gr (100 lembar)", kategori: "📚", porsi: "5 orang", tanggal: "12 Sep 2026", hargaEceran: 50000, hargaPorsiGrosir: 28000 },
-      { id: "P-002", nama: "Breadboard & Kabel Jumper Praktikum", kategori: "🧪", porsi: "3 orang", tanggal: "02 Sep 2026", hargaEceran: 70000, hargaPorsiGrosir: 35000 },
-      { id: "P-003", nama: "Detergen Cair & Galon Bersama Kost", kategori: "🏠", porsi: "4 orang", tanggal: "21 Ags 2026", hargaEceran: 48000, hargaPorsiGrosir: 26000 },
-      { id: "P-004", nama: "Snack Box & Teh Botol Dus-dusan", kategori: "🍿", porsi: "6 orang", tanggal: "10 Ags 2026", hargaEceran: 35000, hargaPorsiGrosir: 19000 },
-      { id: "P-005", nama: "Spidol Boardmaker & Tinta Refill", kategori: "📚", porsi: "4 orang", tanggal: "28 Jul 2026", hargaEceran: 40000, hargaPorsiGrosir: 22000 },
+      { id: "P-001", name: "Kertas HVS A4 80gr (100 lembar)", category: "📚", portion: "5 orang", date: "12 Sep 2026", retailPrice: 50000, wholesalePricePerPortion: 28000 },
+      { id: "P-002", name: "Breadboard & Kabel Jumper Praktikum", category: "🧪", portion: "3 orang", date: "02 Sep 2026", retailPrice: 70000, wholesalePricePerPortion: 35000 },
+      { id: "P-003", name: "Detergen Cair & Galon Bersama Kost", category: "🏠", portion: "4 orang", date: "21 Ags 2026", retailPrice: 48000, wholesalePricePerPortion: 26000 },
+      { id: "P-004", name: "Snack Box & Teh Botol Dus-dusan", category: "🍿", portion: "6 orang", date: "10 Ags 2026", retailPrice: 35000, wholesalePricePerPortion: 19000 },
+      { id: "P-005", name: "Spidol Boardmaker & Tinta Refill", category: "📚", portion: "4 orang", date: "28 Jul 2026", retailPrice: 40000, wholesalePricePerPortion: 22000 },
     ]
   },
-  testimoni: {
+  testimonials: {
     tag: "Pendapat Mereka",
     title: "Kata Teman Mahasiswa",
     items: [

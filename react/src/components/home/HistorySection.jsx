@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { berandaData } from "../../data/beranda";
+import { homeData } from "../../data/home";
 
 export default function HistorySection() {
   const [showAllHistory, setShowAllHistory] = useState(false);
-  const { mockData, ...historyMeta } = berandaData.history;
+  const { mockData, isMock, ...historyMeta } = homeData.history;
 
   // Compute stats
-  const totalHematAcc = mockData.reduce((acc, item) => acc + (item.hargaEceran - item.hargaPorsiGrosir), 0);
+  const totalHematAcc = mockData.reduce((acc, item) => acc + (item.retailPrice - item.wholesalePricePerPortion), 0);
   const avg = mockData.length > 0 ? Math.round(totalHematAcc / mockData.length) : 0;
   const visibleHistoryData = showAllHistory ? mockData : mockData.slice(0, 3);
 
@@ -15,7 +15,7 @@ export default function HistorySection() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div data-aos="fade-up" className="text-center mb-8 sm:mb-10">
           <h2 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">{historyMeta.tag}</h2>
-          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">{historyMeta.title}</p>
+          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">{historyMeta.title} {isMock && <span className="text-[10px] bg-amber-100 text-amber-700 px-1 rounded ml-2 align-top">Mock</span>}</p>
         </div>
 
         <div data-aos="zoom-in" className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 items-start">
@@ -45,19 +45,19 @@ export default function HistorySection() {
 
             <div className="space-y-3">
               {visibleHistoryData.map((item) => {
-                const hematItem = item.hargaEceran - item.hargaPorsiGrosir;
-                const persenItem = Math.round((hematItem / item.hargaEceran) * 100);
+                const hematItem = item.retailPrice - item.wholesalePricePerPortion;
+                const persenItem = Math.round((hematItem / item.retailPrice) * 100);
                 
                 return (
                   <div key={item.id} className="group p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-slate-700/40 border border-slate-100 dark:border-slate-700 hover:border-emerald-200 dark:hover:border-emerald-800 transition">
                     <div className="flex justify-between items-start gap-2">
                       <div className="flex gap-2.5 sm:gap-3">
                         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white dark:bg-slate-800 shadow-sm flex items-center justify-center text-sm sm:text-base border border-slate-100 dark:border-slate-700">
-                          {item.kategori}
+                          {item.category}
                         </div>
                         <div>
-                          <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white line-clamp-1">{item.nama}</h4>
-                          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">Patungan {item.porsi} &bull; {item.tanggal}</p>
+                          <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white line-clamp-1">{item.name}</h4>
+                          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 mt-0.5">Patungan {item.portion} &bull; {item.date}</p>
                         </div>
                       </div>
                       <div className="text-right shrink-0">

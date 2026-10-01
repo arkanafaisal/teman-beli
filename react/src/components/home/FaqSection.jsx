@@ -1,16 +1,16 @@
-import { berandaData } from "../../data/beranda";
+import { homeData } from "../../data/home";
 
 export default function FaqSection() {
   return (
     <section id="faq" className="py-12 sm:py-16 bg-white dark:bg-slate-800/40 border-t border-slate-200/80 dark:border-slate-800">
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div data-aos="fade-up" className="text-center mb-8 sm:mb-12">
-          <h2 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">{berandaData.faq.tag}</h2>
-          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">{berandaData.faq.title}</p>
+          <h2 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-1 sm:mb-2">{homeData.faq.tag}</h2>
+          <p className="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white">{homeData.faq.title}</p>
         </div>
 
         <div className="space-y-3 sm:space-y-4">
-          {berandaData.faq.items.map((item, idx) => (
+          {homeData.faq.items.map((item, idx) => (
             <details
               key={idx}
               data-aos="fade-up"
