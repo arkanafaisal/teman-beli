@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Explore from "./pages/Explore";
 import Detail from "./pages/Detail";
 import Create from "./pages/Create";
+import Community from "./pages/Community";
 
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
@@ -33,12 +34,14 @@ function App() {
     PageComponent = Detail;
   } else if (currentPath.startsWith("/create") || currentPath === "/create.html") {
     PageComponent = Create;
+  } else if (currentPath === "/komunitas" || currentPath === "/infokomun.html") {
+    PageComponent = Community;
   }
 
   const isPlainLayout = currentPath.startsWith("/detail") || currentPath.startsWith("/create");
 
   return (
-    <div className="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300 selection:bg-blue-500 selection:text-white">
+    <div className="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen font-sans transition-colors duration-300 selection:bg-blue-500 selection:text-white flex flex-col justify-between">
       {!isPlainLayout && <Header />}
       <PageComponent />
       {!isPlainLayout && <Footer />}
