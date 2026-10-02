@@ -4,43 +4,36 @@ export default function ProfileHistory() {
   const { title, subtitle, countBadge, activities } = profileData.historyCard;
 
   return (
-    <div className="bg-bg-surface rounded-3xl p-6 sm:p-8 border border-border-base shadow-sm mt-6 flex flex-col h-full">
+    <>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-lg font-bold text-text-heading">{title}</h2>
-          <p className="text-xs sm:text-sm text-text-muted mt-1">{subtitle}</p>
+          <h3 className="font-bold text-base text-text-heading">{title}</h3>
+          <p className="text-xs text-text-muted">{subtitle}</p>
         </div>
-        <span className="hidden sm:inline-block px-3 py-1 bg-bg-subtle text-text-muted text-xs font-bold rounded-lg">
+        <span className="px-2.5 py-1 bg-bg-subtle text-text-muted text-xs rounded-lg font-medium">
           {countBadge}
         </span>
       </div>
 
-      <div className="space-y-3 flex-grow">
+      <div className="space-y-3">
         {activities.map((act) => (
-          <div key={act.id} className="flex items-center justify-between p-4 bg-bg-surface hover:bg-bg-subtle border border-border-subtle rounded-2xl transition cursor-pointer group">
-            <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-xl shadow-inner ${act.iconBg} ${act.iconColor}`}>
+          <div key={act.id} className="p-4 bg-bg-subtle border border-border-subtle rounded-2xl flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg shrink-0 ${act.iconBg} ${act.iconColor}`}>
                 {act.icon}
               </div>
               <div>
-                <h3 className="font-bold text-sm sm:text-base text-text-heading group-hover:text-primary-text transition">{act.title}</h3>
-                <p className="text-xs text-text-muted mt-0.5">{act.date}</p>
+                <h4 className="font-bold text-xs text-text-heading">{act.title}</h4>
+                <p className="text-[11px] text-text-muted mt-0.5">{act.status} &bull; {act.date}</p>
               </div>
             </div>
-            <div className="text-right hidden sm:block">
-              <p className="font-bold text-text-heading">{act.amount}</p>
-              <p className="text-[11px] font-semibold text-success-text mt-0.5">{act.status}</p>
+            <div className="text-right shrink-0">
+              <span className="font-bold text-xs text-success-text">{act.amount}</span>
+              <span className="block text-[10px] text-text-muted">Lunas</span>
             </div>
           </div>
         ))}
       </div>
-      
-      <button 
-        onClick={() => window.location.href = "/riwayat"}
-        className="w-full mt-5 py-3 text-sm font-semibold text-primary-text hover:bg-primary-soft rounded-xl transition mt-auto"
-      >
-        Lihat Semua Riwayat
-      </button>
-    </div>
+    </>
   );
 }

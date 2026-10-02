@@ -10,31 +10,17 @@ export default function ProfileCard() {
   const initial = name.charAt(0).toUpperCase();
 
   return (
-    <div className="bg-bg-surface rounded-3xl p-6 sm:p-8 border border-border-base shadow-sm relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-primary-base/5 dark:bg-primary-hover/5 rounded-full blur-2xl -mr-10 -mt-10"></div>
-      <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start relative z-10">
-        <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-primary-base flex items-center justify-center text-text-inverted text-4xl sm:text-5xl font-black shadow-lg shadow-primary-glow flex-shrink-0">
-          {initial}
-        </div>
-        
-        <div className="text-center sm:text-left">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-text-heading mb-2 flex items-center justify-center sm:justify-start gap-2">
-            {name}
-            <span className="bg-primary-soft text-primary-text text-xs px-2.5 py-0.5 rounded-full font-bold flex items-center gap-1">
-              ✓ <span>{data.verification}</span>
-            </span>
-          </h1>
-          <p className="text-sm font-medium text-text-muted mb-4">{data.department}</p>
-          
-          <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
-            <div className="px-4 py-2 bg-warning-soft text-warning-text rounded-xl text-sm font-bold border border-warning-soft/50">
-              {data.rating}
-            </div>
-            <div className="px-4 py-2 bg-success-soft text-success-text rounded-xl text-sm font-bold border border-success-soft/50">
-              ✓ {data.successCount}
-            </div>
-          </div>
-        </div>
+    <div className="bg-bg-surface p-6 rounded-3xl border border-border-base shadow-sm text-center">
+      <div className="w-20 h-20 bg-primary-base text-text-inverted font-extrabold text-2xl rounded-full flex items-center justify-center mx-auto mb-3 shadow-md">
+        {initial}
+      </div>
+      <h2 className="text-xl font-bold text-text-heading">{name}</h2>
+      <p className="text-xs text-text-muted mt-1">{data.department} &bull; {data.verification}</p>
+
+      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-warning-soft border border-warning-soft/50 rounded-full text-warning-text text-xs font-bold mt-4">
+        <span>{data.rating}</span>
+        <span>&bull;</span>
+        <span>{data.successCount}</span>
       </div>
     </div>
   );

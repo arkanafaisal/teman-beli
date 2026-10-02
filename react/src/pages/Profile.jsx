@@ -20,11 +20,20 @@ export default function Profile() {
   }
 
   return (
-    <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-8 md:py-12 w-full">
-      <ProfileCard />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-        <ProfileReviews />
-        <ProfileHistory />
+    <main className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        {/* SISI KIRI: Profil & Ulasan */}
+        <div className="lg:col-span-5 space-y-6">
+          <ProfileCard />
+          <ProfileReviews />
+        </div>
+
+        {/* SISI KANAN: Riwayat Aktivitas / Patungan */}
+        <div className="lg:col-span-7 bg-bg-surface p-6 rounded-3xl border border-border-base shadow-sm">
+          <ProfileHistory />
+        </div>
+
       </div>
     </main>
   );
