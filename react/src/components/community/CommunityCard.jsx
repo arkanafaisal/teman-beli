@@ -1,3 +1,5 @@
+import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
+
 export default function CommunityCard({ item, onClick }) {
   return (
     <div 
@@ -6,7 +8,9 @@ export default function CommunityCard({ item, onClick }) {
     >
       <div>
         <div className="flex items-center justify-between mb-2">
-          <span className="text-2xl">{item.icon}</span>
+          <span className={getCategoryColor(item.icon).split(' ')[0]}>
+            {getCategoryIcon(item.icon, "w-6 h-6 sm:w-7 sm:h-7")}
+          </span>
           <span className={`px-2.5 py-1 ${item.badgeBg} text-[10px] font-bold rounded-lg`}>
             {item.kategoriLabel}
           </span>

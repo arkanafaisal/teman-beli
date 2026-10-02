@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { homeData } from "../../data/home";
+import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 
 export default function HistorySection() {
   const [showAllHistory, setShowAllHistory] = useState(false);
@@ -15,7 +16,9 @@ export default function HistorySection() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div data-aos="fade-up" className="text-center mb-8 sm:mb-10">
           <h2 className="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-primary-text mb-1 sm:mb-2">{historyMeta.tag}</h2>
-          <p className="text-2xl sm:text-3xl font-extrabold text-text-heading">{historyMeta.title} {isMock && <span className="text-[10px] bg-warning-soft text-warning-text px-1 rounded ml-2 align-top">Mock</span>}</p>
+          <p className="text-2xl sm:text-3xl font-extrabold text-text-heading">{historyMeta.title}
+            {/* {isMock && <span className="text-[10px] bg-warning-soft text-warning-text px-1 rounded ml-2 align-top">Mock</span>} */}
+          </p>
         </div>
 
         <div data-aos="zoom-in" className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-8 items-start">
@@ -52,8 +55,8 @@ export default function HistorySection() {
                   <div key={item.id} className="group p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-bg-subtle border border-border-subtle hover:border-success-subtle transition">
                     <div className="flex justify-between items-start gap-2">
                       <div className="flex gap-2.5 sm:gap-3">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-bg-surface shadow-sm flex items-center justify-center text-sm sm:text-base border border-border-subtle">
-                          {item.category}
+                        <div className={`flex items-center justify-center shrink-0 mt-0.5 ${getCategoryColor(item.category).split(' ')[0]}`}>
+                          {getCategoryIcon(item.category, "w-5 h-5 sm:w-6 sm:h-6")}
                         </div>
                         <div>
                           <h4 className="font-bold text-xs sm:text-sm text-text-heading line-clamp-1">{item.name}</h4>

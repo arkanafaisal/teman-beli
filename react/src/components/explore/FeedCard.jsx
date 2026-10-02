@@ -1,4 +1,5 @@
 import { exploreData } from "../../data/explore";
+import { MapPin } from "lucide-react";
 
 export default function FeedCard({ item }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
@@ -22,7 +23,7 @@ export default function FeedCard({ item }) {
             {item.title}
           </h3>
           <p className="text-xs text-text-muted mb-4 sm:mb-5 flex items-center gap-1">
-            <span className="text-primary-text">📍</span> {item.area}
+            <MapPin className="w-3.5 h-3.5 text-primary-text shrink-0" strokeWidth={2.5} /> <span className="line-clamp-1">{item.area}</span>
           </p>
         </div>
 

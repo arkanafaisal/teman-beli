@@ -1,4 +1,5 @@
 import { communityData } from "../../data/community";
+import { getCategoryIcon } from "../../utils/iconMapper";
 
 export default function CommunityModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
   if (!item) return null;
@@ -9,7 +10,9 @@ export default function CommunityModal({ item, onClose, onAddComment, onLike, co
         <button onClick={onClose} className="absolute top-5 right-5 text-text-muted hover:text-text-base text-xl font-bold p-1 rounded-lg">✕</button>
 
         <div className="mb-3">
-          <span className={`px-3 py-1 ${item.badgeBg} text-xs font-bold rounded-lg inline-block`}>{item.icon} {item.kategoriLabel}</span>
+          <span className={`px-3 py-1 ${item.badgeBg} text-xs font-bold rounded-lg inline-flex items-center gap-1.5`}>
+            {getCategoryIcon(item.icon, "w-4 h-4")} {item.kategoriLabel}
+          </span>
         </div>
 
         <h2 className="text-xl font-extrabold text-text-heading mb-2">{item.judul}</h2>

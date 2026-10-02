@@ -1,4 +1,6 @@
 import { exploreData } from "../../data/explore";
+import { getCategoryIcon } from "../../utils/iconMapper";
+import { Search } from "lucide-react";
 
 export default function ExploreFilter({ searchQuery, setSearchQuery, activeCategory, setActiveCategory }) {
   return (
@@ -6,7 +8,7 @@ export default function ExploreFilter({ searchQuery, setSearchQuery, activeCateg
       {/* Input Search Bar */}
       <div className="relative w-full md:w-96">
         <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-text-muted">
-          🔍
+          <Search className="w-4 h-4" strokeWidth={2.5} />
         </span>
         <input
           type="text"
@@ -27,10 +29,11 @@ export default function ExploreFilter({ searchQuery, setSearchQuery, activeCateg
               onClick={() => setActiveCategory(filter.value)}
               className={
                 isActive
-                  ? "cat-btn active px-4 py-2 rounded-xl bg-primary-base text-text-inverted transition whitespace-nowrap"
-                  : "cat-btn px-4 py-2 rounded-xl bg-bg-subtle text-text-base hover:bg-border-subtle transition whitespace-nowrap"
+                  ? "cat-btn active px-4 py-2 rounded-xl bg-primary-base text-text-inverted transition whitespace-nowrap flex items-center gap-2"
+                  : "cat-btn px-4 py-2 rounded-xl bg-bg-subtle text-text-base hover:bg-border-subtle transition whitespace-nowrap flex items-center gap-2"
               }
             >
+              {filter.icon && getCategoryIcon(filter.icon, "w-4 h-4")}
               {filter.label}
             </button>
           );

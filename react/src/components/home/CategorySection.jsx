@@ -1,4 +1,5 @@
 import { homeData } from "../../data/home";
+import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 
 export default function CategorySection() {
   return (
@@ -11,8 +12,8 @@ export default function CategorySection() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
           {homeData.categories.items.map((cat, idx) => (
-            <div key={idx} data-aos="zoom-in" data-aos-delay={(idx + 1) * 100} className="p-4 sm:p-5 bg-bg-surface rounded-2xl border border-border-subtle text-center hover:border-primary-text transition active:scale-95">
-              <span className="text-2xl sm:text-3xl block mb-2">{cat.icon}</span>
+            <div key={idx} data-aos="zoom-in" data-aos-delay={(idx + 1) * 100} className="p-4 sm:p-5 bg-bg-surface rounded-2xl border border-border-subtle text-center hover:border-primary-text transition active:scale-95 group">
+              {getCategoryIcon(cat.icon, `w-8 h-8 sm:w-10 sm:h-10 mx-auto mb-3 ${getCategoryColor(cat.icon).split(' ')[0]}`)}
               <h3 className="font-bold text-xs sm:text-sm mb-1 text-text-heading">{cat.title}</h3>
               <p className="text-[10px] sm:text-xs text-text-muted leading-tight">{cat.desc}</p>
             </div>

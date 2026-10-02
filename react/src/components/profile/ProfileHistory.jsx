@@ -1,4 +1,5 @@
 import { profileData } from "../../data/profile";
+import { getCategoryIcon } from "../../utils/iconMapper";
 
 export default function ProfileHistory() {
   const { title, subtitle, countBadge, activities } = profileData.historyCard;
@@ -19,8 +20,8 @@ export default function ProfileHistory() {
         {activities.map((act) => (
           <div key={act.id} className="p-4 bg-bg-subtle border border-border-subtle rounded-2xl flex items-center justify-between gap-3">
             <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg shrink-0 ${act.iconBg} ${act.iconColor}`}>
-                {act.icon}
+              <div className={`flex items-center justify-center font-bold text-lg shrink-0 mt-0.5 ${act.iconColor}`}>
+                {getCategoryIcon(act.icon, "w-5 h-5 sm:w-6 sm:h-6")}
               </div>
               <div>
                 <h4 className="font-bold text-xs text-text-heading">{act.title}</h4>
