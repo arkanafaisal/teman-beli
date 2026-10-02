@@ -1,5 +1,15 @@
 import { homeData } from "../../data/home";
 
+const getInitials = (name) => {
+  if (!name) return "";
+  const words = name.trim().split(" ");
+  if (words.length > 1) {
+    return (words[0][0] + words[1][0]).toUpperCase();
+  } else {
+    return name.length > 1 ? name[0].toUpperCase() + name[1].toLowerCase() : name[0].toUpperCase();
+  }
+};
+
 export default function TestimonialSection() {
   return (
     <section id="testimoni" className="py-12 sm:py-20 md:py-24">
@@ -14,8 +24,8 @@ export default function TestimonialSection() {
             <div key={idx} data-aos="fade-up" data-aos-delay={(idx + 1) * 100} className="p-5 sm:p-6 bg-bg-surface rounded-2xl sm:rounded-3xl border border-border-subtle shadow-sm">
               <p className="text-xs sm:text-sm text-text-muted mb-4 sm:mb-6 italic leading-relaxed">"{testi.quote}"</p>
               <div className="flex items-center gap-3">
-                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-xs sm:text-sm text-text-inverted ${idx === 0 ? 'bg-primary-base' : idx === 1 ? 'bg-primary-hover' : 'bg-success-base'}`}>
-                  {testi.avatar}
+                <div className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-bold text-sm sm:text-base text-text-inverted tracking-wide ${idx === 0 ? 'bg-primary-base' : idx === 1 ? 'bg-primary-hover' : 'bg-success-base'}`}>
+                  {getInitials(testi.name)}
                 </div>
                 <div>
                   <h4 className="font-bold text-xs sm:text-sm">{testi.name}</h4>
