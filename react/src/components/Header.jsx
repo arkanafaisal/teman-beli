@@ -3,6 +3,7 @@ import { Sun, Moon, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { appData } from "../data/app";
 import LogoIcon from "./LogoIcon";
+import Badge from "./Badge";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -52,7 +53,7 @@ export default function Header() {
           id="main-header"
           className="max-w-6xl h-16 mx-auto px-5 sm:px-8 flex items-center justify-between"
         >
-          <a href="/" className="flex items-center gap-2.5 font-extrabold text-lg sm:text-xl tracking-tight text-primary-text">
+          <a href="/" className="flex items-center gap-2.5 font-extrabold text-xl lg:text-2xl tracking-tight text-primary-text">
             <LogoIcon className="w-7 h-7 sm:w-8 sm:h-8 text-primary-base -translate-y-0.5" />
             <span>
               <span className="text-primary-text">{appData.brand.nameHighlight}</span>
@@ -61,7 +62,7 @@ export default function Header() {
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-text-muted">
+          <nav className="hidden lg:flex items-center gap-6 lg:gap-8 text-base font-medium text-text-muted">
             {appData.header.navLinks.map((link) => (
               <a key={link.path} href={link.path} className={getDesktopClass(link.path)}>
                 {link.label}
@@ -85,16 +86,19 @@ export default function Header() {
               )}
             </button>
 
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               {user.isLoggedIn ? (
-                <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-text-base">
-                    {appData.header.auth.greetingPrefix} {user.name} <span className="bg-primary-soft text-primary-hover text-xs px-2 py-0.5 rounded-full font-semibold">{appData.header.auth.verifiedBadge}</span>
-                  </span>
-                  <button onClick={logout} className="text-xs text-danger-text hover:underline">{appData.header.auth.logoutButton}</button>
+                <div className="flex items-center gap-4">
+                  <div className="flex flex-col items-start leading-tight">
+                    <span className="text-sm lg:text-base font-bold text-text-base">
+                      {appData.header.auth.greetingPrefix} {user.name}
+                    </span>
+                    <Badge className="text-[8px] mt-0.5 shadow-sm">{appData.header.auth.verifiedBadge}</Badge>
+                  </div>
+                  <button onClick={logout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
                 </div>
               ) : (
-                <button onClick={login} className="bg-primary-base hover:bg-primary-hover text-text-inverted text-sm px-4 py-2 rounded-lg font-medium transition">
+                <button onClick={login} className="cursor-pointer bg-primary-base hover:bg-primary-hover text-text-inverted lg:text-base px-5 py-2.5 rounded-lg font-medium transition" title="Masuk dengan akun SSO Kampus">
                   {appData.header.auth.loginButton}
                 </button>
               )}
@@ -103,7 +107,7 @@ export default function Header() {
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="cursor-pointer md:hidden p-2 rounded-xl text-text-base hover:text-primary-text focus:outline-none active:scale-95 transition"
+              className="lg:hidden cursor-pointer p-2 rounded-xl text-text-base hover:text-primary-text focus:outline-none active:scale-95 transition"
               aria-label="Open Menu"
               title={isMobileMenuOpen ? "Tutup Menu" : "Buka Menu"}
             >
@@ -117,9 +121,9 @@ export default function Header() {
         </header>
       </div>
 
-      {/* Mobile Drawer Menu */}
+      {/* Mobile & Tablet Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed right-0 top-16 w-56 bg-bg-glass backdrop-blur-xl border-l border-b border-border-subtle rounded-bl-3xl p-5 pt-4 z-40 md:hidden shadow-2xl transition-all duration-300">
+        <div className="fixed right-0 top-16 w-56 bg-bg-glass backdrop-blur-xl border-l border-b border-border-subtle rounded-bl-3xl p-5 pt-4 z-40 lg:hidden shadow-2xl transition-all duration-300">
           <nav className="flex flex-col gap-4 text-base font-semibold text-text-base">
             {appData.header.navLinks.map((link) => (
               <a key={link.path} href={link.path} className={getMobileClass(link.path)}>
@@ -129,11 +133,11 @@ export default function Header() {
 
             <div className="flex flex-col gap-3">
               {user.isLoggedIn ? (
-                <button onClick={logout} className="w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition">
+                <button onClick={logout} className="cursor-pointer w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition" title="Keluar dari sesi saat ini">
                   {appData.header.auth.logoutButton}
                 </button>
               ) : (
-                <button onClick={login} className="w-full text-center bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition">
+                <button onClick={login} className="cursor-pointer w-full text-center bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition" title="Masuk dengan akun SSO Kampus">
                   {appData.header.auth.loginButton}
                 </button>
               )}
