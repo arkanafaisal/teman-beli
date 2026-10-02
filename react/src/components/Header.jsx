@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
+import { Sun, Moon, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
+import { appData } from "../data/app";
+import LogoIcon from "./LogoIcon";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -42,17 +45,19 @@ export default function Header() {
   return (
     <>
       <div
-        className="sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 md:px-8 pt-2"
+        className="sticky top-0 z-50 w-full bg-bg-glass backdrop-blur-md border-b border-border-subtle shadow-sm"
         id="header-wrapper"
       >
         <header
           id="main-header"
-          className="max-w-4xl shadow-md h-14 mx-auto px-5 sm:px-8 flex items-center justify-between bg-bg-glass backdrop-blur-md border border-border-subtle rounded-2xl"
+          className="max-w-6xl h-16 mx-auto px-5 sm:px-8 flex items-center justify-between"
         >
-          {/* Brand Logo */}
-          <a href="/" className="flex items-center gap-2 font-extrabold text-lg sm:text-xl tracking-tight text-primary-text">
-            <span className="p-1.5 bg-primary-soft rounded-xl text-base sm:text-lg">🎓</span>
-            <span>Patungan<span className="text-text-heading">Aja!</span></span>
+          <a href="/" className="flex items-center gap-2.5 font-extrabold text-lg sm:text-xl tracking-tight text-primary-text">
+            <LogoIcon className="w-7 h-7 sm:w-8 sm:h-8 text-primary-base -translate-y-0.5" />
+            <span>
+              <span className="text-primary-text">{appData.brand.nameHighlight}</span>
+              <span className="text-text-heading">{appData.brand.nameNormal}</span>
+            </span>
           </a>
 
           {/* Desktop Navigation Links */}
@@ -64,17 +69,18 @@ export default function Header() {
           </nav>
 
           {/* Action Buttons */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-3 sm:gap-4">
             {/* Dark Mode Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 sm:p-2.5 rounded-xl bg-bg-subtle text-text-muted hover:bg-border-hover active:scale-95 transition"
+              className="cursor-pointer p-2 rounded-xl text-text-muted hover:text-primary-text active:scale-95 transition"
               aria-label="Toggle Theme"
+              title={isDarkMode ? "Ganti ke Mode Terang" : "Ganti ke Mode Gelap"}
             >
               {isDarkMode ? (
-                <span className="text-sm sm:text-base">☀️</span>
+                <Sun className="w-5 h-5 sm:w-6 sm:h-6" />
               ) : (
-                <span className="text-sm sm:text-base">🌙</span>
+                <Moon className="w-5 h-5 sm:w-6 sm:h-6" />
               )}
             </button>
 
@@ -96,13 +102,14 @@ export default function Header() {
             {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2.5 rounded-xl bg-bg-subtle text-text-base focus:outline-none active:scale-95 transition"
+              className="cursor-pointer md:hidden p-2 rounded-xl text-text-base hover:text-primary-text focus:outline-none active:scale-95 transition"
               aria-label="Open Menu"
+              title={isMobileMenuOpen ? "Tutup Menu" : "Buka Menu"}
             >
               {isMobileMenuOpen ? (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <X className="w-6 h-6" />
               ) : (
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                <Menu className="w-6 h-6" />
               )}
             </button>
           </div>
