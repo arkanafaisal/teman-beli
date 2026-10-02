@@ -47,7 +47,7 @@ function App() {
   const isPlainLayout = currentPath.startsWith("/detail") || currentPath.startsWith("/create");
 
   return (
-    <div className="bg-bg-base text-text-base min-h-screen font-sans transition-colors duration-300 selection:bg-primary-base selection:text-text-inverted flex flex-col justify-between">
+    <div className="bg-bg-base text-text-base min-h-screen font-sans transition-colors duration-300 selection:bg-primary-base selection:text-text-inverted">
       {!isPlainLayout && <Header />}
       <PageComponent />
       {!isPlainLayout && <Footer />}
