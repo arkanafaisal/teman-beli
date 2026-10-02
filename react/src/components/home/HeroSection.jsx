@@ -37,15 +37,17 @@ export default function HeroSection() {
       </div>
 
       <div data-aos="fade-up" data-aos-delay="600" className="max-w-3xl mx-auto px-4 w-full mt-6 sm:mt-12">
-        <div className="grid grid-cols-3 gap-2 sm:gap-6 pt-6 border-t border-border-base text-center">
+        <div className="grid grid-cols-3 sm:gap-6 pt-6 border-t border-border-base text-center">
           {homeData.stats.map((stat, idx) => (
             <div key={idx} className="p-2 sm:p-0">
-              <p className="text-xl sm:text-3xl font-extrabold text-primary-text">{stat.value}</p>
+              <p className="text-lg sm:text-3xl font-extrabold text-primary-text">
+                {stat.value}
+              </p>
               <p className="text-[10px] sm:text-xs text-text-muted font-medium mt-0.5 sm:mt-1 leading-tight">{stat.label}</p>
             </div>
           ))}
         </div>
       </div>
-    </section>
+    </section >
   );
 }
