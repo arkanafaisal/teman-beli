@@ -1,7 +1,7 @@
 import { exploreData } from "../../data/explore";
 import { MapPin } from "lucide-react";
 
-export default function FeedCard({ item }) {
+export default function FeedCard({ item, onClick }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
 
   const getRelativeTime = (deadline) => {
@@ -19,10 +19,10 @@ export default function FeedCard({ item }) {
     return "Segera berakhir";
   };
 
-  return (
-    <a href={`/detail/${item.id}`} className="p-4 sm:p-5  group bg-bg-surface rounded-2xl sm:rounded-3xl border border-border-base overflow-hidden hover:shadow-xl hover:border-primary-soft transition duration-300 flex flex-col h-full active:scale-[0.98]">
+  const CardContent = (
+    <>
       {/* Card Header */}
-      <div className="border-b border-border-subtle bg-bg-subtle/50 flex justify-between items-center">
+      <div className="border-b border-border-subtle bg-bg-subtle/50 flex justify-between items-center px-4 pt-2 sm:px-5 sm:pt-2">
         <span className="text-[10px] sm:text-xs font-bold text-text-muted bg-bg-surface py-1 rounded-md border border-border-subtle shadow-sm">
           {item.category}
         </span>
@@ -32,7 +32,7 @@ export default function FeedCard({ item }) {
       </div>
 
       {/* Card Body */}
-      <div className="flex-grow flex flex-col justify-between">
+      <div className="flex-grow flex flex-col justify-between px-4 pb-4 sm:px-5 sm:pb-5">
         <div>
           <h3 className="font-extrabold text-base sm:text-lg text-text-heading mb-1.5 line-clamp-2 group-hover:text-primary-text transition">
             {item.title}
@@ -70,6 +70,22 @@ export default function FeedCard({ item }) {
           </span>
         </div>
       </div>
+    </>
+  );
+
+  const containerClasses = `group bg-bg-surface rounded-2xl sm:rounded-3xl border border-border-base overflow-hidden hover:shadow-xl hover:border-primary-soft transition duration-300 flex flex-col h-full active:scale-[0.98] ${onClick ? 'cursor-pointer' : ''}`;
+
+  if (onClick) {
+    return (
+      <div onClick={() => onClick(item)} className={containerClasses}>
+        {CardContent}
+      </div>
+    );
+  }
+
+  return (
+    <a href={`/detail/${item.id}`} className={containerClasses}>
+      {CardContent}
     </a>
   );
 }

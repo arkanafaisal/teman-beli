@@ -11,10 +11,9 @@ export default function DetailReplies({ replies, isLoggedIn, onAddReply }) {
   };
 
   return (
-    <div className="bg-bg-surface p-6 rounded-2xl border border-border-base space-y-4">
+    <div className="space-y-4 pt-6 border-t border-border-base">
       <h3 className="font-bold text-base flex items-center gap-2">
         <span>{detailData.replies.title}</span>
-        <span className="text-xs font-normal text-text-muted">{detailData.replies.subtitle}</span>
       </h3>
 
       <div className="space-y-3">

@@ -1,7 +1,7 @@
 import { exploreData } from "../../data/explore";
 import FeedCard from "./FeedCard";
 
-export default function ExploreFeed({ items }) {
+export default function ExploreFeed({ items, onItemClick }) {
   if (items.length === 0) {
     return (
       <div className="py-16 text-center" data-aos="fade-up">
@@ -16,7 +16,7 @@ export default function ExploreFeed({ items }) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {items.map((item) => (
         <div key={item.id}>
-          <FeedCard item={item} />
+          <FeedCard item={item} onClick={onItemClick} />
         </div>
       ))}
     </div>

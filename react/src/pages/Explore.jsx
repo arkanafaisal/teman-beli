@@ -5,10 +5,12 @@ import { exploreData } from "../data/explore";
 import ExploreHeader from "../components/explore/ExploreHeader";
 import ExploreFilter from "../components/explore/ExploreFilter";
 import ExploreFeed from "../components/explore/ExploreFeed";
+import DetailModal from "../components/detail/DetailModal";
 
 export default function Explore() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const [selectedItem, setSelectedItem] = useState(null);
 
   useEffect(() => {
     AOS.init({
@@ -38,7 +40,10 @@ export default function Explore() {
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
       />
-      <ExploreFeed items={filteredItems} />
+      <ExploreFeed items={filteredItems} onItemClick={setSelectedItem} />
+      {selectedItem && (
+        <DetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+      )}
     </main>
   );
 }
