@@ -24,8 +24,7 @@ export default function Explore() {
 
   useEffect(() => {
     AOS.init({
-      once: false,
-      mirror: true,
+      once: true,
       duration: 700,
       easing: "ease-in-out",
     });

@@ -1,12 +1,14 @@
 import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 import { MapPin, Heart, MessageCircle } from "lucide-react";
 
-export default function CommunityCard({ item, onClick }) {
+export default function CommunityCard({ item, onClick, index = 0 }) {
   const badgeTextColor = item.badgeBg.split(' ').find(c => c.startsWith('text-')) || "text-primary-text";
 
   return (
     <div 
       onClick={() => onClick(item)}
+      data-aos="fade-up"
+      data-aos-delay={index * 100}
       className="p-5 bg-bg-surface rounded-2xl sm:rounded-3xl border border-border-subtle shadow-sm hover:shadow-md hover:border-primary-base/50 transition cursor-pointer flex flex-col justify-between group active:scale-98"
     >
       <div>

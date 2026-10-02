@@ -1,7 +1,7 @@
 import { exploreData } from "../../data/explore";
 import { MapPin } from "lucide-react";
 
-export default function FeedCard({ item, onClick }) {
+export default function FeedCard({ item, onClick, index = 0 }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
 
   const getRelativeTime = (deadline) => {
@@ -77,14 +77,14 @@ export default function FeedCard({ item, onClick }) {
 
   if (onClick) {
     return (
-      <div onClick={() => onClick(item)} className={containerClasses}>
+      <div onClick={() => onClick(item)} className={containerClasses} data-aos="fade-up" data-aos-delay={index * 100}>
         {CardContent}
       </div>
     );
   }
 
   return (
-    <a href={`/detail/${item.id}`} className={containerClasses}>
+    <a href={`/detail/${item.id}`} className={containerClasses} data-aos="fade-up" data-aos-delay={index * 100}>
       {CardContent}
     </a>
   );

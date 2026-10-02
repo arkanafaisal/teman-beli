@@ -14,9 +14,9 @@ export default function ExploreFeed({ items, onItemClick }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {items.map((item) => (
+      {items.map((item, index) => (
         <div key={item.id}>
-          <FeedCard item={item} onClick={onItemClick} />
+          <FeedCard item={item} onClick={onItemClick} index={index} />
         </div>
       ))}
     </div>

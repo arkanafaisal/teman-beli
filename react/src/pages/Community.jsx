@@ -18,8 +18,7 @@ export default function Community() {
 
   useEffect(() => {
     AOS.init({
-      once: false,
-      mirror: true,
+      once: true,
       duration: 700,
       easing: "ease-in-out",
     });
@@ -110,11 +109,12 @@ export default function Community() {
       />
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5" id="info-cards-grid">
-        {filteredItems.map(item => (
+        {filteredItems.map((item, index) => (
           <CommunityCard 
             key={item.id} 
             item={item} 
             onClick={handleOpenModal} 
+            index={index}
           />
         ))}
       </div>
