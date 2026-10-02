@@ -1,4 +1,5 @@
 import { homeData } from "../../data/home";
+import { ChevronDown } from "lucide-react";
 
 export default function FaqSection() {
   return (
@@ -19,7 +20,7 @@ export default function FaqSection() {
             >
               <summary className="flex items-center justify-between font-bold text-xs sm:text-sm text-text-base">
                 <span>{item.q}</span>
-                <span className="transition group-open:rotate-180 text-primary-text ml-2">&darr;</span>
+                <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-primary-text ml-2 transition-transform duration-300 group-open:rotate-180 shrink-0" strokeWidth={2.5} />
               </summary>
               <p className="mt-2.5 sm:mt-3 text-xs text-text-muted leading-relaxed">
                 {item.a}
