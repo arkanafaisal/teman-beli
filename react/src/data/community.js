@@ -5,14 +5,14 @@ export const communityData = {
     shareButton: "+ Bagikan Rekomendasi"
   },
   filters: [
-    { key: "all", label: "✨ Semua Info" },
-    { key: "kuliner", label: "🍛 Kuliner Hemat" },
-    { key: "cetak", label: "🖨️ Cetak & Banner" },
-    { key: "laundry", label: "🧺 Laundry & Kost" },
-    { key: "promo", label: "🎟️ Promo KTM Kampus" }
+    { value: "all", label: "Semua", icon: "" },
+    { value: "kuliner", label: "Kuliner Hemat", icon: "🍛" },
+    { value: "cetak", label: "Cetak & Banner", icon: "🖨️" },
+    { value: "laundry", label: "Laundry & Kost", icon: "🧺" },
+    { value: "promo", label: "Promo KTM Kampus", icon: "🎟️" }
   ],
   modal: {
-    commentCountPrefix: "💬 Komentar & Diskusi",
+    commentCountPrefix: "Komentar & Diskusi",
     commentInputPlaceholder: "Tulis tanggapan atau pertanyaan...",
     commentSubmitButton: "Kirim",
     emptyComments: "Belum ada komentar. Jadi yang pertama menanggapi!"
@@ -26,7 +26,7 @@ export const communityData = {
       kategoriLabel: "Kuliner Hemat",
       icon: "🍛",
       badgeBg: "bg-success-soft text-success-text",
-      lokasi: "📍 Belakang Fakultas Teknik (Dekat Pos 2)",
+      lokasi: "Belakang Fakultas Teknik (Dekat Pos 2)",
       ringkasan: "Nasi + sayur sepuasnya cuma Rp 8.000! Cocok banget buat tanggal tua.",
       deskripsiLengkap: "Warung Makan Pak Di menyediakan menu makan prasmanan khusus mahasiswa. Cukup bayar Rp 8.000 sudah dapet Nasi Sepuasnya, Sayur Bebas Pilih, Lauk Tahu/Tempe, plus Es Teh Gratis kalau tunjukkan KTM!",
       author: "Rian F.",
@@ -47,7 +47,7 @@ export const communityData = {
       kategoriLabel: "Cetak & Banner",
       icon: "🖨️",
       badgeBg: "bg-primary-soft text-primary-text",
-      lokasi: "📍 Depan Gerbang Utama Kampus",
+      lokasi: "Depan Gerbang Utama Kampus",
       ringkasan: "Diskon 10% cetak skripsi/banner kalau tunjukkan KTM aktif.",
       deskripsiLengkap: "Tempat cetak langganan anak organisasi dan mahasiswa akhir. Buka 24 jam nonstop, hasil cetak jilid super rapi, dan ada potongan harga khusus 10% untuk pengerjaan banner acara kampus.",
       author: "Dinda A.",
@@ -57,7 +57,7 @@ export const communityData = {
       likes: 12,
       likedByText: "Disukai oleh Rian F. dan 11 lainnya",
       comments: [
-        { author: "Bagus T.", text: "Bisa kirim file lewat WA dulu ga ya sebelum datang?", date: "Yesterday" }
+        { author: "Bagus T.", text: "Bisa kirim file lewat WA dulu ga ya sebelum datang?", date: "Kemarin" }
       ],
     },
     {
@@ -67,7 +67,7 @@ export const communityData = {
       kategoriLabel: "Laundry & Kost",
       icon: "🧺",
       badgeBg: "bg-primary-soft text-primary-text",
-      lokasi: "📍 Gang Belakang Perpustakaan Pusat",
+      lokasi: "Gang Belakang Perpustakaan Pusat",
       ringkasan: "Rp 5.000 / kg. Antar jemput gratis khusus area kost sekitar kampus.",
       deskripsiLengkap: "Jasa cuci kilat pakaian mahasiswa. Hasil wangi tahan lama, lipatan rapi, dan minimal cuci cuma 2 kg sudah dapet layanan free antar-jemput langsung ke depan pagar kost.",
       author: "Amelia S.",
@@ -85,9 +85,9 @@ export const communityData = {
       judul: "Promo Kopi Kampus - Beli 1 Gratis 1",
       kategoriKey: "promo",
       kategoriLabel: "Promo KTM Kampus",
-      icon: "☕",
+      icon: "🎟️",
       badgeBg: "bg-warning-soft text-warning-text",
-      lokasi: "📍 Kantin Pusat FITDS",
+      lokasi: "Kantin Pusat FITDS",
       ringkasan: "Khusus hari Senin-Rabu jam 13.00 - 16.00 tunjukkan KTM UNS.",
       deskripsiLengkap: "Promo khusus mahasiswa aktif! Beli varian kopi susu aren ukuran besar gratis 1 kopi hitam cold brew. Cukup tunjukkan fisik KTM atau kartu mahasiswa digital di aplikasi.",
       author: "Fikri K.",

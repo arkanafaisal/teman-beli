@@ -1,19 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import { communityData } from "../data/community";
-import CommunityHeader from "../components/community/CommunityHeader";
-import CommunityFilter from "../components/community/CommunityFilter";
+import ExploreHeader from "../components/explore/ExploreHeader";
+import ExploreFilter from "../components/explore/ExploreFilter";
 import CommunityCard from "../components/community/CommunityCard";
 import CommunityModal from "../components/community/CommunityModal";
 import { useAuth } from "../context/AuthContext";
 
 export default function Community() {
   const { user } = useAuth();
+  const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState("all");
   const [items, setItems] = useState(communityData.mockInfoData);
   const [activeItem, setActiveItem] = useState(null);
   const [commentText, setCommentText] = useState("");
 
-  const filteredItems = activeFilter === "all" ? items : items.filter(item => item.kategoriKey === activeFilter);
+  useEffect(() => {
+    AOS.init({
+      once: false,
+      mirror: true,
+      duration: 700,
+      easing: "ease-in-out",
+    });
+  }, []);
+
+  useEffect(() => {
+    AOS.refresh();
+  }, [searchQuery, activeFilter]);
+
+  const filteredItems = items.filter(item => {
+    const matchCat = activeFilter === "all" || item.kategoriKey === activeFilter;
+    const matchQuery = item.judul.toLowerCase().includes(searchQuery.toLowerCase()) || item.lokasi.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCat && matchQuery;
+  });
 
   const handleOpenModal = (item) => {
     setActiveItem(item);
@@ -29,7 +49,11 @@ export default function Community() {
   const handleLike = (id) => {
     const newItems = items.map(item => {
       if (item.id === id) {
-        return { ...item, likes: item.likes + 1 };
+        if (!item.isLiked) {
+          return { ...item, likes: item.likes + 1, isLiked: true };
+        } else {
+          return { ...item, likes: item.likes - 1, isLiked: false };
+        }
       }
       return item;
     });
@@ -37,7 +61,11 @@ export default function Community() {
     
     // Also update active item if open
     if (activeItem && activeItem.id === id) {
-      setActiveItem({ ...activeItem, likes: activeItem.likes + 1 });
+      if (!activeItem.isLiked) {
+        setActiveItem({ ...activeItem, likes: activeItem.likes + 1, isLiked: true });
+      } else {
+        setActiveItem({ ...activeItem, likes: activeItem.likes - 1, isLiked: false });
+      }
     }
   };
 
@@ -65,9 +93,21 @@ export default function Community() {
   };
 
   return (
-    <main className="flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-8 w-full">
-      <CommunityHeader />
-      <CommunityFilter activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
+    <main className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12 w-full">
+      <ExploreHeader 
+        title={communityData.header.title}
+        subtitle={communityData.header.subtitle}
+        buttonText={communityData.header.shareButton}
+        onButtonClick={() => alert("Fitur Bagikan Rekomendasi dalam pengembangan!")}
+      />
+      <ExploreFilter 
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        activeCategory={activeFilter}
+        setActiveCategory={setActiveFilter}
+        filters={communityData.filters}
+        searchPlaceholder="Cari info, tempat, promo..."
+      />
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5" id="info-cards-grid">
         {filteredItems.map(item => (

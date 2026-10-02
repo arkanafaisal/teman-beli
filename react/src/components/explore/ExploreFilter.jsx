@@ -1,8 +1,7 @@
-import { exploreData } from "../../data/explore";
 import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 import { Search } from "lucide-react";
 
-export default function ExploreFilter({ searchQuery, setSearchQuery, activeCategory, setActiveCategory }) {
+export default function ExploreFilter({ searchQuery, setSearchQuery, activeCategory, setActiveCategory, filters = [], searchPlaceholder = "Cari..." }) {
   return (
     <div data-aos="fade-up" data-aos-delay="100" className="bg-bg-surface p-4 rounded-2xl border border-border-subtle shadow-sm mb-8 flex flex-col md:flex-row gap-2 justify-between items-center">
       {/* Input Search Bar */}
@@ -14,14 +13,14 @@ export default function ExploreFilter({ searchQuery, setSearchQuery, activeCateg
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder={exploreData.search.placeholder}
+          placeholder={searchPlaceholder}
           className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-base text-sm focus:ring-2 ring-primary-base outline-none transition"
         />
       </div>
 
       {/* Category Filter Pills */}
-      <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none text-xs font-medium">
-        {exploreData.filters.map((filter) => {
+      <div className="flex items-center gap-2 overflow-x-auto w-full md:w-auto scrollbar-none text-xs font-medium">
+        {filters.map((filter) => {
           const isActive = activeCategory === filter.value;
           return (
             <button

@@ -1,48 +1,54 @@
 import { communityData } from "../../data/community";
-import { getCategoryIcon } from "../../utils/iconMapper";
+import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
+import { MapPin, Heart, MessageCircle } from "lucide-react";
+import BottomModalWrapper from "../common/BottomModalWrapper";
 
 export default function CommunityModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
   if (!item) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 dark:bg-black/80 backdrop-blur-sm transition-opacity">
-      <div className="bg-bg-surface rounded-3xl max-w-xl w-full p-6 sm:p-7 border border-border-base shadow-2xl relative max-h-[90vh] overflow-y-auto">
-        <button onClick={onClose} className="absolute top-5 right-5 text-text-muted hover:text-text-base text-xl font-bold p-1 rounded-lg">✕</button>
-
-        <div className="mb-3">
-          <span className={`px-3 py-1 ${item.badgeBg} text-xs font-bold rounded-lg inline-flex items-center gap-1.5`}>
-            {getCategoryIcon(item.icon, "w-4 h-4")} {item.kategoriLabel}
+    <BottomModalWrapper onClose={onClose}>
+      <div className="flex flex-col h-full">
+        <div className="mb-3 flex items-center gap-2">
+          <span className={getCategoryColor(item.icon).split(' ')[0]}>
+            {getCategoryIcon(item.icon, "w-4 h-4")}
+          </span>
+          <span className={`text-xs font-bold ${item.badgeBg.split(' ').find(c => c.startsWith('text-')) || 'text-primary-text'}`}>
+            {item.kategoriLabel}
           </span>
         </div>
 
         <h2 className="text-xl font-extrabold text-text-heading mb-2">{item.judul}</h2>
-        <p className="text-xs text-primary-text font-semibold mb-4 flex items-center gap-1">{item.lokasi}</p>
-
-        <div className="flex items-center gap-3 p-3 bg-bg-subtle rounded-2xl mb-4 border border-border-subtle">
-          <div className={`w-10 h-10 rounded-full text-text-inverted font-bold text-sm flex items-center justify-center shadow-sm ${item.avatarBg}`}>
-            {item.avatarLetter}
-          </div>
-          <div>
-            <p className="font-bold text-xs sm:text-sm text-text-heading leading-tight">{item.author}</p>
-            <p className="text-[11px] text-text-muted" dangerouslySetInnerHTML={{__html: item.authorInfo}}></p>
-          </div>
-        </div>
+        <p className="text-xs text-primary-text font-semibold mb-4 flex items-center gap-1.5">
+          <MapPin className="w-3.5 h-3.5" />
+          {item.lokasi}
+        </p>
 
         <p className="text-xs sm:text-sm text-text-muted leading-relaxed mb-6">{item.deskripsiLengkap}</p>
 
-        <div className="flex items-center justify-between py-3 border-y border-border-subtle mb-5">
+        <div className="flex items-center gap-1 py-4 border-y border-border-subtle mb-6">
           <button
             onClick={() => onLike(item.id)}
-            className="flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl bg-bg-subtle text-text-base hover:bg-danger-base/10 hover:text-danger-text transition active:scale-95"
+            className={`relative flex items-center justify-center p-2 transition active:scale-95 ${item.isLiked ? 'text-danger-base' : 'text-text-muted hover:text-danger-base'}`}
           >
-            <span>❤️</span>
-            <span>{item.likes} Suka</span>
+            <Heart className={`w-8 h-8 ${item.isLiked ? 'fill-current' : ''}`} strokeWidth={1.2} />
+            <span className={`absolute translate-y-[0.3px] text-[10px] font-black mt-[-2px] ${item.isLiked ? 'text-white' : 'text-text-heading'}`}>{item.likes}</span>
           </button>
-          <span className="text-[10px] text-text-muted">{item.likedByText}</span>
+
+          <div className="flex items-center gap-3 text-left max-w-[70%]">
+            <div className={`w-10 h-10 rounded-full text-text-inverted font-bold text-sm flex items-center justify-center shadow-sm shrink-0 ${item.avatarBg}`}>
+              {item.avatarLetter}
+            </div>
+            <div className="truncate">
+              <p className="font-bold text-xs sm:text-sm text-text-heading leading-tight truncate">{item.author}</p>
+              <p className="text-[10px] sm:text-[11px] text-text-muted truncate" dangerouslySetInnerHTML={{ __html: item.authorInfo }}></p>
+            </div>
+          </div>
         </div>
 
         <div>
           <h3 className="font-bold text-xs sm:text-sm text-text-heading mb-3 flex items-center gap-1.5">
+            <MessageCircle className="w-4 h-4 text-text-muted" strokeWidth={2.5} />
             <span>{communityData.modal.commentCountPrefix}</span>
             <span className="text-[10px] px-2 py-0.5 bg-primary-soft text-primary-text rounded-full font-extrabold">{item.comments.length}</span>
           </h3>
@@ -77,6 +83,6 @@ export default function CommunityModal({ item, onClose, onAddComment, onLike, co
           </div>
         </div>
       </div>
-    </div>
+    </BottomModalWrapper>
   );
 }
