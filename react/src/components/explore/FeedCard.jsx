@@ -4,20 +4,35 @@ import { MapPin } from "lucide-react";
 export default function FeedCard({ item }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
 
+  const getRelativeTime = (deadline) => {
+    const now = new Date();
+    const target = new Date(deadline);
+    const diffMs = target - now;
+
+    if (diffMs <= 0) return "Berakhir";
+
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    if (diffDays > 0) return `${diffDays} hari lagi`;
+    if (diffHours > 0) return `${diffHours} jam lagi`;
+    return "Segera berakhir";
+  };
+
   return (
-    <a href={`/detail/${item.id}`} className="group bg-bg-surface rounded-2xl sm:rounded-3xl border border-border-base overflow-hidden hover:shadow-xl hover:border-primary-soft transition duration-300 flex flex-col h-full active:scale-[0.98]">
+    <a href={`/detail/${item.id}`} className="p-4 sm:p-5  group bg-bg-surface rounded-2xl sm:rounded-3xl border border-border-base overflow-hidden hover:shadow-xl hover:border-primary-soft transition duration-300 flex flex-col h-full active:scale-[0.98]">
       {/* Card Header */}
-      <div className="p-4 sm:p-5 border-b border-border-subtle bg-bg-subtle/50 flex justify-between items-center">
-        <span className="text-[10px] sm:text-xs font-bold text-text-muted bg-bg-surface px-2.5 py-1 rounded-md border border-border-subtle shadow-sm">
+      <div className="border-b border-border-subtle bg-bg-subtle/50 flex justify-between items-center">
+        <span className="text-[10px] sm:text-xs font-bold text-text-muted bg-bg-surface py-1 rounded-md border border-border-subtle shadow-sm">
           {item.category}
         </span>
-        <span className="text-[10px] sm:text-xs font-semibold text-danger-text bg-danger-base/10 px-2.5 py-1 rounded-md">
-          {exploreData.card.until} {item.deadline}
+        <span className="text-[10px] sm:text-xs font-extrabold text-danger-base tracking-wide shrink-0">
+          {getRelativeTime(item.deadline)}
         </span>
       </div>
 
       {/* Card Body */}
-      <div className="p-4 sm:p-5 flex-grow flex flex-col justify-between">
+      <div className="flex-grow flex flex-col justify-between">
         <div>
           <h3 className="font-extrabold text-base sm:text-lg text-text-heading mb-1.5 line-clamp-2 group-hover:text-primary-text transition">
             {item.title}

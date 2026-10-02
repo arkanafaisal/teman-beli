@@ -14,8 +14,8 @@ export default function ExploreFeed({ items }) {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {items.map((item, idx) => (
-        <div key={item.id} data-aos="fade-up" data-aos-delay={(idx % 3) * 100}>
+      {items.map((item) => (
+        <div key={item.id}>
           <FeedCard item={item} />
         </div>
       ))}

@@ -1,10 +1,10 @@
 import { exploreData } from "../../data/explore";
-import { getCategoryIcon } from "../../utils/iconMapper";
+import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 import { Search } from "lucide-react";
 
 export default function ExploreFilter({ searchQuery, setSearchQuery, activeCategory, setActiveCategory }) {
   return (
-    <div data-aos="fade-up" data-aos-delay="100" className="bg-bg-surface p-4 rounded-2xl border border-border-subtle shadow-sm mb-8 flex flex-col md:flex-row gap-4 justify-between items-center">
+    <div data-aos="fade-up" data-aos-delay="100" className="bg-bg-surface p-4 rounded-2xl border border-border-subtle shadow-sm mb-8 flex flex-col md:flex-row gap-2 justify-between items-center">
       {/* Input Search Bar */}
       <div className="relative w-full md:w-96">
         <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-text-muted">
@@ -27,13 +27,16 @@ export default function ExploreFilter({ searchQuery, setSearchQuery, activeCateg
             <button
               key={filter.value}
               onClick={() => setActiveCategory(filter.value)}
-              className={
-                isActive
-                  ? "cat-btn active px-4 py-2 rounded-xl bg-primary-base text-text-inverted transition whitespace-nowrap flex items-center gap-2"
-                  : "cat-btn px-4 py-2 rounded-xl bg-bg-subtle text-text-base hover:bg-border-subtle transition whitespace-nowrap flex items-center gap-2"
-              }
+              className={`px-3 py-1 rounded-xl transition whitespace-nowrap flex items-center gap-2 border font-bold ${isActive
+                ? "bg-primary-base border-primary-base text-text-inverted shadow-sm"
+                : "bg-transparent border-border-base text-text-base hover:border-border-subtle hover:bg-bg-subtle"
+                }`}
             >
-              {filter.icon && getCategoryIcon(filter.icon, "w-4 h-4")}
+              {filter.icon && (
+                <span className={isActive ? "text-text-inverted" : getCategoryColor(filter.icon).split(' ')[0]}>
+                  {getCategoryIcon(filter.icon, "w-4 h-4 sm:w-5 sm:h-5")}
+                </span>
+              )}
               {filter.label}
             </button>
           );
