@@ -62,10 +62,11 @@ export default function Header() {
 
           {/* Desktop Navigation Links */}
           <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-text-muted">
-            <a href="/" className={getDesktopClass("/")}>Beranda</a>
-            <a href="/eksplor" className={getDesktopClass("/eksplor")}>Eksplor</a>
-            <a href="/komunitas" className={getDesktopClass("/komunitas")}>Komunitas</a>
-            <a href="/profil" className={getDesktopClass("/profil")}>Profil</a>
+            {appData.header.navLinks.map((link) => (
+              <a key={link.path} href={link.path} className={getDesktopClass(link.path)}>
+                {link.label}
+              </a>
+            ))}
           </nav>
 
           {/* Action Buttons */}
@@ -88,13 +89,13 @@ export default function Header() {
               {user.isLoggedIn ? (
                 <div className="flex items-center gap-3">
                   <span className="text-sm font-medium text-text-base">
-                    Hi, {user.name} <span className="bg-primary-soft text-primary-hover text-xs px-2 py-0.5 rounded-full font-semibold">Verified</span>
+                    {appData.header.auth.greetingPrefix} {user.name} <span className="bg-primary-soft text-primary-hover text-xs px-2 py-0.5 rounded-full font-semibold">{appData.header.auth.verifiedBadge}</span>
                   </span>
-                  <button onClick={logout} className="text-xs text-danger-text hover:underline">Keluar</button>
+                  <button onClick={logout} className="text-xs text-danger-text hover:underline">{appData.header.auth.logoutButton}</button>
                 </div>
               ) : (
                 <button onClick={login} className="bg-primary-base hover:bg-primary-hover text-text-inverted text-sm px-4 py-2 rounded-lg font-medium transition">
-                  Masuk SSO Kampus
+                  {appData.header.auth.loginButton}
                 </button>
               )}
             </div>
@@ -118,18 +119,23 @@ export default function Header() {
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-x-4 top-20 bg-bg-glass backdrop-blur-xl border border-border-subtle rounded-2xl p-6 z-40 md:hidden shadow-2xl transition-all duration-300">
+        <div className="fixed right-0 top-16 w-56 bg-bg-glass backdrop-blur-xl border-l border-b border-border-subtle rounded-bl-3xl p-5 pt-4 z-40 md:hidden shadow-2xl transition-all duration-300">
           <nav className="flex flex-col gap-4 text-base font-semibold text-text-base">
-            <a href="/" className={getMobileClass("/")}>Beranda</a>
-            <a href="/eksplor" className={getMobileClass("/eksplor")}>Eksplor</a>
-            <a href="/komunitas" className={getMobileClass("/komunitas")}>Komunitas</a>
-            <a href="/profil" className={getMobileClass("/profil")}>Profil</a>
+            {appData.header.navLinks.map((link) => (
+              <a key={link.path} href={link.path} className={getMobileClass(link.path)}>
+                {link.label}
+              </a>
+            ))}
 
-            <div className="pt-4 border-t border-border-subtle flex flex-col gap-3">
+            <div className="flex flex-col gap-3">
               {user.isLoggedIn ? (
-                <button onClick={logout} className="w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition"> Keluar </button>
+                <button onClick={logout} className="w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition">
+                  {appData.header.auth.logoutButton}
+                </button>
               ) : (
-                <button onClick={login} className="w-full text-center bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition"> Masuk SSO Kampus </button>
+                <button onClick={login} className="w-full text-center bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition">
+                  {appData.header.auth.loginButton}
+                </button>
               )}
             </div>
           </nav>
