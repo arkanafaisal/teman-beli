@@ -7,7 +7,7 @@ export default function Header() {
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
   });
-  
+
   const { user, login, logout } = useAuth();
   const currentPath = window.location.pathname;
 
@@ -37,32 +37,32 @@ export default function Header() {
     return currentPath.startsWith(path);
   };
 
-  const getDesktopClass = (path) => isActive(path) 
-    ? "text-blue-600 dark:text-blue-400 transition font-bold" 
-    : "hover:text-blue-600 dark:hover:text-blue-400 transition";
+  const getDesktopClass = (path) => isActive(path)
+    ? "text-primary-text transition font-bold"
+    : "hover:text-primary-text transition";
 
   const getMobileClass = (path) => isActive(path)
-    ? "py-2 border-b border-slate-100 dark:border-slate-800 text-blue-600 dark:text-blue-400 font-bold"
-    : "py-2 border-b border-slate-100 dark:border-slate-800 hover:text-blue-600 dark:hover:text-blue-400";
+    ? "py-2 border-b border-border-subtle text-primary-text font-bold"
+    : "py-2 border-b border-border-subtle hover:text-primary-text";
 
   return (
     <>
-      <div 
-        className={`sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 md:px-8 ${isScrolled ? 'pt-2' : 'pt-4 sm:pt-5'}`} 
+      <div
+        className={`sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 md:px-8 ${isScrolled ? 'pt-2' : 'pt-4 sm:pt-5'}`}
         id="header-wrapper"
       >
-        <header 
-          id="main-header" 
-          className={`${isScrolled ? 'max-w-4xl shadow-md h-14' : 'max-w-6xl h-16 shadow-sm'} mx-auto px-5 sm:px-8 flex items-center justify-between bg-white/85 dark:bg-slate-900/85 backdrop-blur-md border border-slate-200/80 dark:border-slate-800/80 rounded-2xl`}
+        <header
+          id="main-header"
+          className={`${isScrolled ? 'max-w-4xl shadow-md h-14' : 'max-w-6xl h-16 shadow-sm'} mx-auto px-5 sm:px-8 flex items-center justify-between bg-bg-glass backdrop-blur-md border border-border-subtle rounded-2xl`}
         >
           {/* Brand Logo */}
-          <a href="/" className="flex items-center gap-2 font-extrabold text-lg sm:text-xl tracking-tight text-blue-600 dark:text-blue-400">
-            <span className="p-1.5 bg-blue-100 dark:bg-blue-950/80 rounded-xl text-base sm:text-lg">🎓</span>
-            <span>Patungan<span className="text-slate-900 dark:text-white">Aja!</span></span>
+          <a href="/" className="flex items-center gap-2 font-extrabold text-lg sm:text-xl tracking-tight text-primary-text">
+            <span className="p-1.5 bg-primary-soft rounded-xl text-base sm:text-lg">🎓</span>
+            <span>Patungan<span className="text-text-heading">Aja!</span></span>
           </a>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+          <nav className="hidden md:flex items-center gap-6 lg:gap-8 text-sm font-medium text-text-muted">
             <a href="/" className={getDesktopClass("/")}>Beranda</a>
             <a href="/eksplor" className={getDesktopClass("/eksplor")}>Eksplor</a>
             <a href="/komunitas" className={getDesktopClass("/komunitas")}>Komunitas</a>
@@ -72,9 +72,9 @@ export default function Header() {
           {/* Action Buttons */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Dark Mode Toggle */}
-            <button 
-              onClick={toggleTheme} 
-              className="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-95 transition" 
+            <button
+              onClick={toggleTheme}
+              className="p-2 sm:p-2.5 rounded-xl bg-bg-subtle text-text-muted hover:bg-border-hover active:scale-95 transition"
               aria-label="Toggle Theme"
             >
               {isDarkMode ? (
@@ -87,22 +87,22 @@ export default function Header() {
             <div className="hidden sm:block">
               {user.isLoggedIn ? (
                 <div className="flex items-center gap-3">
-                  <span className="text-sm font-medium text-slate-700 dark:text-slate-200">
-                    Hi, {user.name} <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-xs px-2 py-0.5 rounded-full font-semibold">Verified</span>
+                  <span className="text-sm font-medium text-text-base">
+                    Hi, {user.name} <span className="bg-primary-soft text-primary-hover text-xs px-2 py-0.5 rounded-full font-semibold">Verified</span>
                   </span>
-                  <button onClick={logout} className="text-xs text-red-500 hover:underline">Keluar</button>
+                  <button onClick={logout} className="text-xs text-danger-text hover:underline">Keluar</button>
                 </div>
               ) : (
-                <button onClick={login} className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition">
+                <button onClick={login} className="bg-primary-base hover:bg-primary-hover text-text-inverted text-sm px-4 py-2 rounded-lg font-medium transition">
                   Masuk SSO Kampus
                 </button>
               )}
             </div>
 
             {/* Mobile Menu Toggle Button */}
-            <button 
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-              className="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 focus:outline-none active:scale-95 transition" 
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="md:hidden p-2.5 rounded-xl bg-bg-subtle text-text-base focus:outline-none active:scale-95 transition"
               aria-label="Open Menu"
             >
               {isMobileMenuOpen ? (
@@ -117,18 +117,18 @@ export default function Header() {
 
       {/* Mobile Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-x-4 top-20 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-2xl p-6 z-40 md:hidden shadow-2xl transition-all duration-300">
-          <nav className="flex flex-col gap-4 text-base font-semibold text-slate-700 dark:text-slate-200">
+        <div className="fixed inset-x-4 top-20 bg-bg-glass backdrop-blur-xl border border-border-subtle rounded-2xl p-6 z-40 md:hidden shadow-2xl transition-all duration-300">
+          <nav className="flex flex-col gap-4 text-base font-semibold text-text-base">
             <a href="/" className={getMobileClass("/")}>Beranda</a>
             <a href="/eksplor" className={getMobileClass("/eksplor")}>Eksplor</a>
             <a href="/komunitas" className={getMobileClass("/komunitas")}>Komunitas</a>
             <a href="/profil" className={getMobileClass("/profil")}>Profil</a>
 
-            <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-3">
+            <div className="pt-4 border-t border-border-subtle flex flex-col gap-3">
               {user.isLoggedIn ? (
-                <button onClick={logout} className="w-full text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl shadow-md transition"> Keluar </button>
+                <button onClick={logout} className="w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition"> Keluar </button>
               ) : (
-                <button onClick={login} className="w-full text-center bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl shadow-md transition"> Masuk SSO Kampus </button>
+                <button onClick={login} className="w-full text-center bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition"> Masuk SSO Kampus </button>
               )}
             </div>
           </nav>

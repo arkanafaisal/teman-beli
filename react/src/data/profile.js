@@ -32,8 +32,8 @@ export const profileData = {
       {
         id: "act-1",
         icon: "📦",
-        iconBg: "bg-emerald-100 dark:bg-emerald-950/60",
-        iconColor: "text-emerald-600 dark:text-emerald-400",
+        iconBg: "bg-success-soft",
+        iconColor: "text-success-text",
         title: "Patungan Kertas HVS A4 80gr",
         date: "Selesai • 24 Sep 2026",
         amount: "Rp 12.500",
@@ -42,8 +42,8 @@ export const profileData = {
       {
         id: "act-2",
         icon: "🎧",
-        iconBg: "bg-indigo-100 dark:bg-indigo-950/60",
-        iconColor: "text-indigo-600 dark:text-indigo-400",
+        iconBg: "bg-primary-soft",
+        iconColor: "text-primary-text",
         title: "Akun Premium Spotify Family (Bulan Ke-3)",
         date: "Selesai • 18 Sep 2026",
         amount: "Rp 16.000",
@@ -52,8 +52,8 @@ export const profileData = {
       {
         id: "act-3",
         icon: "☕",
-        iconBg: "bg-amber-100 dark:bg-amber-950/60",
-        iconColor: "text-amber-600 dark:text-amber-400",
+        iconBg: "bg-warning-soft",
+        iconColor: "text-warning-text",
         title: "Promo Beli 2 Gratis 1 Es Kopi Kantin",
         date: "Selesai • 10 Sep 2026",
         amount: "Rp 8.000",
@@ -62,8 +62,8 @@ export const profileData = {
       {
         id: "act-4",
         icon: "📚",
-        iconBg: "bg-blue-100 dark:bg-blue-950/60",
-        iconColor: "text-blue-600 dark:text-blue-400",
+        iconBg: "bg-primary-soft",
+        iconColor: "text-primary-text",
         title: "Print Buku Panduan Lab Informatika",
         date: "Selesai • 02 Sep 2026",
         amount: "Rp 15.000",

@@ -6,8 +6,8 @@ export default function ExploreFeed({ items }) {
     return (
       <div className="py-16 text-center" data-aos="fade-up">
         <div className="text-4xl mb-4">🔍</div>
-        <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{exploreData.emptyState.message}</h3>
-        <p className="text-sm text-slate-500 dark:text-slate-400">{exploreData.emptyState.subMessage}</p>
+        <h3 className="text-lg font-bold text-text-heading mb-2">{exploreData.emptyState.message}</h3>
+        <p className="text-sm text-text-muted">{exploreData.emptyState.subMessage}</p>
       </div>
     );
   }

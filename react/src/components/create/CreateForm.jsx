@@ -41,7 +41,7 @@ export default function CreateForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white dark:bg-slate-800 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-5">
+    <form onSubmit={handleSubmit} className="bg-bg-surface p-6 rounded-2xl border border-border-base shadow-sm space-y-5">
       <div>
         <label className="block text-sm font-medium mb-1">{createData.form.title.label}</label>
         <input 
@@ -51,7 +51,7 @@ export default function CreateForm() {
           placeholder={createData.form.title.placeholder}
           value={formData.title}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
         />
       </div>
 
@@ -62,7 +62,7 @@ export default function CreateForm() {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none"
+            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none"
           >
             {createData.form.category.options.map((opt, idx) => (
               <option key={idx} value={opt.value}>{opt.label}</option>
@@ -78,7 +78,7 @@ export default function CreateForm() {
             placeholder={createData.form.unit.placeholder}
             value={formData.unit}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
           />
         </div>
       </div>
@@ -93,7 +93,7 @@ export default function CreateForm() {
             placeholder={createData.form.targetQuota.placeholder}
             value={formData.targetQuota}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
           />
         </div>
         <div>
@@ -105,7 +105,7 @@ export default function CreateForm() {
             placeholder={createData.form.totalPrice.placeholder}
             value={formData.totalPrice}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
           />
         </div>
         <div>
@@ -117,12 +117,12 @@ export default function CreateForm() {
             placeholder={createData.form.currentQuota.placeholder}
             value={formData.currentQuota}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
           />
         </div>
       </div>
 
-      <div className="p-3 bg-blue-50 dark:bg-blue-950/50 rounded-xl border border-blue-200 dark:border-blue-900 text-xs text-blue-700 dark:text-blue-300">
+      <div className="p-3 bg-primary-soft rounded-xl border border-primary-soft text-xs text-primary-text">
         {createData.form.unitPricePreview.label} <span className="font-bold">{createData.form.unitPricePreview.prefix} {calculateUnitPrice().toLocaleString('id-ID')}</span>
       </div>
 
@@ -136,7 +136,7 @@ export default function CreateForm() {
             placeholder={createData.form.area.placeholder}
             value={formData.area}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
           />
         </div>
         <div>
@@ -147,7 +147,7 @@ export default function CreateForm() {
             required 
             value={formData.deadline}
             onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
           />
         </div>
       </div>
@@ -161,9 +161,9 @@ export default function CreateForm() {
           placeholder={createData.form.whatsapp.placeholder}
           value={formData.whatsapp}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
         />
-        <span className="text-xs text-slate-400">{createData.form.whatsapp.helpText}</span>
+        <span className="text-xs text-text-muted">{createData.form.whatsapp.helpText}</span>
       </div>
 
       <div>
@@ -174,7 +174,7 @@ export default function CreateForm() {
           placeholder={createData.form.notes.placeholder}
           value={formData.notes}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none"
+          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none"
         ></textarea>
       </div>
 
@@ -186,11 +186,11 @@ export default function CreateForm() {
           placeholder={createData.form.refLink.placeholder}
           value={formData.refLink}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 dark:bg-slate-700 focus:ring-2 ring-blue-500 outline-none" 
+          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
         />
       </div>
 
-      <button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 rounded-xl transition shadow-lg shadow-blue-500/20">
+      <button type="submit" className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
         {createData.form.submitButton}
       </button>
     </form>

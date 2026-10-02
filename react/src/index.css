@@ -7,6 +7,7 @@
   --color-bg-surface: var(--bg-surface);
   --color-bg-subtle: var(--bg-subtle);
   --color-bg-inverted: var(--bg-inverted);
+  --color-bg-glass: var(--bg-glass);
 
   /* --- TEXT TOKENS --- */
   --color-text-heading: var(--text-heading);
@@ -17,12 +18,16 @@
   /* --- BORDER TOKENS --- */
   --color-border-base: var(--border-base);
   --color-border-subtle: var(--border-subtle);
+  --color-border-hover: var(--border-hover);
+  --color-border-success-subtle: var(--border-success-subtle);
+  --color-border-warning-subtle: var(--border-warning-subtle);
 
   /* --- PRIMARY (BRAND) TOKENS --- */
   --color-primary-base: var(--primary-base);
   --color-primary-hover: var(--primary-hover);
   --color-primary-soft: var(--primary-soft);
   --color-primary-text: var(--primary-text);
+  --color-primary-ring: var(--primary-ring);
 
   /* --- SEMANTIC TOKENS --- */
   /* Success / Verified */
@@ -35,6 +40,8 @@
   --color-warning-text: var(--warning-text);
 
   /* Danger / Error */
+  --color-danger-base: var(--danger-base);
+  --color-danger-hover: var(--danger-hover);
   --color-danger-soft: var(--danger-soft);
   --color-danger-text: var(--danger-text);
 
@@ -50,6 +57,7 @@
     --bg-surface: #ffffff;
     --bg-subtle: var(--color-slate-100);
     --bg-inverted: var(--color-slate-900);
+    --bg-glass: rgba(255, 255, 255, 0.85);
 
     /* Text */
     --text-heading: var(--color-slate-900);
@@ -60,12 +68,16 @@
     /* Borders */
     --border-base: var(--color-slate-200);
     --border-subtle: var(--color-slate-100);
+    --border-hover: var(--color-slate-300);
+    --border-success-subtle: var(--color-emerald-200);
+    --border-warning-subtle: var(--color-amber-200);
 
     /* Primary (Blue) */
     --primary-base: var(--color-blue-600);
     --primary-hover: var(--color-blue-700);
     --primary-soft: var(--color-blue-100);
     --primary-text: var(--color-blue-600);
+    --primary-ring: var(--color-blue-500);
 
     /* Success (Emerald) */
     --success-base: var(--color-emerald-600);
@@ -77,6 +89,8 @@
     --warning-text: var(--color-amber-600);
 
     /* Danger (Rose) */
+    --danger-base: var(--color-rose-500);
+    --danger-hover: var(--color-rose-600);
     --danger-soft: var(--color-rose-50);
     --danger-text: var(--color-rose-600);
   }
@@ -85,37 +99,60 @@
     /* Backgrounds */
     --bg-base: var(--color-slate-900);
     --bg-surface: var(--color-slate-800);
-    --bg-subtle: var(--color-slate-700);
+    --bg-subtle: rgba(30, 41, 59, 0.5);
     --bg-inverted: var(--color-slate-50);
+    --bg-glass: rgba(15, 23, 42, 0.85);
 
     /* Text */
     --text-heading: #ffffff;
     --text-base: var(--color-slate-100);
     --text-muted: var(--color-slate-400);
-    --text-inverted: var(--color-slate-900);
+    --text-inverted: #ffffff;
 
     /* Borders */
     --border-base: var(--color-slate-700);
     --border-subtle: var(--color-slate-800);
+    --border-hover: var(--color-slate-600);
+    --border-success-subtle: rgba(6, 78, 59, 0.5);
+    /* emerald-900/50 */
+    --border-warning-subtle: rgba(120, 53, 15, 0.5);
+    /* amber-900/50 */
 
     /* Primary (Blue) */
     --primary-base: var(--color-blue-600);
     --primary-hover: var(--color-blue-500);
-    --primary-soft: var(--color-blue-950);
+    --primary-soft: rgba(23, 37, 84, 0.8);
+    /* blue-950/80 */
     --primary-text: var(--color-blue-400);
+    --primary-ring: var(--color-blue-500);
 
     /* Success (Emerald) */
     --success-base: var(--color-emerald-600);
-    --success-soft: var(--color-emerald-950);
+    --success-soft: rgba(2, 44, 34, 0.6);
+    /* emerald-950/60 */
     --success-text: var(--color-emerald-400);
 
     /* Warning (Amber) */
-    --warning-soft: var(--color-amber-950);
+    --warning-soft: rgba(69, 26, 3, 0.6);
+    /* amber-950/60 */
     --warning-text: var(--color-amber-400);
 
     /* Danger (Rose) */
-    --danger-soft: var(--color-rose-950);
+    --danger-base: var(--color-rose-500);
+    --danger-hover: var(--color-rose-600);
+    --danger-soft: rgba(76, 5, 25, 0.4);
+    /* rose-950/40 */
     --danger-text: var(--color-rose-400);
+  }
+}
+
+@layer utilities {
+  .bg-primary-gradient {
+    background-image: linear-gradient(to bottom right, var(--primary-base), var(--color-indigo-700));
+  }
+
+  .shadow-primary-glow {
+    box-shadow: 0 4px 14px 0 rgba(59, 130, 246, 0.25);
   }
 }
 

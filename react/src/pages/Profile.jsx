@@ -11,8 +11,8 @@ export default function Profile() {
       <main className="flex-grow max-w-3xl mx-auto px-4 sm:px-6 py-8 w-full flex flex-col items-center justify-center min-h-[60vh]">
         <div className="text-6xl mb-4">🔒</div>
         <h2 className="text-2xl font-bold mb-2">Belum Masuk</h2>
-        <p className="text-slate-500 text-center mb-6">Silakan login menggunakan SSO Kampus untuk melihat profil Anda.</p>
-        <button onClick={() => window.location.href = "/"} className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-blue-500/20">
+        <p className="text-text-muted text-center mb-6">Silakan login menggunakan SSO Kampus untuk melihat profil Anda.</p>
+        <button onClick={() => window.location.href = "/"} className="bg-primary-base hover:bg-primary-hover text-text-inverted px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-primary-glow">
           Kembali ke Beranda
         </button>
       </main>
