@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -12,12 +11,7 @@ export default function Header() {
   const currentPath = window.location.pathname;
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    // Scrolling logic removed as requested, navbar is permanently in compact state
   }, []);
 
   const toggleTheme = () => {
@@ -48,12 +42,12 @@ export default function Header() {
   return (
     <>
       <div
-        className={`sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 md:px-8 ${isScrolled ? 'pt-2' : 'pt-4 sm:pt-5'}`}
+        className="sticky top-0 z-50 w-full transition-all duration-300 px-4 sm:px-6 md:px-8 pt-2"
         id="header-wrapper"
       >
         <header
           id="main-header"
-          className={`${isScrolled ? 'max-w-4xl shadow-md h-14' : 'max-w-6xl h-16 shadow-sm'} mx-auto px-5 sm:px-8 flex items-center justify-between bg-bg-glass backdrop-blur-md border border-border-subtle rounded-2xl`}
+          className="max-w-4xl shadow-md h-14 mx-auto px-5 sm:px-8 flex items-center justify-between bg-bg-glass backdrop-blur-md border border-border-subtle rounded-2xl"
         >
           {/* Brand Logo */}
           <a href="/" className="flex items-center gap-2 font-extrabold text-lg sm:text-xl tracking-tight text-primary-text">
