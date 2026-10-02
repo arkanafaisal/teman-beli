@@ -40,10 +40,9 @@ export default function HistorySection() {
 
           <div className="md:col-span-2 bg-bg-surface p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-border-base shadow-sm">
             <div className="flex items-center justify-between mb-4 pb-2 border-b border-border-subtle">
-              <h3 className="font-bold text-xs sm:text-sm text-text-heading flex items-center gap-2">
-                <span>{historyMeta.listTitle}</span>
+              <h3 className="font-bold text-xs sm:text-sm text-text-heading">
+                {historyMeta.listTitle}
               </h3>
-              <span className="text-[10px] sm:text-xs px-2.5 py-1 bg-success-soft text-success-text font-semibold rounded-full">{historyMeta.listBadge}</span>
             </div>
 
             <div className="space-y-3">
@@ -52,22 +51,27 @@ export default function HistorySection() {
                 const persenItem = Math.round((hematItem / item.retailPrice) * 100);
 
                 return (
-                  <div key={item.id} className="group p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-bg-subtle border border-border-subtle hover:border-success-subtle transition">
-                    <div className="flex justify-between items-start gap-2">
-                      <div className="flex gap-2.5 sm:gap-3">
-                        <div className={`flex items-center justify-center shrink-0 mt-0.5 ${getCategoryColor(item.category).split(' ')[0]}`}>
-                          {getCategoryIcon(item.category, "w-5 h-5 sm:w-6 sm:h-6")}
+                  <div key={item.id} className="group p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl bg-bg-subtle border border-border-subtle hover:border-success-subtle transition">
+                    <div className="flex flex-col gap-2">
+                      {/* Title Row */}
+                      <div className="flex items-center gap-1.5 sm:gap-2">
+                        <div className={`shrink-0 ${getCategoryColor(item.category).split(' ')[0]}`}>
+                          {getCategoryIcon(item.category, "w-3.5 h-3.5 sm:w-4 sm:h-4")}
                         </div>
-                        <div>
-                          <h4 className="font-bold text-xs sm:text-sm text-text-heading line-clamp-1">{item.name}</h4>
-                          <p className="text-[10px] sm:text-xs text-text-muted mt-0.5">Patungan {item.portion} &bull; {item.date}</p>
-                        </div>
+                        <h4 className="font-bold text-xs sm:text-sm text-text-heading line-clamp-1">{item.name}</h4>
                       </div>
-                      <div className="text-right shrink-0">
-                        <p className="font-extrabold text-xs sm:text-sm text-success-text">+Rp {hematItem.toLocaleString("id-ID")}</p>
-                        <p className="text-[10px] font-semibold text-success-text bg-success-soft px-1.5 py-0.5 rounded flex inline-flex items-center gap-0.5 mt-1">
-                          Hemat {persenItem}%
+                      
+                      {/* Info & Price Row */}
+                      <div className="flex items-center justify-between">
+                        <p className="text-[10px] sm:text-xs text-text-muted">
+                          {item.portion} - {item.date}
                         </p>
+                        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                          <span className="font-extrabold text-[11px] sm:text-xs text-success-text">+Rp {hematItem.toLocaleString("id-ID")}</span>
+                          <span className="text-[9px] sm:text-[10px] font-bold text-text-inverted bg-success-base px-1.5 py-0.5 rounded">
+                            Hemat {persenItem}%
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
