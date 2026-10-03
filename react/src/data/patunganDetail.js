@@ -1,4 +1,4 @@
-export const detailData = {
+export const patunganDetailData = {
   header: {
     backButton: "← Kembali ke Beranda"
   },

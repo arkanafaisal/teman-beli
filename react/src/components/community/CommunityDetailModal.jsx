@@ -3,7 +3,7 @@ import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 import { MapPin, Heart, MessageCircle } from "lucide-react";
 import BottomModalWrapper from "../common/BottomModalWrapper";
 
-export default function CommunityModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
+export default function CommunityDetailModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
   if (!item) return null;
 
   return (

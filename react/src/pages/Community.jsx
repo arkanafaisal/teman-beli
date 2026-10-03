@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { communityData } from "../data/community";
-import ExploreHeader from "../components/explore/ExploreHeader";
-import ExploreFilter from "../components/explore/ExploreFilter";
+import PageHeader from "../components/common/PageHeader";
+import PageFilter from "../components/common/PageFilter";
 import CommunityCard from "../components/community/CommunityCard";
-import CommunityModal from "../components/community/CommunityModal";
+import CommunityDetailModal from "../components/community/CommunityDetailModal";
 import CenterModalWrapper from "../components/common/CenterModalWrapper";
-import CreateInfoForm from "../components/create/CreateInfoForm";
+import CommunityForm from "../components/community/CommunityForm";
 import { useAuth } from "../context/AuthContext";
 
 export default function Community() {
@@ -60,7 +60,7 @@ export default function Community() {
       return item;
     });
     setItems(newItems);
-    
+
     // Also update active item if open
     if (activeItem && activeItem.id === id) {
       if (!activeItem.isLiked) {
@@ -73,7 +73,7 @@ export default function Community() {
 
   const handleAddComment = (id) => {
     if (!commentText.trim()) return;
-    
+
     const newComment = {
       author: user.isLoggedIn ? user.name : "Guest",
       text: commentText,
@@ -86,7 +86,7 @@ export default function Community() {
       }
       return item;
     });
-    
+
     setItems(newItems);
     if (activeItem && activeItem.id === id) {
       setActiveItem({ ...activeItem, comments: [...activeItem.comments, newComment] });
@@ -96,7 +96,7 @@ export default function Community() {
 
   return (
     <main className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12 w-full">
-      <ExploreHeader 
+      <PageHeader
         title={communityData.header.title}
         subtitle={communityData.header.subtitle}
         buttonText={communityData.header.shareButton}
@@ -108,7 +108,7 @@ export default function Community() {
           }
         }}
       />
-      <ExploreFilter 
+      <PageFilter
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         activeCategory={activeFilter}
@@ -116,21 +116,21 @@ export default function Community() {
         filters={communityData.filters}
         searchPlaceholder="Cari info, tempat, promo..."
       />
-      
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5" id="info-cards-grid">
         {filteredItems.map((item, index) => (
-          <CommunityCard 
-            key={item.id} 
-            item={item} 
-            onClick={handleOpenModal} 
+          <CommunityCard
+            key={item.id}
+            item={item}
+            onClick={handleOpenModal}
             index={index}
           />
         ))}
       </div>
 
-      <CommunityModal 
-        item={activeItem} 
-        onClose={handleCloseModal} 
+      <CommunityDetailModal
+        item={activeItem}
+        onClose={handleCloseModal}
         onLike={handleLike}
         onAddComment={handleAddComment}
         commentText={commentText}
@@ -139,7 +139,7 @@ export default function Community() {
 
       {isCreateModalOpen && (
         <CenterModalWrapper title="Bagikan Info & Rekomendasi" onClose={() => setIsCreateModalOpen(false)}>
-          <CreateInfoForm onSuccess={() => setIsCreateModalOpen(false)} />
+          <CommunityForm onSuccess={() => setIsCreateModalOpen(false)} />
         </CenterModalWrapper>
       )}
     </main>

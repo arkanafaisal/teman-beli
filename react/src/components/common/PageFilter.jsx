@@ -1,7 +1,7 @@
 import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 import { Search } from "lucide-react";
 
-export default function ExploreFilter({ searchQuery, setSearchQuery, activeCategory, setActiveCategory, filters = [], searchPlaceholder = "Cari..." }) {
+export default function PageFilter({ searchQuery, setSearchQuery, activeCategory, setActiveCategory, filters = [], searchPlaceholder = "Cari..." }) {
   return (
     <div data-aos="fade-up" data-aos-delay="100" className="bg-bg-surface p-4 rounded-2xl border border-border-subtle shadow-sm mb-8 flex flex-col md:flex-row gap-2 justify-between items-center">
       {/* Input Search Bar */}

@@ -1,4 +1,4 @@
-export const createData = {
+export const patunganData = {
   header: {
     backButton: "← Batal & Kembali",
     title: "Buat Patungan Baru",

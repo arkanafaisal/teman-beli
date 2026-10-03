@@ -111,7 +111,7 @@ export const homeData = {
   footer: {
     copyright: "© 2026 TemanBeli. Built for Closed Campus Ecosystem.",
     links: [
-      { label: "Eksplor Feed", href: "/eksplor" },
+      { label: "Katalog Patungan", href: "/patungan" },
       { label: "Fitur", href: "#fitur" },
       { label: "FAQ", href: "#faq" }
     ]

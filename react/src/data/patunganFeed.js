@@ -1,4 +1,4 @@
-export const exploreData = {
+export const patunganFeedData = {
   header: {
     title: "Katalog Patungan Aktif",
     subtitle: "Cari penawaran barang grosir yang butuh partisipan di sekitarmu.",

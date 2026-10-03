@@ -1,4 +1,4 @@
-export default function ExploreHeader({ title, subtitle, buttonText, onButtonClick }) {
+export default function PageHeader({ title, subtitle, buttonText, onButtonClick }) {
   return (
     <div data-aos="fade-down" className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
       <div>

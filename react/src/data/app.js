@@ -7,7 +7,7 @@ export const appData = {
   header: {
     navLinks: [
       { label: "Beranda", path: "/" },
-      { label: "Eksplor", path: "/eksplor" },
+      { label: "Patungan", path: "/patungan" },
       { label: "Komunitas", path: "/komunitas" },
       { label: "Profil", path: "/profil" }
     ],

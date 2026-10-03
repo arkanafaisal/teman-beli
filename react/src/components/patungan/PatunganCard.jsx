@@ -1,7 +1,7 @@
-import { exploreData } from "../../data/explore";
+import { patunganFeedData } from "../../data/patunganFeed";
 import { MapPin } from "lucide-react";
 
-export default function FeedCard({ item, onClick, index = 0 }) {
+export default function PatunganCard({ item, onClick, index = 0 }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
 
   const getRelativeTime = (deadline) => {
@@ -45,7 +45,7 @@ export default function FeedCard({ item, onClick, index = 0 }) {
         {/* Progress Bar */}
         <div className="mb-4 sm:mb-5">
           <div className="flex justify-between text-[10px] sm:text-xs font-semibold mb-1.5 text-text-muted">
-            <span>{exploreData.card.collected} {item.currentQuota}/{item.targetQuota} {item.unit}</span>
+            <span>{patunganFeedData.card.collected} {item.currentQuota}/{item.targetQuota} {item.unit}</span>
             <span className="text-primary-text">{percent}%</span>
           </div>
           <div className="w-full bg-bg-subtle h-2 sm:h-2.5 rounded-full overflow-hidden">
@@ -59,14 +59,14 @@ export default function FeedCard({ item, onClick, index = 0 }) {
         {/* Price & Action */}
         <div className="flex items-end justify-between pt-4 border-t border-border-subtle">
           <div>
-            <p className="text-[10px] sm:text-xs text-text-muted mb-0.5">{exploreData.card.estimatedPortion}</p>
+            <p className="text-[10px] sm:text-xs text-text-muted mb-0.5">{patunganFeedData.card.estimatedPortion}</p>
             <p className="font-black text-text-heading text-sm sm:text-base">
               Rp {item.unitPrice.toLocaleString("id-ID")}
               <span className="text-[10px] sm:text-xs text-text-muted font-normal">/{item.unit}</span>
             </p>
           </div>
           <span className="text-primary-text font-bold text-xs sm:text-sm group-hover:translate-x-1 transition-transform">
-            {exploreData.card.detailButton}
+            {patunganFeedData.card.detailButton}
           </span>
         </div>
       </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { communityData } from "../../data/community";
 
-export default function CreateInfoForm({ onSuccess }) {
+export default function InfoForm({ onSuccess }) {
   const { user } = useAuth();
   
   const [formData, setFormData] = useState({

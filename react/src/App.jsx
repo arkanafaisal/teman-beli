@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
-import Explore from "./pages/Explore";
-import Detail from "./pages/Detail";
-import Create from "./pages/Create";
+import Patungan from "./pages/Patungan";
 import Community from "./pages/Community";
 import Profile from "./pages/Profile";
 import History from "./pages/History";
@@ -30,12 +28,8 @@ function App() {
   }, []);
 
   let PageComponent = Home;
-  if (currentPath === "/eksplor" || currentPath === "/eksplor.html") {
-    PageComponent = Explore;
-  } else if (currentPath.startsWith("/detail")) {
-    PageComponent = Detail;
-  } else if (currentPath.startsWith("/create") || currentPath === "/create.html") {
-    PageComponent = Create;
+  if (currentPath === "/patungan" || currentPath === "/eksplor" || currentPath === "/eksplor.html") {
+    PageComponent = Patungan;
   } else if (currentPath === "/komunitas" || currentPath === "/infokomun.html") {
     PageComponent = Community;
   } else if (currentPath === "/profil" || currentPath === "/profil.html") {
@@ -44,7 +38,7 @@ function App() {
     PageComponent = History;
   }
 
-  const isPlainLayout = currentPath.startsWith("/detail") || currentPath.startsWith("/create");
+  const isPlainLayout = false;
 
   return (
     <div className="bg-bg-base text-text-base min-h-screen font-sans transition-colors duration-300 selection:bg-primary-base selection:text-text-inverted">

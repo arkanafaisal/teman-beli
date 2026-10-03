@@ -21,7 +21,7 @@ export default function HeroSection() {
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 max-w-md mx-auto w-full px-2 sm:px-0">
           <a
-            href="/eksplor"
+            href="/patungan"
             className="w-full sm:w-auto bg-primary-base hover:bg-primary-hover active:bg-primary-hover text-text-inverted font-semibold px-7 py-3.5 rounded-2xl shadow-lg shadow-primary-glow transition flex items-center justify-center gap-2 group active:scale-95"
           >
             <span>{homeData.hero.primaryButton}</span>
