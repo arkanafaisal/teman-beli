@@ -5,11 +5,11 @@ export const createData = {
   },
   form: {
     title: {
-      label: "Nama Barang / Pengumuman *",
+      label: "Nama Barang / Pengumuman",
       placeholder: "Kertas HVS A4 80gsm 1 Rim"
     },
     category: {
-      label: "Kategori *",
+      label: "Kategori",
       options: [
         { value: "Alat Tulis & Cetak", label: "Alat Tulis & Cetak" },
         { value: "Bahan Praktikum", label: "Bahan Praktikum" },
@@ -19,19 +19,19 @@ export const createData = {
       ]
     },
     unit: {
-      label: "Satuan Barang *",
+      label: "Satuan Barang",
       placeholder: "rim"
     },
     targetQuota: {
-      label: "Total Target Buy *",
+      label: "Total Kebutuhan Kuota",
       placeholder: "500"
     },
     totalPrice: {
-      label: "Total Harga (Rp) *",
+      label: "Total Harga (Rp)",
       placeholder: "50000"
     },
     currentQuota: {
-      label: "Porsi Kamu (Awal) *",
+      label: "Porsi Kamu (Awal)",
       placeholder: "100"
     },
     unitPricePreview: {
@@ -39,14 +39,14 @@ export const createData = {
       prefix: "Rp"
     },
     area: {
-      label: "Estimasi Titik Kumpul *",
+      label: "Estimasi Titik Kumpul",
       placeholder: "Kantin FITDS UNS"
     },
     deadline: {
-      label: "Batas Waktu (Deadline) *"
+      label: "Batas Waktu (Deadline)"
     },
     whatsapp: {
-      label: "Nomor WhatsApp (Aktif) *",
+      label: "Nomor WhatsApp (Aktif)",
       placeholder: "6281234567890",
       helpText: "Format menggunakan kode negara 62..."
     },
