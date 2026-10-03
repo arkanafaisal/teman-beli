@@ -102,7 +102,7 @@ export default function Community() {
         buttonText={communityData.header.shareButton}
         onButtonClick={() => {
           if (!user?.isLoggedIn) {
-            alert("Silakan masuk terlebih dahulu untuk membagikan rekomendasi.");
+            alert(communityData.alerts.loginRequired);
           } else {
             setIsCreateModalOpen(true);
           }
@@ -114,7 +114,7 @@ export default function Community() {
         activeCategory={activeFilter}
         setActiveCategory={setActiveFilter}
         filters={communityData.filters}
-        searchPlaceholder="Cari info, tempat, promo..."
+        searchPlaceholder={communityData.search.placeholder}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5" id="info-cards-grid">
@@ -138,7 +138,7 @@ export default function Community() {
       />
 
       {isCreateModalOpen && (
-        <CenterModalWrapper title="Bagikan Info & Rekomendasi" onClose={() => setIsCreateModalOpen(false)}>
+        <CenterModalWrapper title={communityData.form.modalTitle} onClose={() => setIsCreateModalOpen(false)}>
           <CommunityForm onSuccess={() => setIsCreateModalOpen(false)} />
         </CenterModalWrapper>
       )}

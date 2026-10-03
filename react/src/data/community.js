@@ -4,6 +4,9 @@ export const communityData = {
     subtitle: "Rekomendasi tempat makan murah, laundry, toko cetak, dan promo kantong mahasiswa.",
     shareButton: "+ Bagikan Rekomendasi"
   },
+  search: {
+    placeholder: "Cari info, tempat, promo..."
+  },
   filters: [
     { value: "all", label: "Semua", icon: "" },
     { value: "kuliner", label: "Kuliner Hemat", icon: "🍛" },
@@ -18,6 +21,7 @@ export const communityData = {
     emptyComments: "Belum ada komentar. Jadi yang pertama menanggapi!"
   },
   form: {
+    modalTitle: "Bagikan Info & Rekomendasi",
     title: {
       label: "Judul Tempat / Promo",
       placeholder: "Warung Makan Bu Tini"
