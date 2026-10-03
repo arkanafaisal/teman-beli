@@ -6,6 +6,8 @@ import ExploreHeader from "../components/explore/ExploreHeader";
 import ExploreFilter from "../components/explore/ExploreFilter";
 import CommunityCard from "../components/community/CommunityCard";
 import CommunityModal from "../components/community/CommunityModal";
+import CenterModalWrapper from "../components/common/CenterModalWrapper";
+import CreateInfoForm from "../components/create/CreateInfoForm";
 import { useAuth } from "../context/AuthContext";
 
 export default function Community() {
@@ -15,6 +17,7 @@ export default function Community() {
   const [items, setItems] = useState(communityData.mockInfoData);
   const [activeItem, setActiveItem] = useState(null);
   const [commentText, setCommentText] = useState("");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   useEffect(() => {
     AOS.init({
@@ -97,7 +100,13 @@ export default function Community() {
         title={communityData.header.title}
         subtitle={communityData.header.subtitle}
         buttonText={communityData.header.shareButton}
-        onButtonClick={() => alert("Fitur Bagikan Rekomendasi dalam pengembangan!")}
+        onButtonClick={() => {
+          if (!user?.isLoggedIn) {
+            alert("Silakan masuk terlebih dahulu untuk membagikan rekomendasi.");
+          } else {
+            setIsCreateModalOpen(true);
+          }
+        }}
       />
       <ExploreFilter 
         searchQuery={searchQuery}
@@ -127,6 +136,12 @@ export default function Community() {
         commentText={commentText}
         setCommentText={setCommentText}
       />
+
+      {isCreateModalOpen && (
+        <CenterModalWrapper title="Bagikan Info & Rekomendasi" onClose={() => setIsCreateModalOpen(false)}>
+          <CreateInfoForm onSuccess={() => setIsCreateModalOpen(false)} />
+        </CenterModalWrapper>
+      )}
     </main>
   );
 }

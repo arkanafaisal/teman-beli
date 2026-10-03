@@ -7,18 +7,21 @@ import ExploreHeader from "../components/explore/ExploreHeader";
 import ExploreFilter from "../components/explore/ExploreFilter";
 import ExploreFeed from "../components/explore/ExploreFeed";
 import DetailModal from "../components/detail/DetailModal";
+import CenterModalWrapper from "../components/common/CenterModalWrapper";
+import CreateForm from "../components/create/CreateForm";
 
 export default function Explore() {
   const { user } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedItem, setSelectedItem] = useState(null);
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const handleCreate = () => {
     if (!user?.isLoggedIn) {
       alert(exploreData.alerts.loginRequired);
     } else {
-      window.location.href = "/create";
+      setIsCreateModalOpen(true);
     }
   };
 
@@ -59,6 +62,11 @@ export default function Explore() {
       <ExploreFeed items={filteredItems} onItemClick={setSelectedItem} />
       {selectedItem && (
         <DetailModal item={selectedItem} onClose={() => setSelectedItem(null)} />
+      )}
+      {isCreateModalOpen && (
+        <CenterModalWrapper title="Buat Patungan Baru" onClose={() => setIsCreateModalOpen(false)}>
+          <CreateForm onSuccess={() => setIsCreateModalOpen(false)} />
+        </CenterModalWrapper>
       )}
     </main>
   );

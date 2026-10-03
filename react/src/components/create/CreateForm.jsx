@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createData } from "../../data/create";
 import { useAuth } from "../../context/AuthContext";
 
-export default function CreateForm() {
+export default function CreateForm({ onSuccess }) {
   const { user } = useAuth();
   
   const [formData, setFormData] = useState({
@@ -37,11 +37,15 @@ export default function CreateForm() {
       return;
     }
     alert(createData.alerts.successMessage);
-    window.location.href = "/";
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      window.location.href = "/";
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-bg-surface p-6 rounded-2xl border border-border-base shadow-sm space-y-5">
+    <form onSubmit={handleSubmit} className="space-y-5">
       <div>
         <label className="block text-sm font-medium mb-1">{createData.form.title.label}</label>
         <input 
