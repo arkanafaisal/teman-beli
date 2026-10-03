@@ -4,6 +4,7 @@ import { communityData } from "../../data/community";
 import FormInput from "../common/FormInput";
 import { communitySchema } from "../../validations/communityFormValidation";
 import { toast } from "sonner";
+import { api } from "../../services/api";
 
 export default function CommunityForm({ onSuccess }) {
   const { user } = useAuth();
@@ -25,7 +26,7 @@ export default function CommunityForm({ onSuccess }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user.isLoggedIn) {
       toast.error(communityData.alerts.loginRequired);
@@ -42,9 +43,16 @@ export default function CommunityForm({ onSuccess }) {
       return;
     }
 
-    toast.success(communityData.alerts.successMessage);
-    if (onSuccess) {
-      onSuccess();
+    // --- PANGGIL API BACKEND ---
+    const res = await api.community.create(formData);
+    
+    if (res.success) {
+      toast.success(res.message || communityData.alerts.successMessage);
+      if (onSuccess) {
+        onSuccess();
+      }
+    } else {
+      toast.error(res.message || "Gagal membuat komunitas.");
     }
   };
 

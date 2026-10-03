@@ -4,7 +4,16 @@ import ProfileHistory from "../components/profile/ProfileHistory";
 import { useAuth } from "../context/AuthContext";
 
 export default function Profile() {
-  const { user } = useAuth();
+  const { user, isInitializing } = useAuth();
+
+  if (isInitializing) {
+    return (
+      <main className="flex-grow flex flex-col items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary-base border-r-4 border-r-transparent mb-4"></div>
+        <p className="text-text-muted font-medium text-sm">Memuat profil...</p>
+      </main>
+    );
+  }
 
   if (!user.isLoggedIn) {
     return (

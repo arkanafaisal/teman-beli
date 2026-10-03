@@ -5,10 +5,19 @@ import HistoryCard from "../components/history/HistoryCard";
 import { useAuth } from "../context/AuthContext";
 
 export default function History() {
-  const { user } = useAuth();
+  const { user, isInitializing } = useAuth();
   const [showAll, setShowAll] = useState(false);
   const data = historyData.mockHistoryData;
   const displayedData = showAll ? data : data.slice(0, 3);
+
+  if (isInitializing) {
+    return (
+      <main className="flex-grow flex flex-col items-center justify-center min-h-[60vh]">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-primary-base border-r-4 border-r-transparent mb-4"></div>
+        <p className="text-text-muted font-medium text-sm">Memuat riwayat...</p>
+      </main>
+    );
+  }
 
   if (!user.isLoggedIn) {
     return (

@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import FormInput from "../common/FormInput";
 import { patunganSchema } from "../../validations/patunganFormValidation";
 import { toast } from "sonner";
+import { api } from "../../services/api";
 
 export default function PatunganForm({ onSuccess }) {
   const { user } = useAuth();
@@ -38,7 +39,7 @@ export default function PatunganForm({ onSuccess }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!user.isLoggedIn) {
       toast.error(patunganData.alerts.loginRequired);
@@ -55,11 +56,18 @@ export default function PatunganForm({ onSuccess }) {
       return;
     }
 
-    toast.success(patunganData.alerts.successMessage);
-    if (onSuccess) {
-      onSuccess();
+    // --- PANGGIL API BACKEND ---
+    const res = await api.patungan.create(formData);
+    
+    if (res.success) {
+      toast.success(res.message || patunganData.alerts.successMessage);
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        window.location.href = "/";
+      }
     } else {
-      window.location.href = "/";
+      toast.error(res.message || "Gagal membuat patungan.");
     }
   };
 

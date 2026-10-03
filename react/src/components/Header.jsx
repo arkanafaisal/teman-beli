@@ -6,6 +6,7 @@ import LogoIcon from "./LogoIcon";
 import Badge from "./Badge";
 import { toast } from "sonner";
 import ActionModal from "./common/ActionModal";
+import { api } from "../services/api";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -21,10 +22,17 @@ export default function Header() {
     setIsLoginModalOpen(true);
   };
 
-  const executeLogin = () => {
-    login();
-    setIsLoginModalOpen(false);
-    toast.success("Login Berhasil! Domain email kampus terverifikasi.");
+  const executeLogin = async () => {
+    // Memanggil endpoint login backend
+    const res = await api.auth.login({ provider: "google" });
+    if (res.success) {
+      login(res.payload.user);
+      setIsLoginModalOpen(false);
+      toast.success(res.message || "Login Berhasil! Domain email kampus terverifikasi.");
+    } else {
+      setIsLoginModalOpen(false);
+      toast.error(res.message || "Login Gagal: Otentikasi dibatalkan atau email salah.");
+    }
   };
 
   const cancelLogin = () => {
@@ -32,7 +40,9 @@ export default function Header() {
     toast.error("Login Gagal: Otentikasi dibatalkan atau email salah.");
   };
 
-  const executeLogout = () => {
+  const executeLogout = async () => {
+    // Memanggil endpoint logout backend
+    await api.auth.logout();
     logout();
     toast.info("Anda telah keluar dari sesi.");
   }

@@ -1,30 +1,35 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { api } from '../services/api';
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('TB_USER');
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch (e) {
-        return { isLoggedIn: false, name: '' };
-      }
-    }
-    return { isLoggedIn: false, name: '' };
-  });
+  const [user, setUser] = useState({ isLoggedIn: false, name: '' });
+  const [isInitializing, setIsInitializing] = useState(true);
 
+  // Cek sesi otomatis saat pertama kali aplikasi dimuat (mengandalkan cookies)
   useEffect(() => {
-    localStorage.setItem('TB_USER', JSON.stringify(user));
-  }, [user]);
+    const checkSession = async () => {
+      const res = await api.user.getProfile();
+      if (res.success && res.payload) {
+        setUser({
+          isLoggedIn: true,
+          isVerified: res.payload.verified || true,
+          name: res.payload.name || "Mahasiswa Verified",
+          email: res.payload.email || "mhs@student.uns.ac.id",
+        });
+      }
+      setIsInitializing(false);
+    };
+    checkSession();
+  }, []);
 
-  const login = () => {
+  const login = (userData) => {
     setUser({
       isLoggedIn: true,
-      isVerified: true,
-      name: "Mahasiswa Verified",
-      email: "mhs@student.uns.ac.id",
+      isVerified: userData.verified || true,
+      name: userData.name || "Mahasiswa Verified",
+      email: userData.email || "mhs@student.uns.ac.id",
     });
   };
 
@@ -33,7 +38,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, isInitializing }}>
       {children}
     </AuthContext.Provider>
   );
