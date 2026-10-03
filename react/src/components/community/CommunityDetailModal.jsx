@@ -2,9 +2,23 @@ import { communityData } from "../../data/community";
 import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 import { MapPin, Heart, MessageCircle } from "lucide-react";
 import BottomModalWrapper from "../common/BottomModalWrapper";
+import { commentSchema } from "../../validations/commentValidation";
+import { useState } from "react";
 
 export default function CommunityDetailModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
+  const [error, setError] = useState("");
+
   if (!item) return null;
+
+  const handleCommentSubmit = () => {
+    const result = commentSchema.safeParse({ text: commentText });
+    if (!result.success) {
+      setError(result.error.issues[0].message);
+      return;
+    }
+    onAddComment(item.id);
+    setError("");
+  };
 
   return (
     <BottomModalWrapper onClose={onClose}>
@@ -53,17 +67,25 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
             <span className="text-[10px] px-2 py-0.5 bg-primary-soft text-primary-text rounded-full font-extrabold">{item.comments.length}</span>
           </h3>
 
-          <div className="flex gap-2 mb-4">
-            <input
-              type="text"
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
-              placeholder={communityData.modal.commentInputPlaceholder}
-              className="flex-grow text-xs px-3.5 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle text-text-base outline-none focus:ring-2 focus:ring-primary-base"
-            />
-            <button onClick={() => onAddComment(item.id)} className="bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold text-xs px-4 py-2.5 rounded-xl transition active:scale-95">
-              {communityData.modal.commentSubmitButton}
-            </button>
+          <div className="flex flex-col gap-1.5 mb-4">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                value={commentText}
+                onChange={(e) => {
+                  setCommentText(e.target.value);
+                  if (error) setError("");
+                }}
+                placeholder={communityData.modal.commentInputPlaceholder}
+                className={`flex-grow text-xs px-3.5 py-2.5 rounded-xl border dark:bg-bg-subtle text-text-base outline-none focus:ring-2 transition-colors ${
+                  error ? "border-danger-base focus:ring-danger-base" : "border-border-base focus:ring-primary-base"
+                }`}
+              />
+              <button onClick={handleCommentSubmit} className="bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold text-xs px-4 py-2.5 rounded-xl transition active:scale-95">
+                {communityData.modal.commentSubmitButton}
+              </button>
+            </div>
+            {error && <span className="text-[10px] text-danger-base font-medium px-2">{error}</span>}
           </div>
 
           <div className="space-y-2.5 max-h-48 overflow-y-auto pr-1 no-scrollbar">

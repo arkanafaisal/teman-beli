@@ -4,6 +4,7 @@ import BottomModalWrapper from "../common/BottomModalWrapper";
 import { patunganData } from "../../data/patungan";
 import { MapPin, Link as LinkIcon, MessageCircle, Lock } from "lucide-react";
 import { getRelativeTime } from "../../utils/dateHelper";
+import { commentSchema } from "../../validations/commentValidation";
 
 
 export default function PatunganDetailModal({ item, onClose }) {
@@ -134,11 +135,18 @@ function PatunganDetail({ item, isLoggedIn, onLogin }) {
 
 function PatunganReplies({ replies, isLoggedIn, onAddReply }) {
   const [replyText, setReplyText] = useState("");
+  const [error, setError] = useState("");
 
   const handleAdd = () => {
-    if (!replyText.trim()) return;
+    const result = commentSchema.safeParse({ text: replyText });
+    if (!result.success) {
+      setError(result.error.issues[0].message);
+      return;
+    }
+    
     onAddReply(replyText);
     setReplyText("");
+    setError("");
   };
 
   return (
@@ -161,15 +169,23 @@ function PatunganReplies({ replies, isLoggedIn, onAddReply }) {
       </div>
 
       {isLoggedIn && (
-        <div className="pt-3 border-t border-border-subtle flex gap-2">
-          <input
-            type="text"
-            value={replyText}
-            onChange={(e) => setReplyText(e.target.value)}
-            placeholder={patunganData.detail.replies.inputPlaceholder}
-            className="flex-1 px-3 py-2 text-xs rounded-lg border border-border-base dark:bg-bg-subtle focus:outline-none"
-          />
-          <button onClick={handleAdd} className="bg-primary-base text-text-inverted text-xs px-4 py-2 rounded-lg font-medium">{patunganData.detail.replies.sendButton}</button>
+        <div className="pt-3 border-t border-border-subtle flex flex-col gap-2">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={replyText}
+              onChange={(e) => {
+                setReplyText(e.target.value);
+                if (error) setError("");
+              }}
+              placeholder={patunganData.detail.replies.inputPlaceholder}
+              className={`flex-1 px-3 py-2 text-xs rounded-lg border dark:bg-bg-subtle focus:outline-none transition-colors ${
+                error ? "border-danger-base focus:border-danger-base" : "border-border-base focus:border-primary-base"
+              }`}
+            />
+            <button onClick={handleAdd} className="bg-primary-base text-text-inverted text-xs px-4 py-2 rounded-lg font-medium">{patunganData.detail.replies.sendButton}</button>
+          </div>
+          {error && <span className="text-[10px] text-danger-base font-medium px-1">{error}</span>}
         </div>
       )}
     </div>

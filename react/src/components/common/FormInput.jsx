@@ -9,9 +9,12 @@ export default function FormInput({
   options = null,
   maxLength,
   rows,
-  helpText
+  helpText,
+  error
 }) {
-  const baseClasses = "w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none";
+  const baseClasses = `w-full px-4 py-2.5 rounded-xl border dark:bg-bg-subtle focus:ring-2 outline-none transition-colors ${
+    error ? "border-danger-base focus:ring-danger-base" : "border-border-base focus:ring-primary-base"
+  }`;
 
   return (
     <div>
@@ -51,7 +54,8 @@ export default function FormInput({
           className={baseClasses}
         />
       )}
-      {helpText && <span className="text-xs text-text-muted">{helpText}</span>}
+      {error && <span className="text-xs text-danger-base mt-1.5 block font-medium">{error}</span>}
+      {helpText && !error && <span className="text-xs text-text-muted mt-1.5 block">{helpText}</span>}
     </div>
   );
 }

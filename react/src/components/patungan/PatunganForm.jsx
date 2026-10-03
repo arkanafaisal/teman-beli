@@ -2,6 +2,7 @@ import { useState } from "react";
 import { patunganData } from "../../data/patungan";
 import { useAuth } from "../../context/AuthContext";
 import FormInput from "../common/FormInput";
+import { patunganSchema } from "../../validations/patunganFormValidation";
 
 export default function PatunganForm({ onSuccess }) {
   const { user } = useAuth();
@@ -19,6 +20,7 @@ export default function PatunganForm({ onSuccess }) {
     notes: "",
     refLink: ""
   });
+  const [errors, setErrors] = useState({});
 
   const calculateUnitPrice = () => {
     const target = parseFloat(formData.targetQuota) || 0;
@@ -29,6 +31,10 @@ export default function PatunganForm({ onSuccess }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user types
+    if (errors[name]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -37,6 +43,17 @@ export default function PatunganForm({ onSuccess }) {
       alert(patunganData.alerts.loginRequired);
       return;
     }
+
+    const result = patunganSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors = {};
+      result.error.issues.forEach(err => {
+        if (err.path[0]) fieldErrors[err.path[0]] = err.message;
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
     alert(patunganData.alerts.successMessage);
     if (onSuccess) {
       onSuccess();
@@ -46,7 +63,7 @@ export default function PatunganForm({ onSuccess }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <FormInput
         label={patunganData.form.title.label}
         name="title"
@@ -54,6 +71,7 @@ export default function PatunganForm({ onSuccess }) {
         placeholder={patunganData.form.title.placeholder}
         value={formData.title}
         onChange={handleChange}
+        error={errors.title}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -64,6 +82,7 @@ export default function PatunganForm({ onSuccess }) {
           value={formData.category}
           onChange={handleChange}
           options={patunganData.form.category.options}
+          error={errors.category}
         />
         <FormInput
           label={patunganData.form.unit.label}
@@ -72,6 +91,7 @@ export default function PatunganForm({ onSuccess }) {
           placeholder={patunganData.form.unit.placeholder}
           value={formData.unit}
           onChange={handleChange}
+          error={errors.unit}
         />
       </div>
 
@@ -84,6 +104,7 @@ export default function PatunganForm({ onSuccess }) {
           placeholder={patunganData.form.targetQuota.placeholder}
           value={formData.targetQuota}
           onChange={handleChange}
+          error={errors.targetQuota}
         />
         <FormInput
           type="number"
@@ -93,6 +114,7 @@ export default function PatunganForm({ onSuccess }) {
           placeholder={patunganData.form.totalPrice.placeholder}
           value={formData.totalPrice}
           onChange={handleChange}
+          error={errors.totalPrice}
         />
         <FormInput
           type="number"
@@ -102,6 +124,7 @@ export default function PatunganForm({ onSuccess }) {
           placeholder={patunganData.form.currentQuota.placeholder}
           value={formData.currentQuota}
           onChange={handleChange}
+          error={errors.currentQuota}
         />
       </div>
 
@@ -117,6 +140,7 @@ export default function PatunganForm({ onSuccess }) {
           placeholder={patunganData.form.area.placeholder}
           value={formData.area}
           onChange={handleChange}
+          error={errors.area}
         />
         <FormInput
           type="date"
@@ -125,6 +149,7 @@ export default function PatunganForm({ onSuccess }) {
           required
           value={formData.deadline}
           onChange={handleChange}
+          error={errors.deadline}
         />
       </div>
 
@@ -136,6 +161,7 @@ export default function PatunganForm({ onSuccess }) {
         value={formData.whatsapp}
         onChange={handleChange}
         helpText={patunganData.form.whatsapp.helpText}
+        error={errors.whatsapp}
       />
 
       <FormInput
@@ -146,6 +172,7 @@ export default function PatunganForm({ onSuccess }) {
         placeholder={patunganData.form.notes.placeholder}
         value={formData.notes}
         onChange={handleChange}
+        error={errors.notes}
       />
 
       <FormInput
@@ -155,6 +182,7 @@ export default function PatunganForm({ onSuccess }) {
         placeholder={patunganData.form.refLink.placeholder}
         value={formData.refLink}
         onChange={handleChange}
+        error={errors.refLink}
       />
 
       <button type="submit" className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
