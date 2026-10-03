@@ -1,0 +1,69 @@
+import { baseFetch } from "./baseFetch";
+import { getApiMessage } from "./messageMapper";
+
+/**
+ * Helper internal untuk mengeksekusi fetch dan menempelkan message yang sesuai
+ */
+const callApi = async (path, method = "GET", body = null) => {
+  const result = await baseFetch(path, method, body);
+  
+  if (!result.success && !result.message) {
+    result.message = getApiMessage(path, result.code, method);
+  }
+  
+  // Opsional: jika sukses pun mau dipasangkan fallback message
+  if (result.success && !result.message) {
+    result.message = getApiMessage(path, result.code, method); 
+  }
+
+  return result;
+};
+
+/**
+ * API MAPPING & NAMESPACE
+ * Digunakan oleh komponen front-end untuk interaksi backend secara semantik.
+ */
+export const api = {
+  auth: {
+    login: (payload) => callApi("/auth/login", "POST", payload),
+    logout: () => callApi("/auth/logout", "POST"),
+    refresh: () => callApi("/auth/refresh", "POST"),
+  },
+  user: {
+    getProfile: () => callApi("/users/profile", "GET"),
+    updateProfile: (payload) => callApi("/users/profile", "PUT", payload),
+    getReviews: () => callApi("/users/reviews", "GET"),
+    getActivity: () => callApi("/users/activity", "GET"),
+  },
+  patungan: {
+    // Parameter query string bisa dilempar sebagai params nantinya
+    getAll: () => callApi("/patungan", "GET"), 
+    getDetail: (id) => callApi(`/patungan/${id}`, "GET"),
+    create: (payload) => callApi("/patungan", "POST", payload),
+    join: (id) => callApi(`/patungan/${id}/join`, "POST"),
+    leave: (id) => callApi(`/patungan/${id}/leave`, "POST"),
+    delete: (id) => callApi(`/patungan/${id}`, "DELETE"),
+    updateStatus: (id, payload) => callApi(`/patungan/${id}/status`, "PATCH", payload),
+  },
+  community: {
+    getAll: () => callApi("/community", "GET"),
+    getDetail: (id) => callApi(`/community/${id}`, "GET"),
+    create: (payload) => callApi("/community", "POST", payload),
+    join: (id) => callApi(`/community/${id}/join`, "POST"),
+    leave: (id) => callApi(`/community/${id}/leave`, "POST"),
+    delete: (id) => callApi(`/community/${id}`, "DELETE"),
+  },
+  history: {
+    getAll: (params) => callApi("/history", "GET"),
+    getSummary: () => callApi("/history/summary", "GET"),
+  },
+  public: {
+    getStats: () => callApi("/public/stats", "GET"),
+  },
+  comments: {
+    getForPatungan: (patunganId) => callApi(`/patungan/${patunganId}/comments`, "GET"),
+    postForPatungan: (patunganId, payload) => callApi(`/patungan/${patunganId}/comments`, "POST", payload),
+    getForCommunity: (communityId) => callApi(`/community/${communityId}/comments`, "GET"),
+    postForCommunity: (communityId, payload) => callApi(`/community/${communityId}/comments`, "POST", payload),
+  }
+};
