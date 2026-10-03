@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { communityData } from "../../data/community";
 
 export default function CreateInfoForm({ onSuccess }) {
   const { user } = useAuth();
@@ -20,10 +21,10 @@ export default function CreateInfoForm({ onSuccess }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user.isLoggedIn) {
-      alert("Silakan masuk terlebih dahulu untuk membagikan informasi.");
+      alert(communityData.alerts.loginRequired);
       return;
     }
-    alert("Informasi berhasil ditambahkan!");
+    alert(communityData.alerts.successMessage);
     if (onSuccess) {
       onSuccess();
     }
@@ -32,12 +33,12 @@ export default function CreateInfoForm({ onSuccess }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label className="block text-sm font-medium mb-1">Judul Tempat / Promo</label>
+        <label className="block text-sm font-medium mb-1">{communityData.form.title.label}</label>
         <input 
           type="text" 
           name="judul"
           required 
-          placeholder="Warung Makan Bu Tini"
+          placeholder={communityData.form.title.placeholder}
           value={formData.judul}
           onChange={handleChange}
           className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
@@ -46,26 +47,25 @@ export default function CreateInfoForm({ onSuccess }) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium mb-1">Kategori</label>
+          <label className="block text-sm font-medium mb-1">{communityData.form.category.label}</label>
           <select 
             name="kategoriKey"
             value={formData.kategoriKey}
             onChange={handleChange}
             className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none"
           >
-            <option value="kuliner">Kuliner Hemat</option>
-            <option value="cetak">Cetak & Banner</option>
-            <option value="laundry">Laundry & Kost</option>
-            <option value="promo">Promo KTM Kampus</option>
+            {communityData.form.category.options.map(opt => (
+              <option key={opt.value} value={opt.value}>{opt.label}</option>
+            ))}
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-1">Lokasi</label>
+          <label className="block text-sm font-medium mb-1">{communityData.form.location.label}</label>
           <input 
             type="text" 
             name="lokasi"
             required 
-            placeholder="Depan Gerbang Utama"
+            placeholder={communityData.form.location.placeholder}
             value={formData.lokasi}
             onChange={handleChange}
             className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
@@ -74,12 +74,12 @@ export default function CreateInfoForm({ onSuccess }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Ringkasan Info Singkat</label>
+        <label className="block text-sm font-medium mb-1">{communityData.form.summary.label}</label>
         <input 
           type="text" 
           name="ringkasan"
           required 
-          placeholder="Nasi + sayur sepuasnya cuma Rp 8.000!"
+          placeholder={communityData.form.summary.placeholder}
           maxLength="50"
           value={formData.ringkasan}
           onChange={handleChange}
@@ -88,12 +88,12 @@ export default function CreateInfoForm({ onSuccess }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Deskripsi Lengkap & Review</label>
+        <label className="block text-sm font-medium mb-1">{communityData.form.description.label}</label>
         <textarea 
           name="deskripsiLengkap"
           rows="4" 
           required
-          placeholder="Warung ini cocok banget buat akhir bulan, harga murah meriah dan rasa memuaskan. Es teh gratis kalau tunjukin KTM."
+          placeholder={communityData.form.description.placeholder}
           value={formData.deskripsiLengkap}
           onChange={handleChange}
           className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none"
@@ -101,7 +101,7 @@ export default function CreateInfoForm({ onSuccess }) {
       </div>
 
       <button type="submit" className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
-        Bagikan Informasi
+        {communityData.form.submitButton}
       </button>
     </form>
   );
