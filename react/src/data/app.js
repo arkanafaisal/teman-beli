@@ -12,7 +12,7 @@ export const appData = {
       { label: "Profil", path: "/profil" }
     ],
     auth: {
-      loginButton: "Masuk SSO Kampus",
+      loginButton: "Masuk dengan Google",
       logoutButton: "Keluar",
       greetingPrefix: "Hi,",
       verifiedBadge: "Verified"

@@ -14,6 +14,18 @@ export default function Header() {
   const { user, login, logout } = useAuth();
   const currentPath = window.location.pathname;
 
+  const handleLogin = () => {
+    // Simulasi pop-up Google OAuth & verifikasi domain
+    const confirmGoogle = window.confirm("Membuka pop-up Google Auth... (Simulasi)\n\nPilih 'OK' jika Anda menggunakan email @*.ac.id\nPilih 'Cancel' jika gagal/email salah.");
+    
+    if (confirmGoogle) {
+      alert("Login Berhasil! Domain email kampus terverifikasi.");
+      login();
+    } else {
+      alert("Login Gagal: Akun tidak menggunakan email kampus (.ac.id) atau otorisasi dibatalkan.");
+    }
+  };
+
   useEffect(() => {
     // Scrolling logic removed as requested, navbar is permanently in compact state
   }, []);
@@ -98,8 +110,9 @@ export default function Header() {
                   <button onClick={logout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
                 </div>
               ) : (
-                <button onClick={login} className="cursor-pointer bg-primary-base hover:bg-primary-hover text-text-inverted lg:text-base px-5 py-2.5 rounded-lg font-medium transition" title="Masuk dengan akun SSO Kampus">
-                  {appData.header.auth.loginButton}
+                <button onClick={handleLogin} className="inline-flex items-center gap-2.5 cursor-pointer bg-white dark:bg-bg-surface border border-border-base hover:bg-bg-subtle text-text-heading text-sm px-4 py-2.5 rounded-xl font-bold transition shadow-sm" title="Masuk dengan akun SSO Kampus">
+                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-4 h-4 shrink-0" />
+                  <span className="whitespace-nowrap">{appData.header.auth.loginButton}</span>
                 </button>
               )}
             </div>
@@ -123,7 +136,7 @@ export default function Header() {
 
       {/* Mobile & Tablet Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed right-0 top-16 w-56 bg-bg-glass backdrop-blur-xl border-l border-b border-border-subtle rounded-bl-3xl p-5 pt-4 z-40 lg:hidden shadow-2xl transition-all duration-300">
+        <div className="fixed right-0 top-16 w-64 bg-bg-glass backdrop-blur-xl border-l border-b border-border-subtle rounded-bl-3xl p-5 pt-4 z-40 lg:hidden shadow-2xl transition-all duration-300">
           <nav className="flex flex-col gap-4 text-base font-semibold text-text-base">
             {appData.header.navLinks.map((link) => (
               <a key={link.path} href={link.path} className={getMobileClass(link.path)}>
@@ -137,8 +150,9 @@ export default function Header() {
                   {appData.header.auth.logoutButton}
                 </button>
               ) : (
-                <button onClick={login} className="cursor-pointer w-full text-center bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition" title="Masuk dengan akun SSO Kampus">
-                  {appData.header.auth.loginButton}
+                <button onClick={handleLogin} className="flex items-center justify-center gap-2.5 cursor-pointer w-full bg-white dark:bg-bg-surface border border-border-base hover:bg-bg-subtle text-text-heading text-sm font-bold py-3.5 px-3 rounded-xl shadow-sm transition" title="Masuk dengan akun SSO Kampus">
+                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5 shrink-0" />
+                  <span className="whitespace-nowrap">{appData.header.auth.loginButton}</span>
                 </button>
               )}
             </div>
