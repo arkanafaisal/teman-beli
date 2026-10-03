@@ -5,6 +5,7 @@ import { patunganData } from "../../data/patungan";
 import { MapPin, Link as LinkIcon, MessageCircle, Lock } from "lucide-react";
 import { getRelativeTime } from "../../utils/dateHelper";
 import { commentSchema } from "../../validations/commentValidation";
+import { toast } from "sonner";
 
 
 export default function PatunganDetailModal({ item, onClose }) {
@@ -26,7 +27,7 @@ export default function PatunganDetailModal({ item, onClose }) {
   };
 
   const handleLogin = () => {
-    alert(patunganData.detail.alerts.loginRequired);
+    toast.error(patunganData.detail.alerts.loginRequired);
     login();
   };
 

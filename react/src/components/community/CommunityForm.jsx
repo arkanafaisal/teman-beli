@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { communityData } from "../../data/community";
 import FormInput from "../common/FormInput";
 import { communitySchema } from "../../validations/communityFormValidation";
+import { toast } from "sonner";
 
 export default function CommunityForm({ onSuccess }) {
   const { user } = useAuth();
@@ -27,7 +28,7 @@ export default function CommunityForm({ onSuccess }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user.isLoggedIn) {
-      alert(communityData.alerts.loginRequired);
+      toast.error(communityData.alerts.loginRequired);
       return;
     }
 
@@ -41,7 +42,7 @@ export default function CommunityForm({ onSuccess }) {
       return;
     }
 
-    alert(communityData.alerts.successMessage);
+    toast.success(communityData.alerts.successMessage);
     if (onSuccess) {
       onSuccess();
     }

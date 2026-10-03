@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { communityData } from "../data/community";
+import { toast } from "sonner";
 import PageHeader from "../components/common/PageHeader";
 import PageFilter from "../components/common/PageFilter";
 import CommunityCard from "../components/community/CommunityCard";
@@ -102,7 +103,7 @@ export default function Community() {
         buttonText={communityData.header.shareButton}
         onButtonClick={() => {
           if (!user?.isLoggedIn) {
-            alert(communityData.alerts.loginRequired);
+            toast.error(communityData.alerts.loginRequired);
           } else {
             setIsCreateModalOpen(true);
           }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { patunganData } from "../data/patungan";
+import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
 import PageHeader from "../components/common/PageHeader";
 import PageFilter from "../components/common/PageFilter";
@@ -19,7 +20,7 @@ export default function Patungan() {
 
   const handleCreate = () => {
     if (!user?.isLoggedIn) {
-      alert(patunganData.feed.alerts.loginRequired);
+      toast.error(patunganData.feed.alerts.loginRequired);
     } else {
       setIsCreateModalOpen(true);
     }

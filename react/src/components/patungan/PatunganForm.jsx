@@ -3,6 +3,7 @@ import { patunganData } from "../../data/patungan";
 import { useAuth } from "../../context/AuthContext";
 import FormInput from "../common/FormInput";
 import { patunganSchema } from "../../validations/patunganFormValidation";
+import { toast } from "sonner";
 
 export default function PatunganForm({ onSuccess }) {
   const { user } = useAuth();
@@ -40,7 +41,7 @@ export default function PatunganForm({ onSuccess }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!user.isLoggedIn) {
-      alert(patunganData.alerts.loginRequired);
+      toast.error(patunganData.alerts.loginRequired);
       return;
     }
 
@@ -54,7 +55,7 @@ export default function PatunganForm({ onSuccess }) {
       return;
     }
 
-    alert(patunganData.alerts.successMessage);
+    toast.success(patunganData.alerts.successMessage);
     if (onSuccess) {
       onSuccess();
     } else {

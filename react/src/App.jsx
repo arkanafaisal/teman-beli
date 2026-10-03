@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Toaster } from "sonner";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -42,6 +43,19 @@ function App() {
 
   return (
     <div className="bg-bg-base text-text-base min-h-screen font-sans transition-colors duration-300 selection:bg-primary-base selection:text-text-inverted">
+      <Toaster 
+        position="top-right" 
+        toastOptions={{
+          classNames: {
+            toast: 'rounded-l-xl rounded-r-none font-bold shadow-xl border-0 !p-3 !pr-5',
+            title: 'text-xs md:text-sm leading-tight text-wrap',
+            success: '!bg-success-base !text-text-inverted',
+            error: '!bg-danger-base !text-text-inverted',
+            info: '!bg-primary-base !text-text-inverted',
+            warning: '!bg-warning-base !text-text-inverted',
+          }
+        }}
+      />
       {!isPlainLayout && <Header />}
       <PageComponent />
       {!isPlainLayout && <Footer />}

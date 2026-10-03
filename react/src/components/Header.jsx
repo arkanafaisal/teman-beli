@@ -4,27 +4,38 @@ import { useAuth } from "../context/AuthContext";
 import { appData } from "../data/app";
 import LogoIcon from "./LogoIcon";
 import Badge from "./Badge";
+import { toast } from "sonner";
+import ActionModal from "./common/ActionModal";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
   });
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const { user, login, logout } = useAuth();
   const currentPath = window.location.pathname;
 
   const handleLogin = () => {
-    // Simulasi pop-up Google OAuth & verifikasi domain
-    const confirmGoogle = window.confirm("Membuka pop-up Google Auth... (Simulasi)\n\nPilih 'OK' jika Anda menggunakan email @*.ac.id\nPilih 'Cancel' jika gagal/email salah.");
-    
-    if (confirmGoogle) {
-      alert("Login Berhasil! Domain email kampus terverifikasi.");
-      login();
-    } else {
-      alert("Login Gagal: Akun tidak menggunakan email kampus (.ac.id) atau otorisasi dibatalkan.");
-    }
+    setIsLoginModalOpen(true);
   };
+
+  const executeLogin = () => {
+    login();
+    setIsLoginModalOpen(false);
+    toast.success("Login Berhasil! Domain email kampus terverifikasi.");
+  };
+
+  const cancelLogin = () => {
+    setIsLoginModalOpen(false);
+    toast.error("Login Gagal: Otentikasi dibatalkan atau email salah.");
+  };
+
+  const executeLogout = () => {
+    logout();
+    toast.info("Anda telah keluar dari sesi.");
+  }
 
   useEffect(() => {
     // Scrolling logic removed as requested, navbar is permanently in compact state
@@ -107,7 +118,7 @@ export default function Header() {
                     </span>
                     <Badge className="text-[8px] mt-0.5 shadow-sm">{appData.header.auth.verifiedBadge}</Badge>
                   </div>
-                  <button onClick={logout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
+                  <button onClick={executeLogout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
                 </div>
               ) : (
                 <button onClick={handleLogin} className="inline-flex items-center gap-2.5 cursor-pointer bg-white dark:bg-bg-surface border border-border-base hover:bg-bg-subtle text-text-heading text-sm px-4 py-2.5 rounded-xl font-bold transition shadow-sm" title="Masuk dengan akun SSO Kampus">
@@ -146,7 +157,7 @@ export default function Header() {
 
             <div className="flex flex-col gap-3">
               {user.isLoggedIn ? (
-                <button onClick={logout} className="cursor-pointer w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition" title="Keluar dari sesi saat ini">
+                <button onClick={executeLogout} className="cursor-pointer w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition" title="Keluar dari sesi saat ini">
                   {appData.header.auth.logoutButton}
                 </button>
               ) : (
@@ -159,6 +170,19 @@ export default function Header() {
           </nav>
         </div>
       )}
+
+      {/* Simulasi Login Modal */}
+      <ActionModal
+        isOpen={isLoginModalOpen}
+        type="confirm"
+        icon="info"
+        title="Simulasi Login Google"
+        description="Dalam kondisi aslinya, ini adalah pop-up otentikasi Google sungguhan. Anggaplah Anda berhasil memverifikasi diri dengan email kampus (.ac.id). Lanjutkan?"
+        confirmText="Ya, Berhasil"
+        cancelText="Batal/Gagal"
+        onConfirm={executeLogin}
+        onCancel={cancelLogin}
+      />
     </>
   );
 }

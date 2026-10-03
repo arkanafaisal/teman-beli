@@ -206,3 +206,33 @@ html {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+
+/* --- SONNER TOAST OVERRIDES --- */
+[data-sonner-toaster] {
+  right: 0px !important;
+}
+
+[data-sonner-toast] {
+  right: 0px !important;
+}
+
+@media (max-width: 600px) {
+  [data-sonner-toaster] {
+    left: auto !important;
+    right: 0px !important;
+    width: 100% !important;
+    pointer-events: none !important;
+  }
+  [data-sonner-toast] {
+    left: auto !important;
+    right: 0px !important;
+    width: max-content !important;
+    max-width: 90vw !important;
+    margin-right: 0px !important;
+    pointer-events: auto !important;
+  }
+}
+
+[data-sonner-toast] [data-icon] {
+  display: none !important;
+}
