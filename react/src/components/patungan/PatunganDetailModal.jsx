@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import BottomModalWrapper from "../common/BottomModalWrapper";
 import { patunganDetailData } from "../../data/patunganDetail";
 import { MapPin, Link as LinkIcon, MessageCircle, Lock } from "lucide-react";
+import { getRelativeTime } from "../../utils/dateHelper";
 
 
 export default function PatunganDetailModal({ item, onClose }) {
@@ -45,21 +46,6 @@ function PatunganDetail({ item, isLoggedIn, onLogin }) {
     .replace("{creatorName}", item.creatorName)
     .replace("{title}", item.title);
   const waLink = `https://wa.me/${item.whatsapp}?text=${encodeURIComponent(waText)}`;
-
-  const getRelativeTime = (deadline) => {
-    const now = new Date();
-    const target = new Date(deadline);
-    const diffMs = target - now;
-
-    if (diffMs <= 0) return "Berakhir";
-
-    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-
-    if (diffDays > 0) return `${diffDays} hari lagi`;
-    if (diffHours > 0) return `${diffHours} jam lagi`;
-    return "Segera berakhir";
-  };
 
   return (
     <div className="space-y-6">

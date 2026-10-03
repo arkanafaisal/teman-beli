@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { patunganData } from "../../data/patungan";
 import { useAuth } from "../../context/AuthContext";
+import FormInput from "../common/FormInput";
 
 export default function PatunganForm({ onSuccess }) {
   const { user } = useAuth();
@@ -46,84 +47,62 @@ export default function PatunganForm({ onSuccess }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
-      <div>
-        <label className="block text-sm font-medium mb-1">{patunganData.form.title.label}</label>
-        <input 
-          type="text" 
-          name="title"
-          required 
-          placeholder={patunganData.form.title.placeholder}
-          value={formData.title}
+      <FormInput
+        label={patunganData.form.title.label}
+        name="title"
+        required
+        placeholder={patunganData.form.title.placeholder}
+        value={formData.title}
+        onChange={handleChange}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <FormInput
+          type="select"
+          label={patunganData.form.category.label}
+          name="category"
+          value={formData.category}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
+          options={patunganData.form.category.options}
+        />
+        <FormInput
+          label={patunganData.form.unit.label}
+          name="unit"
+          required
+          placeholder={patunganData.form.unit.placeholder}
+          value={formData.unit}
+          onChange={handleChange}
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">{patunganData.form.category.label}</label>
-          <select 
-            name="category"
-            value={formData.category}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none"
-          >
-            {patunganData.form.category.options.map((opt, idx) => (
-              <option key={idx} value={opt.value}>{opt.label}</option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">{patunganData.form.unit.label}</label>
-          <input 
-            type="text" 
-            name="unit"
-            required 
-            placeholder={patunganData.form.unit.placeholder}
-            value={formData.unit}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
-          />
-        </div>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">{patunganData.form.targetQuota.label}</label>
-          <input 
-            type="number" 
-            name="targetQuota"
-            required 
-            placeholder={patunganData.form.targetQuota.placeholder}
-            value={formData.targetQuota}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">{patunganData.form.totalPrice.label}</label>
-          <input 
-            type="number" 
-            name="totalPrice"
-            required 
-            placeholder={patunganData.form.totalPrice.placeholder}
-            value={formData.totalPrice}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">{patunganData.form.currentQuota.label}</label>
-          <input 
-            type="number" 
-            name="currentQuota"
-            required 
-            placeholder={patunganData.form.currentQuota.placeholder}
-            value={formData.currentQuota}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
-          />
-        </div>
+        <FormInput
+          type="number"
+          label={patunganData.form.targetQuota.label}
+          name="targetQuota"
+          required
+          placeholder={patunganData.form.targetQuota.placeholder}
+          value={formData.targetQuota}
+          onChange={handleChange}
+        />
+        <FormInput
+          type="number"
+          label={patunganData.form.totalPrice.label}
+          name="totalPrice"
+          required
+          placeholder={patunganData.form.totalPrice.placeholder}
+          value={formData.totalPrice}
+          onChange={handleChange}
+        />
+        <FormInput
+          type="number"
+          label={patunganData.form.currentQuota.label}
+          name="currentQuota"
+          required
+          placeholder={patunganData.form.currentQuota.placeholder}
+          value={formData.currentQuota}
+          onChange={handleChange}
+        />
       </div>
 
       <div className="p-3 bg-primary-soft rounded-xl border border-primary-soft text-xs text-primary-text">
@@ -131,68 +110,52 @@ export default function PatunganForm({ onSuccess }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium mb-1">{patunganData.form.area.label}</label>
-          <input 
-            type="text" 
-            name="area"
-            required 
-            placeholder={patunganData.form.area.placeholder}
-            value={formData.area}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-1">{patunganData.form.deadline.label}</label>
-          <input 
-            type="date" 
-            name="deadline"
-            required 
-            value={formData.deadline}
-            onChange={handleChange}
-            className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
-          />
-        </div>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">{patunganData.form.whatsapp.label}</label>
-        <input 
-          type="text" 
-          name="whatsapp"
-          required 
-          placeholder={patunganData.form.whatsapp.placeholder}
-          value={formData.whatsapp}
+        <FormInput
+          label={patunganData.form.area.label}
+          name="area"
+          required
+          placeholder={patunganData.form.area.placeholder}
+          value={formData.area}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
         />
-        <span className="text-xs text-text-muted">{patunganData.form.whatsapp.helpText}</span>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">{patunganData.form.notes.label}</label>
-        <textarea 
-          name="notes"
-          rows="3" 
-          placeholder={patunganData.form.notes.placeholder}
-          value={formData.notes}
+        <FormInput
+          type="date"
+          label={patunganData.form.deadline.label}
+          name="deadline"
+          required
+          value={formData.deadline}
           onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none"
-        ></textarea>
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">{patunganData.form.refLink.label}</label>
-        <input 
-          type="url" 
-          name="refLink"
-          placeholder={patunganData.form.refLink.placeholder}
-          value={formData.refLink}
-          onChange={handleChange}
-          className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
         />
       </div>
+
+      <FormInput
+        label={patunganData.form.whatsapp.label}
+        name="whatsapp"
+        required
+        placeholder={patunganData.form.whatsapp.placeholder}
+        value={formData.whatsapp}
+        onChange={handleChange}
+        helpText={patunganData.form.whatsapp.helpText}
+      />
+
+      <FormInput
+        type="textarea"
+        label={patunganData.form.notes.label}
+        name="notes"
+        rows="3"
+        placeholder={patunganData.form.notes.placeholder}
+        value={formData.notes}
+        onChange={handleChange}
+      />
+
+      <FormInput
+        type="url"
+        label={patunganData.form.refLink.label}
+        name="refLink"
+        placeholder={patunganData.form.refLink.placeholder}
+        value={formData.refLink}
+        onChange={handleChange}
+      />
 
       <button type="submit" className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
         {patunganData.form.submitButton}
