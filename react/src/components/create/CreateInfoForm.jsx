@@ -37,7 +37,7 @@ export default function CreateInfoForm({ onSuccess }) {
           type="text" 
           name="judul"
           required 
-          placeholder="Contoh: Warung Makan Bu Tini"
+          placeholder="Warung Makan Bu Tini"
           value={formData.judul}
           onChange={handleChange}
           className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
@@ -65,7 +65,7 @@ export default function CreateInfoForm({ onSuccess }) {
             type="text" 
             name="lokasi"
             required 
-            placeholder="Contoh: Depan Gerbang Utama"
+            placeholder="Depan Gerbang Utama"
             value={formData.lokasi}
             onChange={handleChange}
             className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none" 
@@ -79,7 +79,7 @@ export default function CreateInfoForm({ onSuccess }) {
           type="text" 
           name="ringkasan"
           required 
-          placeholder="Info singkat (maks 50 karakter)"
+          placeholder="Nasi + sayur sepuasnya cuma Rp 8.000!"
           maxLength="50"
           value={formData.ringkasan}
           onChange={handleChange}
@@ -93,7 +93,7 @@ export default function CreateInfoForm({ onSuccess }) {
           name="deskripsiLengkap"
           rows="4" 
           required
-          placeholder="Ceritakan mengapa tempat ini recommended untuk mahasiswa..."
+          placeholder="Warung ini cocok banget buat akhir bulan, harga murah meriah dan rasa memuaskan. Es teh gratis kalau tunjukin KTM."
           value={formData.deskripsiLengkap}
           onChange={handleChange}
           className="w-full px-4 py-2.5 rounded-xl border border-border-base dark:bg-bg-subtle focus:ring-2 ring-primary-base outline-none"

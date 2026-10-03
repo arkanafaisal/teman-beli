@@ -6,7 +6,7 @@ export const createData = {
   form: {
     title: {
       label: "Nama Barang / Pengumuman *",
-      placeholder: "Contoh: Kertas HVS A4 80gsm 1 Rim"
+      placeholder: "Kertas HVS A4 80gsm 1 Rim"
     },
     category: {
       label: "Kategori *",
@@ -20,7 +20,7 @@ export const createData = {
     },
     unit: {
       label: "Satuan Barang *",
-      placeholder: "lembar, meter, kg, pcs"
+      placeholder: "rim"
     },
     targetQuota: {
       label: "Total Target Buy *",
@@ -40,7 +40,7 @@ export const createData = {
     },
     area: {
       label: "Estimasi Titik Kumpul *",
-      placeholder: "Contoh: Kantin FITDS UNS"
+      placeholder: "Kantin FITDS UNS"
     },
     deadline: {
       label: "Batas Waktu (Deadline) *"
@@ -52,7 +52,7 @@ export const createData = {
     },
     notes: {
       label: "Catatan Tambahan (Opsional)",
-      placeholder: "Penjelasan detail barang, lokasi toko offline, dll."
+      placeholder: "Beli di Toko Anugrah, jalan Mawar. Ketemuan di kantin."
     },
     refLink: {
       label: "Link Referensi (Opsional)",
