@@ -21,10 +21,22 @@ app.use((err, req, res, next) => {
 
 // Route awal (health check)
 app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "API backend aktif dan berjalan."
-  });
+  res.sendStatus(200)
+});
+
+// Global Error Handler
+// Menangkap semua error (termasuk dari async handler yang tidak di-try-catch)
+app.use((err, req, res, next) => {
+  console.error("❌ Terjadi Error:", err);
+  const status = err.status || 500;
+
+  // Sesuai aturan: Jika ada field 'customPayload', kirim JSON (untuk membedakan error yang overlap kode HTTP-nya)
+  if (err.customPayload) {
+    return res.status(status).json(err.customPayload);
+  }
+
+  // Jika tidak, hanya kirimkan kode HTTP saja
+  res.sendStatus(status);
 });
 
 app.listen(PORT, () => {
