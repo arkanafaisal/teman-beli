@@ -2,8 +2,19 @@ import 'dotenv/config';
 import express from 'express';
 import cookieParser from 'cookie-parser';
 
+import authRouter from './routes/auth.route.js';
+
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Validasi Environment Variables Kritis (Early Crash)
+const requiredEnv = ['GOOGLE_CLIENT_ID', 'JWT_SECRET', 'JWT_REFRESH_SECRET'];
+for (const envVar of requiredEnv) {
+  if (!process.env[envVar]) {
+    console.error(`FATAL ERROR: Environment variable ${envVar}`);
+    process.exit(1);
+  }
+}
 
 // Middleware parsing request body & cookies
 app.use(express.json());
@@ -18,6 +29,9 @@ app.use((err, req, res, next) => {
   }
   next();
 });
+
+// Pendaftaran Router Utama
+app.use('/auth', authRouter);
 
 // Route awal (health check)
 app.get('/api/health', (req, res) => {

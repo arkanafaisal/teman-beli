@@ -11,7 +11,6 @@ const callApi = async (path, method = "GET", body = null) => {
     result.message = getApiMessage(path, result.code, method);
   }
   
-  // Opsional: jika sukses pun mau dipasangkan fallback message
   if (result.success && !result.message) {
     result.message = getApiMessage(path, result.code, method); 
   }

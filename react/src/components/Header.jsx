@@ -5,8 +5,8 @@ import { appData } from "../data/app";
 import LogoIcon from "./LogoIcon";
 import Badge from "./Badge";
 import { toast } from "sonner";
-import ActionModal from "./common/ActionModal";
 import { api } from "../services/api";
+import { GoogleLogin } from "@react-oauth/google";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -18,26 +18,24 @@ export default function Header() {
   const { user, login, logout } = useAuth();
   const currentPath = window.location.pathname;
 
-  const handleLogin = () => {
-    setIsLoginModalOpen(true);
-  };
-
-  const executeLogin = async () => {
-    // Memanggil endpoint login backend
-    const res = await api.auth.login({ provider: "google" });
+  const handleGoogleSuccess = async (credentialResponse) => {
+    // Memanggil endpoint login backend asli dengan token dari Google
+    const res = await api.auth.login({ credential: credentialResponse.credential });
+    
     if (res.success) {
-      login(res.payload.user);
-      setIsLoginModalOpen(false);
-      toast.success(res.message || "Login Berhasil! Domain email kampus terverifikasi.");
+      // Jika sukses di backend (cookies di set), kita fetch profil ulang
+      const profileRes = await api.user.getProfile();
+      if (profileRes.success && profileRes.payload) {
+        login(profileRes.payload);
+        if (res.message) toast.success(res.message);
+      }
     } else {
-      setIsLoginModalOpen(false);
-      toast.error(res.message || "Login Gagal: Otentikasi dibatalkan atau email salah.");
+      if (res.message) toast.error(res.message);
     }
   };
 
-  const cancelLogin = () => {
-    setIsLoginModalOpen(false);
-    toast.error("Login Gagal: Otentikasi dibatalkan atau email salah.");
+  const handleGoogleError = () => {
+    toast.error("Gagal terhubung ke layanan Google.");
   };
 
   const executeLogout = async () => {
@@ -131,10 +129,16 @@ export default function Header() {
                   <button onClick={executeLogout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
                 </div>
               ) : (
-                <button onClick={handleLogin} className="inline-flex items-center gap-2.5 cursor-pointer bg-white dark:bg-bg-surface border border-border-base hover:bg-bg-subtle text-text-heading text-sm px-4 py-2.5 rounded-xl font-bold transition shadow-sm" title="Masuk dengan akun SSO Kampus">
-                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-4 h-4 shrink-0" />
-                  <span className="whitespace-nowrap">{appData.header.auth.loginButton}</span>
-                </button>
+                <div className="overflow-hidden rounded-xl shadow-sm hover:opacity-90 transition">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    theme={isDarkMode ? "filled_black" : "outline"}
+                    shape="pill"
+                    text="signin_with"
+                    useOneTap
+                  />
+                </div>
               )}
             </div>
 
@@ -171,28 +175,22 @@ export default function Header() {
                   {appData.header.auth.logoutButton}
                 </button>
               ) : (
-                <button onClick={handleLogin} className="flex items-center justify-center gap-2.5 cursor-pointer w-full bg-white dark:bg-bg-surface border border-border-base hover:bg-bg-subtle text-text-heading text-sm font-bold py-3.5 px-3 rounded-xl shadow-sm transition" title="Masuk dengan akun SSO Kampus">
-                  <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" className="w-5 h-5 shrink-0" />
-                  <span className="whitespace-nowrap">{appData.header.auth.loginButton}</span>
-                </button>
+                <div className="w-full flex justify-center overflow-hidden rounded-xl shadow-sm mt-2">
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    theme={isDarkMode ? "filled_black" : "outline"}
+                    shape="pill"
+                    text="signin_with"
+                    width="100%"
+                  />
+                </div>
               )}
             </div>
           </nav>
         </div>
       )}
 
-      {/* Simulasi Login Modal */}
-      <ActionModal
-        isOpen={isLoginModalOpen}
-        type="confirm"
-        icon="info"
-        title="Simulasi Login Google"
-        description="Dalam kondisi aslinya, ini adalah pop-up otentikasi Google sungguhan. Anggaplah Anda berhasil memverifikasi diri dengan email kampus (.ac.id). Lanjutkan?"
-        confirmText="Ya, Berhasil"
-        cancelText="Batal/Gagal"
-        onConfirm={executeLogin}
-        onCancel={cancelLogin}
-      />
     </>
   );
 }

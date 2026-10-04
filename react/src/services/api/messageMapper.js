@@ -1,7 +1,4 @@
 export const getApiMessage = (path, code, method = "GET") => {
-  if (code >= 200 && code < 300) {
-    return null; // Sukses secara default tidak direturn message-nya kecuali perlu
-  }
 
   // Normalisasi Path dinamis agar sesuai dictionary
   let normalizedPath = path;
@@ -15,8 +12,42 @@ export const getApiMessage = (path, code, method = "GET") => {
   // Kamus mapping pesan berdasarkan path (endpoint) dan method
   const dict = {
     "/auth/login": {
-      401: "Email kampus tidak valid atau kata sandi salah.",
-      403: "Akun email Anda (SSO) belum terverifikasi atau akses ditangguhkan.",
+      POST: {
+        200: "Login Berhasil! Domain email kampus terverifikasi.",
+        400: "Data otentikasi (Token Google) tidak valid atau kosong.",
+        401: "Sesi otentikasi Google Anda kedaluwarsa atau tidak valid.",
+        403: "Akses Ditolak: Harap gunakan email kampus (.ac.id atau .edu)."
+      }
+    },
+    "/auth/logout": {
+      POST: {
+        200: "Anda telah berhasil keluar dari sesi."
+      }
+    },
+    "/auth/refresh": {
+      POST: {
+        401: "Sesi masuk telah kedaluwarsa, silakan login kembali."
+      }
+    },
+    "/users/profile": {
+      GET: {
+        401: "Anda harus masuk untuk melihat profil Anda.",
+        404: "Data profil pengguna tidak ditemukan."
+      },
+      PUT: {
+        200: "Profil Anda berhasil diperbarui.",
+        400: "Data form profil tidak lengkap atau tidak valid."
+      }
+    },
+    "/users/reviews": {
+      GET: {
+        401: "Anda belum masuk."
+      }
+    },
+    "/users/activity": {
+      GET: {
+        401: "Anda belum masuk."
+      }
     },
     "/patungan": {
       POST: {
@@ -75,6 +106,11 @@ export const getApiMessage = (path, code, method = "GET") => {
     if (dict[normalizedPath][code]) {
       return dict[normalizedPath][code];
     }
+  }
+
+  // Fallback Sukses (Tanpa Pesan)
+  if (code >= 200 && code < 300) {
+    return null; 
   }
 
   // Fallback Pesan Umum HTTP (Reverse Engineering)
