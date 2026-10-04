@@ -130,30 +130,5 @@ export const patunganData = {
   alerts: {
     loginRequired: "Anda harus login terlebih dahulu!",
     successMessage: "Pengumuman patungan berhasil diposting!"
-  },
-  isMock: true,
-  mockData: [
-    {
-      id: "pat-1",
-      title: "Kertas HVS A4 80gsm 1 Rim",
-      category: "Alat Tulis & Cetak",
-      unit: "lembar",
-      targetQuota: 500,
-      currentQuota: 100,
-      totalPrice: 50000,
-      unitPrice: 100,
-      creatorName: "Amelia S.",
-      creatorCampus: "Universitas Sebelas Maret",
-      isVerified: true,
-      whatsapp: "6281234567890",
-      area: "Kantin Gedung C FITDS",
-      deadline: "2026-10-05",
-      notes: "Dibutuhkan untuk cetak draf tugas akhir/laporan. Beli di Manggala.",
-      refLink: "https://tokopedia.com",
-      status: "open",
-      replies: [
-        { date: "2026-09-27", text: "Barang ready di toko online, slot tersisa 400 lembar lagi ya!" }
-      ],
-    }
-  ]
+  }
 };

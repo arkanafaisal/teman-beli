@@ -4,6 +4,7 @@ import "aos/dist/aos.css";
 import { patunganData } from "../data/patungan";
 import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
+import { api } from "../services/api";
 import PageHeader from "../components/common/PageHeader";
 import PageFilter from "../components/common/PageFilter";
 import PatunganCard from "../components/patungan/PatunganCard";
@@ -13,6 +14,7 @@ import PatunganForm from "../components/patungan/PatunganForm";
 
 export default function Patungan() {
   const { user } = useAuth();
+  const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
   const [selectedItem, setSelectedItem] = useState(null);
@@ -32,13 +34,29 @@ export default function Patungan() {
       duration: 700,
       easing: "ease-in-out",
     });
+    fetchPatungans();
   }, []);
+
+  const fetchPatungans = async () => {
+    const res = await api.patungan.getAll();
+    if (res.success && res.data) {
+      const mappedData = res.data.map(item => ({
+        ...item,
+        unitPrice: Math.round(item.totalPrice / item.targetQuota),
+        creatorName: item.host.name,
+        creatorCampus: item.host.department || "Universitas Terdaftar",
+        isVerified: true,
+        replies: []
+      }));
+      setItems(mappedData);
+    }
+  };
 
   useEffect(() => {
     AOS.refresh();
-  }, [searchQuery, activeCategory]);
+  }, [searchQuery, activeCategory, items]);
 
-  const filteredItems = patunganData.mockData.filter((item) => {
+  const filteredItems = items.filter((item) => {
     const matchCat = activeCategory === "All" || item.category === activeCategory;
     const matchQuery = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.area.toLowerCase().includes(searchQuery.toLowerCase());
     return matchCat && matchQuery;
@@ -82,7 +100,10 @@ export default function Patungan() {
       )}
       {isCreateModalOpen && (
         <CenterModalWrapper title={patunganData.form.modalTitle} onClose={() => setIsCreateModalOpen(false)}>
-          <PatunganForm onSuccess={() => setIsCreateModalOpen(false)} />
+          <PatunganForm onSuccess={() => {
+            setIsCreateModalOpen(false);
+            fetchPatungans(); // Refresh list after create
+          }} />
         </CenterModalWrapper>
       )}
     </main>

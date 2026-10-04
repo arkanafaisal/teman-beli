@@ -27,5 +27,15 @@ export const PatunganModel = {
         }
       }
     });
+  },
+  getAllPatungan: async () => {
+    return await prisma.patungan.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        host: {
+          select: { name: true, department: true }
+        }
+      }
+    });
   }
 };

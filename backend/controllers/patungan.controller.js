@@ -20,3 +20,14 @@ PatunganController.create = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+PatunganController.getAll = async (req, res) => {
+  try {
+    const patungans = await PatunganModel.getAllPatungan();
+    // Mengirim JSON data karena GET request membutuhkan balasan payload
+    res.status(200).json(patungans);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+};
