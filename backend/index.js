@@ -9,6 +9,11 @@ import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
 
 const app = express();
+
+// WAJIB KARENA CLOUDFLARE TUNNEL (Reverse Proxy)
+// Ini membuat express-rate-limit membaca IP asli user, bukan IP localhost/Cloudflare
+app.set('trust proxy', 1);
+
 const PORT = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
