@@ -2,7 +2,7 @@ import { homeData } from "../../data/home";
 
 export default function HeroSection() {
   return (
-    <section className="relative overflow-hidden min-h-screen-dvh flex flex-col justify-between pt-4 pb-8 sm:py-20 md:py-28">
+    <section className="relative overflow-hidden min-h-screen-dvh flex flex-col justify-between pt-8 pb-4 sm:py-20 md:py-28">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,var(--color-primary-soft),transparent)] dark:bg-[radial-gradient(45rem_50rem_at_top,rgba(23,37,84,0.4),transparent)] opacity-70"></div>
 
       <div className="hidden sm:block"></div>
@@ -37,7 +37,7 @@ export default function HeroSection() {
       </div>
 
       <div className="max-w-3xl mx-auto px-4 w-full mt-6 sm:mt-12">
-        <div className="grid grid-cols-3 sm:gap-6 pt-6 border-t border-border-base text-center">
+        <div className="grid grid-cols-3 sm:gap-6 pt-2 border-t border-border-base text-center">
           {homeData.stats.map((stat, idx) => (
             <div key={idx} className="p-2 sm:p-0">
               <p className="text-lg sm:text-3xl font-extrabold text-primary-text">
