@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
 
 import authRouter from './routes/auth.route.js';
 
@@ -15,6 +16,12 @@ for (const envVar of requiredEnv) {
     process.exit(1);
   }
 }
+
+// Middleware CORS (Penting untuk mengatasi block origin di localhost)
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true // Agar cookies/token bisa dikirim antar port
+}));
 
 // Middleware parsing request body & cookies
 app.use(express.json());
@@ -31,7 +38,7 @@ app.use((err, req, res, next) => {
 });
 
 // Pendaftaran Router Utama
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 
 // Route awal (health check)
 app.get('/api/health', (req, res) => {
