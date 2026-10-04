@@ -11,9 +11,7 @@ model User {
   id           String   @id @default(uuid())
   email        String   @unique
   name         String
-  avatar       String?  // URL gambar profil (bisa diambil dari Google)
   department   String?  // Jurusan (Misal: "Informatika UNS") - opsional, bisa diisi belakangan
-  isVerified   Boolean  @default(true) // Karena wajib login via SSO Google, kita set otomatis true
   rating       Float    @default(0.0)  // Nilai ulasan (Misal: 4.9)
   
   createdAt    DateTime @default(now())

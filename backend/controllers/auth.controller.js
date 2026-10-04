@@ -52,9 +52,7 @@ AuthController.login = async (req, res) => {
     user = await prisma.user.create({
       data: {
         email: email,
-        name: name,
-        avatar: payload.picture || null,
-        isVerified: true
+        name: name
       }
     });
   }

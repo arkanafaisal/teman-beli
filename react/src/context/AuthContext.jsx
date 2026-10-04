@@ -14,9 +14,8 @@ export function AuthProvider({ children }) {
       if (res.success && res.payload) {
         setUser({
           isLoggedIn: true,
-          isVerified: res.payload.verified || true,
-          name: res.payload.name || "Mahasiswa Verified",
-          email: res.payload.email || "mhs@student.uns.ac.id",
+          name: res.payload.name,
+          email: res.payload.email,
         });
       }
       setIsInitializing(false);
@@ -27,9 +26,8 @@ export function AuthProvider({ children }) {
   const login = (userData) => {
     setUser({
       isLoggedIn: true,
-      isVerified: userData.verified || true,
-      name: userData.name || "Mahasiswa Verified",
-      email: userData.email || "mhs@student.uns.ac.id",
+      name: userData.name,
+      email: userData.email,
     });
   };
 

@@ -6,7 +6,7 @@ import LogoIcon from "./LogoIcon";
 import Badge from "./Badge";
 import { toast } from "sonner";
 import { api } from "../services/api";
-import { GoogleLogin } from "@react-oauth/google";
+import AuthModal from "./AuthModal";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -129,16 +129,12 @@ export default function Header() {
                   <button onClick={executeLogout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
                 </div>
               ) : (
-                <div className="overflow-hidden rounded-xl shadow-sm hover:opacity-90 transition">
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={handleGoogleError}
-                    theme={isDarkMode ? "filled_black" : "outline"}
-                    shape="pill"
-                    text="signin_with"
-                    useOneTap
-                  />
-                </div>
+                <button 
+                  onClick={() => setIsLoginModalOpen(true)}
+                  className="bg-primary-base hover:bg-primary-hover text-text-inverted px-5 py-2 rounded-xl font-bold transition shadow-md shadow-primary-glow text-sm lg:text-base cursor-pointer"
+                >
+                  {appData.header.auth.loginButton}
+                </button>
               )}
             </div>
 
@@ -175,21 +171,32 @@ export default function Header() {
                   {appData.header.auth.logoutButton}
                 </button>
               ) : (
-                <div className="w-full flex justify-center overflow-hidden rounded-xl shadow-sm mt-2">
-                  <GoogleLogin
-                    onSuccess={handleGoogleSuccess}
-                    onError={handleGoogleError}
-                    theme={isDarkMode ? "filled_black" : "outline"}
-                    shape="pill"
-                    text="signin_with"
-                    width="100%"
-                  />
-                </div>
+                <button 
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    setIsLoginModalOpen(true);
+                  }}
+                  className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-bold py-3 rounded-xl shadow-md shadow-primary-glow transition mt-2 cursor-pointer"
+                >
+                  {appData.header.auth.loginButton}
+                </button>
               )}
             </div>
           </nav>
         </div>
       )}
+
+      {/* Login Modal */}
+      <AuthModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+        onSuccess={(res) => {
+          setIsLoginModalOpen(false);
+          handleGoogleSuccess(res);
+        }}
+        onError={handleGoogleError}
+        isDarkMode={isDarkMode}
+      />
 
     </>
   );
