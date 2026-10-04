@@ -47,6 +47,7 @@ model Patungan {
   host         User     @relation("HostPatungan", fields: [hostId], references: [id])
 
   participants PatunganParticipant[]
+  logs         PatunganLog[]
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -62,4 +63,14 @@ model PatunganParticipant {
   user       User     @relation("UserParticipation", fields: [userId], references: [id])
 
   joinedAt   DateTime @default(now())
+}
+
+model PatunganLog {
+  id         String   @id @default(uuid())
+  patunganId String
+  text       String
+
+  patungan   Patungan @relation(fields: [patunganId], references: [id])
+
+  createdAt  DateTime @default(now())
 }

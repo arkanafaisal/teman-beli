@@ -37,5 +37,19 @@ export const PatunganModel = {
         }
       }
     });
+  },
+  getPatunganDetail: async (id) => {
+    return await prisma.patungan.findUnique({
+      where: { id },
+      include: {
+        host: {
+          select: { name: true, department: true }
+        },
+        logs: {
+          take: 5,
+          orderBy: { createdAt: 'desc' }
+        }
+      }
+    });
   }
 };

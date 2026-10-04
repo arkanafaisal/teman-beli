@@ -31,3 +31,14 @@ PatunganController.getAll = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+PatunganController.getDetail = async (req, res) => {
+  try {
+    const patungan = await PatunganModel.getPatunganDetail(req.params.id);
+    if (!patungan) return res.sendStatus(404);
+    res.status(200).json(patungan);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+};

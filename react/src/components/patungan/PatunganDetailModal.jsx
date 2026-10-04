@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
+import { api } from "../../services/api";
 import BottomModalWrapper from "../common/BottomModalWrapper";
 import { patunganData } from "../../data/patungan";
 import { MapPin, Link as LinkIcon, MessageCircle, Lock } from "lucide-react";
@@ -11,6 +12,31 @@ import { toast } from "sonner";
 export default function PatunganDetailModal({ item, onClose }) {
   const { user, login } = useAuth();
   const [localItem, setLocalItem] = useState(item);
+
+  useEffect(() => {
+    if (!item?.id) return;
+    
+    const fetchDetail = async () => {
+      const res = await api.patungan.getDetail(item.id);
+      if (res.success && res.data) {
+        const fetchedLogs = res.data.logs || [];
+        const formattedReplies = fetchedLogs.map(log => ({
+          date: new Date(log.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
+          text: log.text
+        }));
+        
+        setLocalItem(prev => ({
+          ...prev,
+          currentQuota: res.data.currentQuota,
+          status: res.data.status,
+          replies: formattedReplies,
+          lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : null
+        }));
+      }
+    };
+    
+    fetchDetail();
+  }, [item?.id]);
 
   if (!localItem) return null;
 
@@ -56,9 +82,16 @@ function PatunganDetail({ item, isLoggedIn, onLogin }) {
           <span className="text-xs font-bold text-primary-text">
             {item.category}
           </span>
-          <span className="text-[10px] sm:text-xs font-extrabold text-danger-base tracking-wide">
-            {getRelativeTime(item.deadline)}
-          </span>
+          <div className="flex flex-col items-end">
+            <span className="text-[10px] sm:text-xs font-extrabold text-danger-base tracking-wide">
+              {getRelativeTime(item.deadline)}
+            </span>
+            {item.lastUpdated && (
+              <span className="text-[10px] text-text-muted mt-0.5 font-medium">
+                Update: {getRelativeTime(item.lastUpdated)}
+              </span>
+            )}
+          </div>
         </div>
         <h1 className="text-2xl font-bold mb-2">{item.title}</h1>
         <p className="text-sm text-text-muted flex items-center gap-1">
