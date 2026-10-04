@@ -6,3 +6,9 @@ dist
 
 
 note.md
+
+# AI Assistant folders
+.agents
+.claude
+.cursor
+.devin

@@ -1,5 +1,8 @@
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 export const AuthController = {};
 
@@ -40,13 +43,21 @@ AuthController.login = async (req, res) => {
     throw err; // Akan ditangkap global error handler, menghasilkan res.sendStatus(403)
   }
 
-  // 3. TODO: Find or Create User di Database (Sementara kita mock up)
-  const user = {
-    id: 1, 
-    email: email,
-    name: name,
-    verified: true
-  };
+  // 3. Find or Create User di Database
+  let user = await prisma.user.findUnique({
+    where: { email: email }
+  });
+
+  if (!user) {
+    user = await prisma.user.create({
+      data: {
+        email: email,
+        name: name,
+        avatar: payload.picture || null,
+        isVerified: true
+      }
+    });
+  }
 
   // 4. Generate JWT (Access Token 15 menit, Refresh Token 7 hari)
   const accessToken = jwt.sign(
@@ -86,8 +97,16 @@ AuthController.refresh = async (req, res) => {
     // Verifikasi refresh token valid dan belum expired
     const decoded = jwt.verify(refresh_token, process.env.JWT_REFRESH_SECRET);
     
-    // TODO: Cari user di Database menggunakan decoded.id untuk memastikan akun belum dihapus/di-banned
-    const user = { id: decoded.id, email: "mhs@student.uns.ac.id", name: "Mahasiswa" };
+    // Cari user di Database menggunakan decoded.id untuk memastikan akun belum dihapus/di-banned
+    const user = await prisma.user.findUnique({
+      where: { id: decoded.id }
+    });
+
+    if (!user) {
+      res.clearCookie('access_token');
+      res.clearCookie('refresh_token');
+      return res.sendStatus(401);
+    }
 
     // Terbitkan Access Token yang baru
     const newAccessToken = jwt.sign(
