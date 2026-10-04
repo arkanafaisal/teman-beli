@@ -10,7 +10,8 @@ let isRefreshing = false;
  * @param {boolean} isRetry Penanda apakah ini pemanggilan retry setelah auto-refresh
  */
 export const baseFetch = async (path, method = "GET", body = null, isRetry = false) => {
-  const BASE_URL = import.meta.env.VITE_API_URL;
+  // Gunakan import.meta.env.PROD agar transparan antara Dev dan Build
+  const BASE_URL = import.meta.env.PROD ? "/api" : "http://localhost:3000/api";
 
   const options = {
     method,
