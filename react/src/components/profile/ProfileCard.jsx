@@ -1,5 +1,6 @@
 import { profileData } from "../../data/profile";
 import { useAuth } from "../../context/AuthContext";
+import LetterAvatar from "../common/LetterAvatar";
 
 export default function ProfileCard() {
   const { user } = useAuth();
@@ -7,7 +8,6 @@ export default function ProfileCard() {
 
   // Use AuthContext user data if logged in, otherwise mock data
   const name = user.isLoggedIn ? user.name : data.name;
-  const initial = name.charAt(0).toUpperCase();
 
   const getDynamicFontSize = (text) => {
     const len = text.length;
@@ -19,9 +19,7 @@ export default function ProfileCard() {
   return (
     <div className="bg-bg-surface p-6 rounded-3xl border border-border-base shadow-sm">
       <div className="flex items-center gap-4">
-        <div className="w-14 h-14 bg-primary-base text-text-inverted font-extrabold text-xl rounded-full flex items-center justify-center shrink-0 shadow-md">
-          {initial}
-        </div>
+        <LetterAvatar name={name} sizeClasses="w-14 h-14 text-xl" />
         <div className="min-w-0">
           <h2 className={`font-bold text-text-heading truncate ${getDynamicFontSize(name)}`}>{name}</h2>
           <p className="text-xs text-text-muted mt-0.5 line-clamp-2">{user.isLoggedIn ? user.email : data.department}</p>
@@ -37,8 +35,8 @@ export default function ProfileCard() {
         <div className="w-px h-8 bg-border-base"></div>
         
         <div className="flex flex-col text-xs font-bold text-text-muted">
-          <span>{data.hostCount}x Host</span>
-          <span>{data.participantCount}x Ikut</span>
+          <span>0x Host</span>
+          <span>0x Ikut</span>
         </div>
       </div>
     </div>
