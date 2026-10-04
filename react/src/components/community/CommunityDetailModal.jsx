@@ -27,7 +27,7 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
           <span className={getCategoryColor(item.icon).split(' ')[0]}>
             {getCategoryIcon(item.icon, "w-4 h-4")}
           </span>
-          <span className={`text-xs font-bold ${item.badgeBg.split(' ').find(c => c.startsWith('text-')) || 'text-primary-text'}`}>
+          <span className={`text-xs font-bold ${item.badgeBg.split(' ').find(c => c.startsWith('text-'))}`}>
             {item.kategoriLabel}
           </span>
         </div>

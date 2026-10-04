@@ -2,7 +2,7 @@ import { getCategoryIcon, getCategoryColor } from "../../utils/iconMapper";
 import { MapPin, Heart, MessageCircle } from "lucide-react";
 
 export default function CommunityCard({ item, onClick, index = 0 }) {
-  const badgeTextColor = item.badgeBg.split(' ').find(c => c.startsWith('text-')) || "text-primary-text";
+  const badgeTextColor = item.badgeBg.split(' ').find(c => c.startsWith('text-'));
 
   return (
     <div 

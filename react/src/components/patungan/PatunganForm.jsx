@@ -60,14 +60,14 @@ export default function PatunganForm({ onSuccess }) {
     const res = await api.patungan.create(formData);
     
     if (res.success) {
-      toast.success(res.message || patunganData.alerts.successMessage);
+      toast.success(res.message);
       if (onSuccess) {
         onSuccess();
       } else {
         window.location.href = "/";
       }
     } else {
-      toast.error(res.message || "Gagal membuat patungan.");
+      toast.error(res.message);
     }
   };
 

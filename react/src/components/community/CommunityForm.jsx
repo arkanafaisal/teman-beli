@@ -47,12 +47,12 @@ export default function CommunityForm({ onSuccess }) {
     const res = await api.community.create(formData);
     
     if (res.success) {
-      toast.success(res.message || communityData.alerts.successMessage);
+      toast.success(res.message);
       if (onSuccess) {
         onSuccess();
       }
     } else {
-      toast.error(res.message || "Gagal membuat komunitas.");
+      toast.error(res.message);
     }
   };
 
