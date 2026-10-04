@@ -26,7 +26,7 @@ export const profileData = {
     ]
   },
   historyCard: {
-    title: "Riwayat Aktivitas (12)",
+    title: "Riwayat Aktivitas",
     subtitle: "Daftar patungan dan transaksi terkini",
     activities: [
       {

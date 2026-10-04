@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { toast } from "sonner";
 
 const AuthContext = createContext();
 
@@ -16,7 +17,10 @@ export function AuthProvider({ children }) {
           isLoggedIn: true,
           name: res.payload.name,
           email: res.payload.email,
+          rating: res.payload.rating,
+          department: res.payload.department,
         });
+        toast.success(`Selamat datang, ${res.payload.name}!`);
       }
       setIsInitializing(false);
     };
@@ -28,6 +32,8 @@ export function AuthProvider({ children }) {
       isLoggedIn: true,
       name: userData.name,
       email: userData.email,
+      rating: userData.rating,
+      department: userData.department,
     });
   };
 

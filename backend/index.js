@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 
 import authRouter from './routes/auth.route.js';
+import userRouter from './routes/user.route.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -39,6 +40,7 @@ app.use((err, req, res, next) => {
 
 // Pendaftaran Router Utama
 app.use('/api/auth', authRouter);
+app.use('/api/users', userRouter);
 
 // Route awal (health check)
 app.get('/api/health', (req, res) => {
