@@ -16,4 +16,50 @@ model User {
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  patungansHosted Patungan[] @relation("HostPatungan")
+  participations  PatunganParticipant[] @relation("UserParticipation")
+}
+
+enum PatunganStatus {
+  OPEN
+  FULL
+  FINISHED
+  CANCELLED
+}
+
+model Patungan {
+  id           String   @id @default(uuid())
+  title        String
+  category     String
+  unit         String
+  targetQuota  Int
+  totalPrice   Float
+  currentQuota Int      @default(0)
+  area         String
+  deadline     DateTime
+  whatsapp     String
+  notes        String?
+  refLink      String?
+  status       PatunganStatus @default(OPEN)
+
+  hostId       String
+  host         User     @relation("HostPatungan", fields: [hostId], references: [id])
+
+  participants PatunganParticipant[]
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model PatunganParticipant {
+  id         String   @id @default(uuid())
+  patunganId String
+  userId     String
+  quota      Int
+
+  patungan   Patungan @relation(fields: [patunganId], references: [id])
+  user       User     @relation("UserParticipation", fields: [userId], references: [id])
+
+  joinedAt   DateTime @default(now())
 }

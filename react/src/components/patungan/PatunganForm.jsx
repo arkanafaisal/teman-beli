@@ -8,7 +8,7 @@ import { api } from "../../services/api";
 
 export default function PatunganForm({ onSuccess }) {
   const { user } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     title: "",
     category: "Alat Tulis & Cetak",
@@ -58,7 +58,7 @@ export default function PatunganForm({ onSuccess }) {
 
     // --- PANGGIL API BACKEND ---
     const res = await api.patungan.create(formData);
-    
+
     if (res.success) {
       toast.success(res.message);
       if (onSuccess) {
@@ -194,7 +194,7 @@ export default function PatunganForm({ onSuccess }) {
         error={errors.refLink}
       />
 
-      <button type="submit" className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
+      <button type="submit" className="cursor-pointer w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
         {patunganData.form.submitButton}
       </button>
     </form>
