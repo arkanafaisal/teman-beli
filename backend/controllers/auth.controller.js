@@ -37,7 +37,7 @@ AuthController.login = async (req, res) => {
 
   // 2. Validasi Domain Kampus (contoh: .ac.id atau .edu)
   // Jika frontend sudah memblokirnya, ini sebagai lapis pertahanan kedua
-  if (!email.endsWith('.ac.id') && !email.endsWith('.edu')) {
+  if (!email.endsWith('.ac.id')) {
     let err = new Error("Bukan email kampus");
     err.status = 403;
     throw err; // Akan ditangkap global error handler, menghasilkan res.sendStatus(403)
