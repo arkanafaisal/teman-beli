@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === 'production') {
   
   // Catch-all route untuk React Router (SPA)
   // Abaikan request ke /api agar backend tetap melempar 404/error yang sesuai
-  app.get('*', (req, res, next) => {
+  app.get(/(.*)/, (req, res, next) => {
     if (req.path.startsWith('/api/')) return next();
     res.sendFile(path.join(reactDistPath, 'index.html'));
   });
