@@ -56,6 +56,16 @@ export default function PatunganForm({ onSuccess, initialData }) {
         if (err.path[0]) fieldErrors[err.path[0]] = err.message;
       });
       setErrors(fieldErrors);
+      
+      // Auto-scroll to the first field with error
+      setTimeout(() => {
+        const firstErrorEl = document.querySelector('.border-danger-base');
+        if (firstErrorEl) {
+          firstErrorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          firstErrorEl.focus();
+        }
+      }, 100);
+      
       return;
     }
 
