@@ -93,6 +93,18 @@ export default function PatunganForm({ onSuccess, initialData }) {
     }
   };
 
+  const handleCancelPatungan = async () => {
+    if (window.confirm("Apakah Anda yakin ingin membatalkan patungan ini? Tindakan ini tidak dapat diurungkan.")) {
+      const res = await api.patungan.updateStatus(initialData.id, { status: "CANCELLED" });
+      if (res.success || !res.message) {
+        toast.success("Patungan berhasil dibatalkan");
+        if (onSuccess) onSuccess();
+      } else {
+        toast.error(res.message || "Gagal membatalkan patungan");
+      }
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
       <FormInput
@@ -242,6 +254,16 @@ export default function PatunganForm({ onSuccess, initialData }) {
       <button type="submit" className="cursor-pointer w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
         {isEditMode ? patunganData.form.saveChangesButton : patunganData.form.submitButton}
       </button>
+
+      {isEditMode && initialData?.status !== 'FINISHED' && initialData?.status !== 'CANCELLED' && (
+        <button 
+          type="button" 
+          onClick={handleCancelPatungan}
+          className="cursor-pointer mt-3 w-full border border-danger-base text-danger-base hover:bg-danger-base hover:text-text-inverted font-medium py-3 rounded-xl transition"
+        >
+          Batalkan Patungan
+        </button>
+      )}
     </form>
   );
 }

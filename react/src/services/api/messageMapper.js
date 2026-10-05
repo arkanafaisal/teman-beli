@@ -115,7 +115,7 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/patungan/:id/join": {
       POST: {
-        400: "Jumlah porsi tidak valid.",
+        400: "Jumlah porsi tidak valid atau melebihi sisa kuota.",
         403: "Anda adalah host dari patungan ini.",
         404: "Patungan tidak ditemukan.",
         409: "Anda sudah mendaftar pada patungan ini."

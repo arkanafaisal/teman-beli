@@ -86,11 +86,18 @@ export default function PatunganDetailModal({ item, onClose }) {
   };
 
   const handleJoin = async (quota) => {
-    if (!quota || isNaN(quota) || quota < 1) {
+    const numQuota = parseInt(quota);
+    if (!quota || isNaN(numQuota) || numQuota < 1) {
       toast.error("Masukkan nominal yang valid");
       return;
     }
-    const res = await api.patungan.join(localItem.id, { quota });
+    const remainingQuota = localItem.targetQuota - localItem.currentQuota;
+    if (numQuota > remainingQuota) {
+      toast.error(`Sisa kuota hanya ${remainingQuota} ${localItem.unit}`);
+      return;
+    }
+
+    const res = await api.patungan.join(localItem.id, { quota: numQuota });
     if (res.success) {
       toast.success("Berhasil mendaftar! Menunggu persetujuan host.");
       setRefreshTrigger(prev => prev + 1);
@@ -285,6 +292,10 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onManage, o
                   <div className="w-full bg-bg-subtle border border-border-base text-success-base font-bold py-3.5 rounded-xl flex items-center justify-center gap-2">
                     <CheckCircle className="w-5 h-5" />
                     Patungan Selesai
+                  </div>
+                ) : item.status === 'CANCELLED' ? (
+                  <div className="w-full bg-bg-subtle border border-danger-base text-danger-base font-bold py-3.5 rounded-xl flex items-center justify-center gap-2">
+                    Patungan Dibatalkan
                   </div>
                 ) : (
                   <button 

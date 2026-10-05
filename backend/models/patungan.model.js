@@ -123,14 +123,41 @@ export const PatunganModel = {
     });
   },
 
+  updateStatus: async (id, status) => {
+    return await prisma.patungan.update({
+      where: { id },
+      data: { status }
+    });
+  },
+
   joinPatungan: async (patunganId, userId, quota) => {
-    return await prisma.patunganParticipant.create({
-      data: {
-        patunganId,
-        userId,
-        quota,
-        status: 'PENDING'
+    return await prisma.$transaction(async (tx) => {
+      const participant = await tx.patunganParticipant.create({
+        data: {
+          patunganId,
+          userId,
+          quota,
+          status: 'PENDING'
+        }
+      });
+
+      const activeParticipants = await tx.patunganParticipant.findMany({
+        where: { patunganId, status: { in: ['ACCEPTED', 'PENDING'] } }
+      });
+      const newQuota = activeParticipants.reduce((sum, p) => sum + p.quota, 0);
+
+      const patungan = await tx.patungan.findUnique({ where: { id: patunganId } });
+      let newStatus = patungan.status;
+      if (patungan.status !== 'FINISHED' && patungan.status !== 'CANCELLED') {
+        newStatus = newQuota >= patungan.targetQuota ? 'FULL' : 'OPEN';
       }
+
+      await tx.patungan.update({
+        where: { id: patunganId },
+        data: { currentQuota: newQuota, status: newStatus }
+      });
+
+      return participant;
     });
   },
 
@@ -172,18 +199,21 @@ export const PatunganModel = {
         data: { status }
       });
 
-      // Recalculate the patungan currentQuota based on ACCEPTED participants
-      if (status === 'ACCEPTED' || status === 'REJECTED') {
-        const accepted = await tx.patunganParticipant.findMany({
-          where: { patunganId: participant.patunganId, status: 'ACCEPTED' }
-        });
-        const newQuota = accepted.reduce((sum, p) => sum + p.quota, 0);
-        
-        await tx.patungan.update({
-          where: { id: participant.patunganId },
-          data: { currentQuota: newQuota }
-        });
+      const activeParticipants = await tx.patunganParticipant.findMany({
+        where: { patunganId: participant.patunganId, status: { in: ['ACCEPTED', 'PENDING'] } }
+      });
+      const newQuota = activeParticipants.reduce((sum, p) => sum + p.quota, 0);
+
+      const patungan = await tx.patungan.findUnique({ where: { id: participant.patunganId } });
+      let newStatus = patungan.status;
+      if (patungan.status !== 'FINISHED' && patungan.status !== 'CANCELLED') {
+        newStatus = newQuota >= patungan.targetQuota ? 'FULL' : 'OPEN';
       }
+
+      await tx.patungan.update({
+        where: { id: participant.patunganId },
+        data: { currentQuota: newQuota, status: newStatus }
+      });
 
       return participant;
     });
@@ -195,18 +225,21 @@ export const PatunganModel = {
         where: { id: participantId }
       });
 
-      // Recalculate the patungan currentQuota based on ACCEPTED participants
-      if (participant.status === 'ACCEPTED') {
-        const accepted = await tx.patunganParticipant.findMany({
-          where: { patunganId: participant.patunganId, status: 'ACCEPTED' }
-        });
-        const newQuota = accepted.reduce((sum, p) => sum + p.quota, 0);
-        
-        await tx.patungan.update({
-          where: { id: participant.patunganId },
-          data: { currentQuota: newQuota }
-        });
+      const activeParticipants = await tx.patunganParticipant.findMany({
+        where: { patunganId: participant.patunganId, status: { in: ['ACCEPTED', 'PENDING'] } }
+      });
+      const newQuota = activeParticipants.reduce((sum, p) => sum + p.quota, 0);
+
+      const patungan = await tx.patungan.findUnique({ where: { id: participant.patunganId } });
+      let newStatus = patungan.status;
+      if (patungan.status !== 'FINISHED' && patungan.status !== 'CANCELLED') {
+        newStatus = newQuota >= patungan.targetQuota ? 'FULL' : 'OPEN';
       }
+
+      await tx.patungan.update({
+        where: { id: participant.patunganId },
+        data: { currentQuota: newQuota, status: newStatus }
+      });
 
       return participant;
     });

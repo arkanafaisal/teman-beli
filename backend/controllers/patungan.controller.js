@@ -90,6 +90,26 @@ PatunganController.finishPatungan = async (req, res) => {
   }
 };
 
+PatunganController.updateStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    const existing = await PatunganModel.getPatunganById(id);
+    
+    if (!existing) return res.sendStatus(404);
+    if (existing.hostId !== req.user.id) return res.sendStatus(403);
+    
+    const validStatuses = ['OPEN', 'FULL', 'FINISHED', 'CANCELLED'];
+    if (!validStatuses.includes(status)) return res.sendStatus(400);
+
+    await PatunganModel.updateStatus(id, status);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+};
+
 
 PatunganController.addLog = async (req, res) => {
   try {
@@ -126,6 +146,10 @@ PatunganController.join = async (req, res) => {
     const alreadyParticipated = await PatunganModel.checkParticipation(id, req.user.id);
     if (alreadyParticipated) {
       return res.sendStatus(409);
+    }
+
+    if (existing.currentQuota + quota > existing.targetQuota) {
+      return res.sendStatus(400); // 400 for bad request (quota exceeded)
     }
 
     await PatunganModel.joinPatungan(id, req.user.id, quota);
