@@ -2,25 +2,27 @@ import { useState } from "react";
 import { patunganData } from "../../data/patungan";
 import { useAuth } from "../../context/AuthContext";
 import FormInput from "../common/FormInput";
-import { patunganSchema } from "../../validations/patunganFormValidation";
+import { patunganSchema, updatePatunganSchema } from "../../validations/patunganFormValidation";
 import { toast } from "sonner";
 import { api } from "../../services/api";
 
-export default function PatunganForm({ onSuccess }) {
+export default function PatunganForm({ onSuccess, initialData }) {
   const { user } = useAuth();
+  const isEditMode = !!initialData;
 
   const [formData, setFormData] = useState({
-    title: "",
-    category: "Alat Tulis & Cetak",
-    unit: "",
-    targetQuota: "",
-    totalPrice: "",
-    currentQuota: "",
-    area: "",
-    deadline: "",
-    whatsapp: "",
-    notes: "",
-    refLink: ""
+    title: initialData?.title || "",
+    category: initialData?.category || "Alat Tulis & Cetak",
+    unit: initialData?.unit || "",
+    targetQuota: initialData?.targetQuota || "",
+    totalPrice: initialData?.totalPrice || "",
+    currentQuota: initialData?.currentQuota || "",
+    area: initialData?.area || "",
+    deadline: initialData?.deadline ? initialData.deadline.split('T')[0] : "",
+    whatsapp: initialData?.whatsapp || "",
+    notes: initialData?.notes || "",
+    refLink: initialData?.refLink || "",
+    updateComment: ""
   });
   const [errors, setErrors] = useState({});
 
@@ -46,7 +48,8 @@ export default function PatunganForm({ onSuccess }) {
       return;
     }
 
-    const result = patunganSchema.safeParse(formData);
+    const schemaToUse = isEditMode ? updatePatunganSchema : patunganSchema;
+    const result = schemaToUse.safeParse(formData);
     if (!result.success) {
       const fieldErrors = {};
       result.error.issues.forEach(err => {
@@ -57,17 +60,19 @@ export default function PatunganForm({ onSuccess }) {
     }
 
     // --- PANGGIL API BACKEND ---
-    const res = await api.patungan.create(formData);
+    const res = isEditMode 
+      ? await api.patungan.update(initialData.id, formData)
+      : await api.patungan.create(formData);
 
     if (res.success) {
-      toast.success(res.message);
+      toast.success(isEditMode ? "Pembaruan berhasil disimpan!" : patunganData.alerts.successMessage);
       if (onSuccess) {
         onSuccess();
       } else {
         window.location.href = "/";
       }
     } else {
-      toast.error(res.message);
+      toast.error(res.message || "Terjadi kesalahan, silakan coba lagi.");
     }
   };
 
@@ -194,8 +199,24 @@ export default function PatunganForm({ onSuccess }) {
         error={errors.refLink}
       />
 
+      {isEditMode && (
+        <div className="pt-4 border-t border-border-base">
+          <FormInput
+            type="textarea"
+            label={patunganData.form.updateComment.label}
+            name="updateComment"
+            rows="2"
+            required
+            placeholder={patunganData.form.updateComment.placeholder}
+            value={formData.updateComment}
+            onChange={handleChange}
+            error={errors.updateComment}
+          />
+        </div>
+      )}
+
       <button type="submit" className="cursor-pointer w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
-        {patunganData.form.submitButton}
+        {isEditMode ? patunganData.form.saveChangesButton : patunganData.form.submitButton}
       </button>
     </form>
   );

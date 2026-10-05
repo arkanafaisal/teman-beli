@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const patunganSchema = z.object({
+export const basePatunganSchema = z.object({
   title: z.string().min(5, { message: "Judul minimal 5 karakter" }).max(100, { message: "Judul maksimal 100 karakter" }),
   category: z.string().min(1, { message: "Kategori harus dipilih" }),
   unit: z.string().min(1, { message: "Satuan tidak boleh kosong" }),
@@ -15,4 +15,38 @@ export const patunganSchema = z.object({
 }).refine(data => data.currentQuota <= data.targetQuota, {
   message: "Kuota awal tidak boleh melebihi target",
   path: ["currentQuota"],
+});
+
+export const patunganSchema = basePatunganSchema.superRefine((data, ctx) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + 3);
+
+  if (new Date(data.deadline) < minDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Tenggat waktu harus minimal 3 hari dari sekarang"
+    });
+  }
+});
+
+export const updatePatunganSchema = basePatunganSchema.and(
+  z.object({
+    updateComment: z.string().min(5, { message: "Pesan pembaruan minimal 5 karakter" }).max(300)
+  })
+).superRefine((data, ctx) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + 1);
+
+  if (new Date(data.deadline) < minDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Tenggat waktu (update) harus minimal 1 hari dari sekarang"
+    });
+  }
 });

@@ -16,7 +16,8 @@ export default function Patungan() {
   const { user } = useAuth();
   const [items, setItems] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategories, setActiveCategories] = useState([]);
+  const [activeTab, setActiveTab] = useState("all");
   const [selectedItem, setSelectedItem] = useState(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
@@ -34,13 +35,17 @@ export default function Patungan() {
       duration: 700,
       easing: "ease-in-out",
     });
-    fetchPatungans();
   }, []);
 
   const fetchPatungans = async () => {
-    const res = await api.patungan.getAll();
-    if (res.success && res.data) {
-      const mappedData = res.data.map(item => ({
+    let params = {};
+    if (searchQuery) params.q = searchQuery;
+    if (activeCategories.length > 0) params.category = activeCategories.join(",");
+    if (activeTab === "mine" && user?.isLoggedIn) params.hostId = user.id;
+
+    const res = await api.patungan.getAll(params);
+    if (res.success && res.payload) {
+      const mappedData = res.payload.map(item => ({
         ...item,
         unitPrice: Math.round(item.totalPrice / item.targetQuota),
         creatorName: item.host.name,
@@ -54,13 +59,20 @@ export default function Patungan() {
 
   useEffect(() => {
     AOS.refresh();
-  }, [searchQuery, activeCategory, items]);
+  }, [items]);
 
-  const filteredItems = items.filter((item) => {
-    const matchCat = activeCategory === "All" || item.category === activeCategory;
-    const matchQuery = item.title.toLowerCase().includes(searchQuery.toLowerCase()) || item.area.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchCat && matchQuery;
-  });
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchPatungans();
+    }, 400);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery, activeCategories, activeTab, user?.id]);
+
+  const filterTabs = [
+    { id: "all", label: "Semua" },
+    ...(user?.isLoggedIn ? [{ id: "mine", label: "Patungan Saya" }] : [])
+  ];
 
   return (
     <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 md:py-12">
@@ -73,13 +85,16 @@ export default function Patungan() {
       <PageFilter 
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        activeCategory={activeCategory}
-        setActiveCategory={setActiveCategory}
+        activeCategory={activeCategories}
+        setActiveCategory={setActiveCategories}
         filters={patunganData.feed.filters}
         searchPlaceholder={patunganData.feed.search.placeholder}
+        tabs={filterTabs}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
       />
       
-      {filteredItems.length === 0 ? (
+      {items.length === 0 ? (
         <div className="py-16 text-center" data-aos="fade-up">
           <div className="text-4xl mb-4">🔍</div>
           <h3 className="text-lg font-bold text-text-heading mb-2">{patunganData.feed.emptyState.message}</h3>
@@ -87,7 +102,7 @@ export default function Patungan() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredItems.map((item, index) => (
+          {items.map((item, index) => (
             <div key={item.id}>
               <PatunganCard item={item} onClick={setSelectedItem} index={index} />
             </div>

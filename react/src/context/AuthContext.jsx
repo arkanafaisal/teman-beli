@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
       if (res.success && res.payload) {
         setUser({
           isLoggedIn: true,
+          id: res.payload.id,
           name: res.payload.name,
           email: res.payload.email,
           rating: res.payload.rating,
@@ -30,6 +31,7 @@ export function AuthProvider({ children }) {
   const login = (userData) => {
     setUser({
       isLoggedIn: true,
+      id: userData.id,
       name: userData.name,
       email: userData.email,
       rating: userData.rating,

@@ -36,6 +36,8 @@
   --color-success-text: var(--success-text);
 
   /* Warning / Pending */
+  --color-warning-base: var(--warning-base);
+  --color-warning-hover: var(--warning-hover);
   --color-warning-soft: var(--warning-soft);
   --color-warning-text: var(--warning-text);
 
@@ -108,6 +110,8 @@
     --success-text: var(--color-emerald-600);
 
     /* Warning (Amber) */
+    --warning-base: var(--color-amber-500);
+    --warning-hover: var(--color-amber-600);
     --warning-soft: var(--color-amber-100);
     --warning-text: var(--color-amber-600);
 
@@ -156,6 +160,8 @@
     --success-text: var(--color-emerald-400);
 
     /* Warning (Amber) */
+    --warning-base: var(--color-amber-500);
+    --warning-hover: var(--color-amber-600);
     --warning-soft: rgba(69, 26, 3, 0.6);
     /* amber-950/60 */
     --warning-text: var(--color-amber-400);

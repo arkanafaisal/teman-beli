@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const patunganSchema = z.object({
+const baseSchema = z.object({
   title: z.string().min(5).max(100),
   category: z.string().min(1),
   unit: z.string().min(1),
@@ -13,3 +13,37 @@ export const patunganSchema = z.object({
   notes: z.string().max(300).optional(),
   refLink: z.string().url().or(z.literal('')).optional(),
 }).refine(data => data.currentQuota <= data.targetQuota);
+
+export const patunganSchema = baseSchema.superRefine((data, ctx) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + 3);
+
+  if (new Date(data.deadline) < minDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Deadline untuk patungan baru minimal 3 hari dari sekarang"
+    });
+  }
+});
+
+export const updatePatunganSchema = baseSchema.and(
+  z.object({
+    updateComment: z.string().min(5).max(300)
+  })
+).superRefine((data, ctx) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const minDate = new Date(today);
+  minDate.setDate(today.getDate() + 1);
+
+  if (new Date(data.deadline) < minDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Deadline saat update minimal 1 hari (besok)"
+    });
+  }
+});

@@ -3,7 +3,7 @@ export const getApiMessage = (path, code, method = "GET") => {
   // Normalisasi Path dinamis agar sesuai dictionary
   let normalizedPath = path;
   if (path.match(/\/patungan\/\d+/)) {
-    normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/patungan/:id/comments" : m.includes("join") ? "/patungan/:id/join" : m.includes("leave") ? "/patungan/:id/leave" : m.includes("status") ? "/patungan/:id/status" : "/patungan/:id");
+    normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/patungan/:id/comments" : m.includes("join") ? "/patungan/:id/join" : m.includes("leave") ? "/patungan/:id/leave" : m.includes("status") ? "/patungan/:id/status" : m.includes("log") ? "/patungan/:id/log" : "/patungan/:id");
   }
   if (path.match(/\/community\/\d+/)) {
     normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/community/:id/comments" : m.includes("join") ? "/community/:id/join" : m.includes("leave") ? "/community/:id/leave" : "/community/:id");
@@ -59,6 +59,20 @@ export const getApiMessage = (path, code, method = "GET") => {
     "/patungan/:id": {
       DELETE: {
         403: "Anda tidak memiliki hak untuk menghapus patungan ini."
+      },
+      PUT: {
+        200: "Data patungan berhasil diperbarui.",
+        400: "Data pembaruan tidak lengkap atau tidak valid.",
+        403: "Anda tidak diizinkan untuk mengedit patungan ini.",
+        404: "Patungan tidak ditemukan."
+      }
+    },
+    "/patungan/:id/log": {
+      POST: {
+        200: "Pembaruan status (log) berhasil ditambahkan.",
+        400: "Teks pembaruan tidak boleh kosong.",
+        403: "Hanya host yang dapat menambahkan pembaruan status.",
+        404: "Patungan tidak ditemukan."
       }
     },
     "/patungan/:id/join": {

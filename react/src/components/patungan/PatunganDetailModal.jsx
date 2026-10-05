@@ -2,54 +2,59 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../services/api";
 import BottomModalWrapper from "../common/BottomModalWrapper";
+import CenterModalWrapper from "../common/CenterModalWrapper";
 import { patunganData } from "../../data/patungan";
-import { MapPin, Link as LinkIcon, MessageCircle, Lock } from "lucide-react";
+import { MapPin, Link as LinkIcon, MessageCircle, Lock, Edit } from "lucide-react";
 import { getRelativeTime } from "../../utils/dateHelper";
 import { commentSchema } from "../../validations/commentValidation";
 import { toast } from "sonner";
+import PatunganForm from "./PatunganForm";
 
 
 export default function PatunganDetailModal({ item, onClose }) {
   const { user, login } = useAuth();
   const [localItem, setLocalItem] = useState(item);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
     if (!item?.id) return;
-    
+
     const fetchDetail = async () => {
       const res = await api.patungan.getDetail(item.id);
-      if (res.success && res.data) {
-        const fetchedLogs = res.data.logs || [];
+      if (res.success && res.payload) {
+        const fetchedLogs = res.payload.logs || [];
         const formattedReplies = fetchedLogs.map(log => ({
           date: new Date(log.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
           text: log.text
         }));
-        
+
         setLocalItem(prev => ({
           ...prev,
-          currentQuota: res.data.currentQuota,
-          status: res.data.status,
+          currentQuota: res.payload.currentQuota,
+          status: res.payload.status,
           replies: formattedReplies,
-          lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : null
+          lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : prev.lastUpdated
         }));
       }
     };
-    
+
     fetchDetail();
-  }, [item?.id]);
+  }, [item?.id, refreshTrigger]);
 
   if (!localItem) return null;
 
-  const handleAddReply = (text) => {
-    const newReply = {
-      date: new Date().toISOString().split('T')[0],
-      text
-    };
+  const isHost = user?.isLoggedIn && user?.id === localItem.hostId;
 
-    setLocalItem({
-      ...localItem,
-      replies: [...(localItem.replies || []), newReply]
-    });
+  const handleAddReply = async (text, onSuccess) => {
+    const res = await api.patungan.addLog(localItem.id, { text });
+    if (res.success) {
+      setRefreshTrigger(prev => prev + 1);
+      toast.success("Update status berhasil ditambahkan");
+      if (onSuccess) onSuccess();
+    } else {
+      toast.error(res.message || "Gagal menambahkan pembaruan");
+    }
   };
 
   const handleLogin = () => {
@@ -58,15 +63,29 @@ export default function PatunganDetailModal({ item, onClose }) {
   };
 
   return (
-    <BottomModalWrapper onClose={onClose}>
-      <PatunganDetail item={localItem} isLoggedIn={user?.isLoggedIn} onLogin={handleLogin} />
-      <PatunganReplies replies={localItem.replies} isLoggedIn={user?.isLoggedIn} onAddReply={handleAddReply} />
-    </BottomModalWrapper>
+    <>
+      <BottomModalWrapper onClose={onClose}>
+        <PatunganDetail item={localItem} isLoggedIn={user?.isLoggedIn} onLogin={handleLogin} isHost={isHost} onEdit={() => setIsEditModalOpen(true)} />
+        <PatunganReplies replies={localItem.replies} isLoggedIn={user?.isLoggedIn} isHost={isHost} onAddReply={handleAddReply} />
+      </BottomModalWrapper>
+
+      {isEditModalOpen && (
+        <CenterModalWrapper title={patunganData.form.editModalTitle} onClose={() => setIsEditModalOpen(false)}>
+          <PatunganForm
+            initialData={localItem}
+            onSuccess={() => {
+              setIsEditModalOpen(false);
+              setRefreshTrigger(prev => prev + 1);
+            }}
+          />
+        </CenterModalWrapper>
+      )}
+    </>
   );
 }
 
 
-function PatunganDetail({ item, isLoggedIn, onLogin }) {
+function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
   const remainingQuota = item.targetQuota - item.currentQuota;
 
@@ -88,12 +107,23 @@ function PatunganDetail({ item, isLoggedIn, onLogin }) {
             </span>
             {item.lastUpdated && (
               <span className="text-[10px] text-text-muted mt-0.5 font-medium">
-                Update: {getRelativeTime(item.lastUpdated)}
+                Update Terakhir: {new Date(item.lastUpdated).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
               </span>
             )}
           </div>
         </div>
-        <h1 className="text-2xl font-bold mb-2">{item.title}</h1>
+        <div className="relative mb-2">
+          <h1 className="text-2xl font-bold pr-10">{item.title}</h1>
+          {isHost && (
+            <button
+              onClick={onEdit}
+              className="absolute right-0 top-0 p-2 bg-warning-base text-text-inverted rounded-xl flex items-center justify-center transition hover:bg-warning-hover shadow-sm cursor-pointer"
+              title="Edit Patungan"
+            >
+              <Edit className="w-4 h-4" />
+            </button>
+          )}
+        </div>
         <p className="text-sm text-text-muted flex items-center gap-1">
           <MapPin className="w-4 h-4 shrink-0 text-primary-text" strokeWidth={2.5} />
           {patunganData.detail.card.locationLabel} <span className="font-medium text-text-base">{item.area}</span>
@@ -167,7 +197,7 @@ function PatunganDetail({ item, isLoggedIn, onLogin }) {
   );
 }
 
-function PatunganReplies({ replies, isLoggedIn, onAddReply }) {
+function PatunganReplies({ replies, isLoggedIn, isHost, onAddReply }) {
   const [replyText, setReplyText] = useState("");
   const [error, setError] = useState("");
 
@@ -177,10 +207,11 @@ function PatunganReplies({ replies, isLoggedIn, onAddReply }) {
       setError(result.error.issues[0].message);
       return;
     }
-    
-    onAddReply(replyText);
-    setReplyText("");
-    setError("");
+
+    onAddReply(replyText, () => {
+      setReplyText("");
+      setError("");
+    });
   };
 
   return (
@@ -202,7 +233,7 @@ function PatunganReplies({ replies, isLoggedIn, onAddReply }) {
         )}
       </div>
 
-      {isLoggedIn && (
+      {isLoggedIn && isHost && (
         <div className="pt-3 border-t border-border-subtle flex flex-col gap-2">
           <div className="flex gap-2">
             <input
@@ -213,11 +244,10 @@ function PatunganReplies({ replies, isLoggedIn, onAddReply }) {
                 if (error) setError("");
               }}
               placeholder={patunganData.detail.replies.inputPlaceholder}
-              className={`flex-1 px-3 py-2 text-xs rounded-lg border dark:bg-bg-subtle focus:outline-none transition-colors ${
-                error ? "border-danger-base focus:border-danger-base" : "border-border-base focus:border-primary-base"
-              }`}
+              className={`flex-1 px-3 py-2 text-xs rounded-lg border dark:bg-bg-subtle focus:outline-none transition-colors ${error ? "border-danger-base focus:border-danger-base" : "border-border-base focus:border-primary-base"
+                }`}
             />
-            <button onClick={handleAdd} className="bg-primary-base text-text-inverted text-xs px-4 py-2 rounded-lg font-medium">{patunganData.detail.replies.sendButton}</button>
+            <button onClick={handleAdd} className="cursor-pointer bg-primary-base text-text-inverted text-xs px-4 py-2 rounded-lg font-medium">{patunganData.detail.replies.sendButton}</button>
           </div>
           {error && <span className="text-[10px] text-danger-base font-medium px-1">{error}</span>}
         </div>

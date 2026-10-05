@@ -36,9 +36,23 @@ export const api = {
   },
   patungan: {
     // Parameter query string bisa dilempar sebagai params nantinya
-    getAll: () => callApi("/patungan", "GET"), 
+    getAll: (params) => {
+      let query = "";
+      if (params) {
+        const queryParams = new URLSearchParams();
+        if (params.q) queryParams.append("q", params.q);
+        if (params.category) queryParams.append("category", params.category);
+        if (params.hostId) queryParams.append("hostId", params.hostId);
+        if (queryParams.toString()) {
+          query = `?${queryParams.toString()}`;
+        }
+      }
+      return callApi(`/patungan${query}`, "GET");
+    }, 
     getDetail: (id) => callApi(`/patungan/${id}`, "GET"),
     create: (payload) => callApi("/patungan", "POST", payload),
+    update: (id, payload) => callApi(`/patungan/${id}`, "PUT", payload),
+    addLog: (id, payload) => callApi(`/patungan/${id}/log`, "POST", payload),
     join: (id) => callApi(`/patungan/${id}/join`, "POST"),
     leave: (id) => callApi(`/patungan/${id}/leave`, "POST"),
     delete: (id) => callApi(`/patungan/${id}`, "DELETE"),

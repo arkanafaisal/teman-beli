@@ -9,7 +9,6 @@ export const patunganData = {
       placeholder: "Cari barang atau titik kumpul...",
     },
     filters: [
-      { label: "Semua", value: "All", icon: null },
       { label: "Alat Tulis", value: "Alat Tulis & Cetak", icon: "📚" },
       { label: "Praktikum", value: "Bahan Praktikum", icon: "🧪" },
       { label: "Makanan", value: "Makanan / Snacking", icon: "🍿" },
@@ -56,7 +55,8 @@ export const patunganData = {
     actions: {
       whatsappButton: "Hubungi Kreator via WhatsApp",
       whatsappTemplate: "Halo {creatorName}, saya mau ikut patungan \"{title}\" yang di-post di TemanBeli. Masih ada slot?",
-      lockedButton: "Masuk dengan SSO Kampus untuk Ikut Patungan"
+      lockedButton: "Masuk dengan SSO Kampus untuk Ikut Patungan",
+      editButton: "Edit"
     },
     replies: {
       title: "Log Pembaruan Status",
@@ -71,6 +71,7 @@ export const patunganData = {
   },
   form: {
     modalTitle: "Buat Patungan Baru",
+    editModalTitle: "Edit Patungan",
     title: {
       label: "Nama Barang / Pengumuman",
       placeholder: "Kertas HVS A4 80gsm 1 Rim"
@@ -125,7 +126,12 @@ export const patunganData = {
       label: "Link Referensi (Opsional)",
       placeholder: "https://tokopedia.com/..."
     },
-    submitButton: "Posting Pengumuman"
+    updateComment: {
+      label: "Alasan Pembaruan (Wajib)",
+      placeholder: "Kenapa Anda mengupdate patungan ini? (Misal: Harga naik, dll)"
+    },
+    submitButton: "Posting Pengumuman",
+    saveChangesButton: "Simpan Perubahan"
   },
   alerts: {
     loginRequired: "Anda harus login terlebih dahulu!",
