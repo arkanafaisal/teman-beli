@@ -1,13 +1,14 @@
 import express from 'express';
 import { requireAuth } from '../middlewares/auth.middleware.js';
+import { rateLimiter } from '../middlewares/rateLimiter.js';
 import { PatunganController } from '../controllers/patungan.controller.js';
 
 const router = express.Router();
 
-router.get('/', PatunganController.getAll); // Public route
-router.get('/:id', PatunganController.getDetail); // Public route
-router.post('/', requireAuth, PatunganController.create);
-router.put('/:id', requireAuth, PatunganController.update);
-router.post('/:id/log', requireAuth, PatunganController.addLog);
+router.get('/', rateLimiter('api.get'), PatunganController.getAll); // Public route
+router.get('/:id', rateLimiter('api.get'), PatunganController.getDetail); // Public route
+router.post('/', requireAuth, rateLimiter('patungan.create'), PatunganController.create);
+router.put('/:id', requireAuth, rateLimiter('patungan.update'), PatunganController.update);
+router.post('/:id/log', requireAuth, rateLimiter('patungan.addLog'), PatunganController.addLog);
 
 export default router;

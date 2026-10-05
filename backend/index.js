@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
 import patunganRouter from './routes/patungan.route.js';
+import { rateLimiter } from './middlewares/rateLimiter.js';
 
 const app = express();
 
@@ -55,7 +56,7 @@ app.use('/api/users', userRouter);
 app.use('/api/patungan', patunganRouter);
 
 // Route awal (health check)
-app.get('/api/health', (req, res) => {
+app.get('/api/health', rateLimiter('api.get'), (req, res) => {
   res.sendStatus(200)
 });
 

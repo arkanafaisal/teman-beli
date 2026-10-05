@@ -6,13 +6,33 @@ const limitsConfig = {
     windowMs: 15 * 60 * 1000, // 15 menit
     limit: 5
   },
+  'auth.refresh': { 
+    windowMs: 15 * 60 * 1000,
+    limit: 20
+  },
+  'auth.logout': { 
+    windowMs: 15 * 60 * 1000,
+    limit: 20
+  },
   'patungan.create': { 
     windowMs: 60 * 60 * 1000, // 1 jam
     limit: 10
   },
+  'patungan.update': { 
+    windowMs: 60 * 60 * 1000, 
+    limit: 15
+  },
+  'patungan.addLog': { 
+    windowMs: 60 * 60 * 1000,
+    limit: 20
+  },
   'community.create': { 
     windowMs: 60 * 60 * 1000,
     limit: 5
+  },
+  'api.get': { 
+    windowMs: 15 * 60 * 1000, 
+    limit: 300 // Operasi GET butuh limit lebih besar
   },
   'default': { 
     windowMs: 15 * 60 * 1000, 

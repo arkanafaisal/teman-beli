@@ -5,7 +5,7 @@ import { AuthController } from '../controllers/auth.controller.js';
 const router = express.Router();
 
 router.post('/login', rateLimiter('auth.login'), AuthController.login);
-router.post('/logout', AuthController.logout);
-router.post('/refresh', AuthController.refresh);
+router.post('/logout', rateLimiter('auth.logout'), AuthController.logout);
+router.post('/refresh', rateLimiter('auth.refresh'), AuthController.refresh);
 
 export default router;
