@@ -23,7 +23,7 @@ export const getAllCommunitiesModel = async (category, q) => {
     where,
     orderBy: { createdAt: 'desc' },
     include: { 
-      author: { select: { name: true, department: true } },
+      author: { select: { name: true, department: true, rating: true, reviewCount: true } },
       comments: {
         orderBy: { createdAt: 'desc' },
         include: { author: { select: { name: true } } }

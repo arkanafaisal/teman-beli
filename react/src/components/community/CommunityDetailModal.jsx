@@ -5,9 +5,11 @@ import BottomModalWrapper from "../common/BottomModalWrapper";
 import { commentSchema } from "../../validations/commentValidation";
 import { useState } from "react";
 import { getFullDateTime } from "../../utils/dateHelper";
+import { useAuth } from "../../context/AuthContext";
 
 export default function CommunityDetailModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
   const [error, setError] = useState("");
+  const { user } = useAuth();
 
   if (!item) return null;
 
@@ -55,7 +57,14 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
               {item.avatarLetter}
             </div>
             <div className="truncate">
-              <p className="font-bold text-xs sm:text-sm text-text-heading leading-tight truncate">{item.author}</p>
+              <div className="flex items-center gap-2 mb-0.5">
+                <p className="font-bold text-xs sm:text-sm text-text-heading leading-tight truncate">{item.author}</p>
+                {user?.isLoggedIn && (
+                  <span className="text-[10px] sm:text-xs font-medium text-warning-text flex items-center gap-0.5">
+                    ⭐ {item.authorRating > 0 ? item.authorRating.toFixed(1) : "-"} <span className="text-text-muted font-normal">({item.authorReviewCount || 0})</span>
+                  </span>
+                )}
+              </div>
               <p className="text-[10px] sm:text-[11px] text-text-muted truncate" dangerouslySetInnerHTML={{ __html: item.authorInfo }}></p>
             </div>
           </div>

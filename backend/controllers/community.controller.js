@@ -48,6 +48,8 @@ export const getAllCommunities = async (req, res) => {
       deskripsiLengkap: c.description,
       author: c.author.name,
       authorInfo: c.author.department || "Mahasiswa",
+      authorRating: c.author.rating,
+      authorReviewCount: c.author.reviewCount,
       likes: 0,
       comments: c.comments ? c.comments.map(comment => ({
         author: comment.author.name,
