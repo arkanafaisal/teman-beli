@@ -12,8 +12,8 @@ export const basePatunganSchema = z.object({
   whatsapp: z.string().regex(/^628[0-9]{7,13}$/, { message: "Gunakan format 628... (10-15 angka)" }),
   notes: z.string().max(300, { message: "Catatan maksimal 300 karakter" }).optional(),
   refLink: z.string().url({ message: "Format link tidak valid" }).or(z.literal('')),
-}).refine(data => data.currentQuota <= data.targetQuota, {
-  message: "Kuota awal tidak boleh melebihi target",
+}).refine(data => data.currentQuota < data.targetQuota, {
+  message: "Kuota awal harus kurang dari target (tidak boleh penuh di awal)",
   path: ["currentQuota"],
 });
 

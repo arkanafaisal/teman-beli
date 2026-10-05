@@ -12,7 +12,7 @@ const baseSchema = z.object({
   whatsapp: z.string().regex(/^628[0-9]{7,13}$/),
   notes: z.string().max(300).optional(),
   refLink: z.string().url().or(z.literal('')).optional(),
-}).refine(data => data.currentQuota <= data.targetQuota);
+}).refine(data => data.currentQuota < data.targetQuota, { message: "Kuota awal (Host) harus kurang dari target kuota", path: ["currentQuota"] });
 
 export const patunganSchema = baseSchema.superRefine((data, ctx) => {
   const minDate = new Date();

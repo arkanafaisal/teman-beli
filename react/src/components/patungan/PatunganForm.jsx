@@ -5,6 +5,7 @@ import FormInput from "../common/FormInput";
 import { patunganSchema, updatePatunganSchema } from "../../validations/patunganFormValidation";
 import { toast } from "sonner";
 import { api } from "../../services/api";
+import ActionModal from "../common/ActionModal";
 
 export default function PatunganForm({ onSuccess, initialData }) {
   const { user } = useAuth();
@@ -93,16 +94,21 @@ export default function PatunganForm({ onSuccess, initialData }) {
     }
   };
 
-  const handleCancelPatungan = async () => {
-    if (window.confirm("Apakah Anda yakin ingin membatalkan patungan ini? Tindakan ini tidak dapat diurungkan.")) {
-      const res = await api.patungan.updateStatus(initialData.id, { status: "CANCELLED" });
-      if (res.success || !res.message) {
-        toast.success("Patungan berhasil dibatalkan");
-        if (onSuccess) onSuccess();
-      } else {
-        toast.error(res.message || "Gagal membatalkan patungan");
-      }
+  const [showCancelModal, setShowCancelModal] = useState(false);
+
+  const executeCancelPatungan = async () => {
+    setShowCancelModal(false);
+    const res = await api.patungan.updateStatus(initialData.id, { status: "CANCELLED" });
+    if (res.success || !res.message) {
+      toast.success("Patungan berhasil dibatalkan");
+      if (onSuccess) onSuccess();
+    } else {
+      toast.error(res.message || "Gagal membatalkan patungan");
     }
+  };
+
+  const handleCancelPatungan = () => {
+    setShowCancelModal(true);
   };
 
   return (
@@ -264,6 +270,18 @@ export default function PatunganForm({ onSuccess, initialData }) {
           Batalkan Patungan
         </button>
       )}
+
+      <ActionModal
+        isOpen={showCancelModal}
+        type="confirm"
+        icon="warning"
+        title="Batalkan Patungan?"
+        description="Apakah Anda yakin ingin membatalkan patungan ini? Tindakan ini tidak dapat diurungkan dan sisa kuota akan dikosongkan."
+        confirmText="Ya, Batalkan"
+        cancelText="Kembali"
+        onConfirm={executeCancelPatungan}
+        onCancel={() => setShowCancelModal(false)}
+      />
     </form>
   );
 }
