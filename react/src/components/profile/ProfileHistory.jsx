@@ -24,6 +24,20 @@ export default function ProfileHistory() {
     ));
   };
 
+  const renderStatus = (status) => {
+    const d = profileData.historyCard;
+    switch (status) {
+      case 'FINISHED': return <span className="text-success-text">{d.statusFinished}</span>;
+      case 'CANCELLED': return <span className="text-danger-text">{d.statusCancelled}</span>;
+      case 'OPEN': return <span className="text-primary-base">{d.statusOpen}</span>;
+      case 'FULL': return <span className="text-warning-text font-bold">{d.statusFull}</span>;
+      case 'PENDING': return <span className="text-warning-text">{d.statusPending}</span>;
+      case 'ACCEPTED': return <span className="text-success-text">{d.statusAccepted}</span>;
+      case 'REJECTED': return <span className="text-danger-text">{d.statusRejected}</span>;
+      default: return <span>{status}</span>;
+    }
+  };
+
   return (
     <>
       <div className="mb-6">
@@ -53,7 +67,7 @@ export default function ProfileHistory() {
                 <div className="flex items-center justify-between mt-0">
                   <span className="font-bold text-xs text-success-text">Rp {act.unitPrice?.toLocaleString('id-ID')} / {act.unit}</span>
                   <span className="text-xs text-text-muted flex gap-2 items-center">
-                    {act.status === 'FINISHED' ? <span className="text-success-text">{profileData.historyCard.statusFinished}</span> : act.status === 'CANCELLED' ? <span className="text-danger-text">{profileData.historyCard.statusCancelled}</span> : <span>{act.status}</span>}
+                    {renderStatus(act.status)}
                     &bull; {dateStr}
                   </span>
                 </div>

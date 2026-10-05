@@ -32,6 +32,11 @@ export const profileData = {
     emptyText: "Belum ada riwayat patungan.",
     statusFinished: "Selesai",
     statusCancelled: "Dibatalkan",
+    statusOpen: "Berlangsung",
+    statusFull: "Berlangsung",
+    statusPending: "Mendaftar",
+    statusAccepted: "Berlangsung",
+    statusRejected: "Mendaftar",
     roleHost: "Host",
     roleJoin: "Ikut",
     activities: [
