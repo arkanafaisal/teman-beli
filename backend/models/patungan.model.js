@@ -113,6 +113,16 @@ export const PatunganModel = {
     });
   },
 
+  finishPatungan: async (id, proofLink) => {
+    return await prisma.patungan.update({
+      where: { id },
+      data: {
+        status: 'FINISHED',
+        proofLink: proofLink
+      }
+    });
+  },
+
   joinPatungan: async (patunganId, userId, quota) => {
     return await prisma.patunganParticipant.create({
       data: {

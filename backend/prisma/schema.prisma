@@ -49,6 +49,7 @@ model Patungan {
   whatsapp     String
   notes        String?
   refLink      String?
+  proofLink    String?
   status       PatunganStatus @default(OPEN)
 
   hostId       String

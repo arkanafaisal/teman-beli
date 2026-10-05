@@ -65,3 +65,7 @@ export const updatePatunganSchema = baseSchema.and(
     });
   }
 });
+
+export const finishPatunganSchema = z.object({
+  proofLink: z.string().url("Format link bukti harus berupa URL yang valid.").min(1, "Link bukti diperlukan"),
+});

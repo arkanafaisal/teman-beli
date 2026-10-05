@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { patunganSchema, updatePatunganSchema } from '../schemas/patungan.schema.js';
+import { patunganSchema, updatePatunganSchema, finishPatunganSchema } from '../schemas/patungan.schema.js';
 import { PatunganModel } from '../models/patungan.model.js';
 
 export const PatunganController = {};
@@ -62,6 +62,29 @@ PatunganController.getDetail = async (req, res) => {
     if (!patungan) return res.sendStatus(404);
     res.status(200).json(patungan);
   } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
+  }
+};
+
+PatunganController.finishPatungan = async (req, res) => {
+  try {
+    const validatedData = finishPatunganSchema.parse(req.body);
+    const userId = req.user.id;
+    const { id } = req.params;
+
+    const existing = await PatunganModel.getPatunganById(id);
+    if (!existing) return res.sendStatus(404);
+    if (existing.hostId !== userId) return res.sendStatus(403);
+    
+    if (existing.status === 'FINISHED') return res.sendStatus(400); // Already finished
+
+    await PatunganModel.finishPatungan(id, validatedData.proofLink);
+    res.sendStatus(200);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.sendStatus(400); 
+    }
     console.error(error);
     res.sendStatus(500);
   }

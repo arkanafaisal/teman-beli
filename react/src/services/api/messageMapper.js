@@ -13,6 +13,8 @@ export const getApiMessage = (path, code, method = "GET") => {
       normalizedPath = "/patungan/:id/status";
     } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/log$/)) {
       normalizedPath = "/patungan/:id/log";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/finish$/)) {
+      normalizedPath = "/patungan/:id/finish";
     } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/comments$/)) {
       normalizedPath = "/patungan/:id/comments";
     } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/participants$/)) {
@@ -147,6 +149,14 @@ export const getApiMessage = (path, code, method = "GET") => {
       PATCH: {
         400: "Status yang diminta tidak valid atau alur salah.",
         403: "Hanya pembuat patungan yang dapat mengubah status."
+      }
+    },
+    "/patungan/:id/finish": {
+      POST: {
+        200: "Patungan berhasil diselesaikan.",
+        400: "Link bukti diperlukan dan harus berupa URL yang valid.",
+        403: "Hanya host yang bisa menyelesaikan patungan.",
+        404: "Patungan tidak ditemukan."
       }
     },
     "/community": {

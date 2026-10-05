@@ -4,7 +4,7 @@ import { api } from "../../services/api";
 import BottomModalWrapper from "../common/BottomModalWrapper";
 import CenterModalWrapper from "../common/CenterModalWrapper";
 import { patunganData } from "../../data/patungan";
-import { MapPin, Link as LinkIcon, MessageCircle, Lock, Edit } from "lucide-react";
+import { MapPin, Link as LinkIcon, MessageCircle, Lock, Edit, CheckCircle } from "lucide-react";
 import { getRelativeTime, getFullDateTime } from "../../utils/dateHelper";
 import { commentSchema } from "../../validations/commentValidation";
 import { toast } from "sonner";
@@ -16,6 +16,9 @@ export default function PatunganDetailModal({ item, onClose }) {
   const [localItem, setLocalItem] = useState(item);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
+  const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
+  const [proofLink, setProofLink] = useState("");
+  const [finishError, setFinishError] = useState("");
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
@@ -34,6 +37,7 @@ export default function PatunganDetailModal({ item, onClose }) {
           ...prev,
           currentQuota: res.payload.currentQuota,
           status: res.payload.status,
+          proofLink: res.payload.proofLink,
           replies: formattedReplies,
           createdAt: res.payload.createdAt,
           lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : prev.lastUpdated
@@ -59,6 +63,23 @@ export default function PatunganDetailModal({ item, onClose }) {
     }
   };
 
+  const handleFinish = async () => {
+    if (!proofLink || !proofLink.startsWith("http")) {
+      setFinishError("Link bukti harus berupa URL yang valid (http/https)");
+      return;
+    }
+    
+    setFinishError("");
+    const res = await api.patungan.finish(localItem.id, { proofLink });
+    if (res.success || !res.message) {
+      toast.success("Patungan berhasil diselesaikan!");
+      setIsFinishModalOpen(false);
+      setRefreshTrigger(prev => prev + 1);
+    } else {
+      setFinishError(res.message || "Gagal menyelesaikan patungan");
+    }
+  };
+
   const handleLogin = () => {
     toast.error(patunganData.detail.alerts.loginRequired);
     login();
@@ -81,7 +102,7 @@ export default function PatunganDetailModal({ item, onClose }) {
   return (
     <>
       <BottomModalWrapper onClose={onClose}>
-        <PatunganDetail item={localItem} isLoggedIn={user?.isLoggedIn} onLogin={handleLogin} isHost={isHost} onEdit={() => setIsEditModalOpen(true)} onManage={() => setIsManageModalOpen(true)} onJoin={handleJoin} />
+        <PatunganDetail item={localItem} isLoggedIn={user?.isLoggedIn} onLogin={handleLogin} isHost={isHost} onEdit={() => setIsEditModalOpen(true)} onManage={() => setIsManageModalOpen(true)} onJoin={handleJoin} onFinish={() => setIsFinishModalOpen(true)} />
         <PatunganReplies replies={localItem.replies} isLoggedIn={user?.isLoggedIn} isHost={isHost} onAddReply={handleAddReply} />
       </BottomModalWrapper>
 
@@ -104,12 +125,57 @@ export default function PatunganDetailModal({ item, onClose }) {
           onUpdate={() => setRefreshTrigger(prev => prev + 1)}
         />
       )}
+      {isFinishModalOpen && (
+        <CenterModalWrapper title="Selesaikan Patungan" onClose={() => {
+          setIsFinishModalOpen(false);
+          setFinishError("");
+        }}>
+          <div className="p-4 sm:p-5">
+            <p className="text-sm text-text-muted mb-4">
+              Silakan masukkan link Google Drive yang berisi bukti patungan (foto barang, struk, dll). Link ini dapat diakses oleh partisipan patungan.
+            </p>
+            <div className="flex flex-col gap-2 mb-6">
+              <input
+                type="url"
+                value={proofLink}
+                onChange={(e) => setProofLink(e.target.value)}
+                placeholder="https://drive.google.com/..."
+                className={`w-full px-4 py-3 rounded-xl border bg-bg-surface outline-none focus:border-primary-base transition-colors ${
+                  finishError ? "border-danger-base" : "border-border-base"
+                }`}
+              />
+              {finishError && (
+                <span className="text-xs text-danger-base font-medium px-1">
+                  {finishError}
+                </span>
+              )}
+            </div>
+            <div className="flex gap-3">
+              <button
+                onClick={() => {
+                  setIsFinishModalOpen(false);
+                  setFinishError("");
+                }}
+                className="flex-1 py-3 px-4 rounded-xl border border-border-base font-bold text-text-base hover:bg-bg-subtle transition cursor-pointer"
+              >
+                Batal
+              </button>
+              <button
+                onClick={handleFinish}
+                className="flex-1 py-3 px-4 rounded-xl bg-primary-base hover:bg-primary-hover text-text-inverted font-bold transition cursor-pointer shadow-lg shadow-primary-glow"
+              >
+                Kirim & Selesaikan
+              </button>
+            </div>
+          </div>
+        </CenterModalWrapper>
+      )}
     </>
   );
 }
 
 
-function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onManage, onJoin }) {
+function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onManage, onJoin, onFinish }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
   const remainingQuota = item.targetQuota - item.currentQuota;
   
@@ -215,9 +281,19 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onManage, o
                 >
                   {patunganData.detail.actions.manageButton}
                 </button>
-                <button className="w-full bg-success-base opacity-50 cursor-not-allowed text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center">
-                  {patunganData.detail.actions.finishButton}
-                </button>
+                {item.status === 'FINISHED' ? (
+                  <div className="w-full bg-bg-subtle border border-border-base text-success-base font-bold py-3.5 rounded-xl flex items-center justify-center gap-2">
+                    <CheckCircle className="w-5 h-5" />
+                    Patungan Selesai
+                  </div>
+                ) : (
+                  <button 
+                    onClick={onFinish}
+                    className="w-full bg-success-base hover:bg-success-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center cursor-pointer shadow-lg shadow-success-base/20"
+                  >
+                    {patunganData.detail.actions.finishButton}
+                  </button>
+                )}
               </>
             )}
 

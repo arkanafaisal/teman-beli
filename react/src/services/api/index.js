@@ -57,6 +57,7 @@ export const api = {
     addLog: (id, payload) => callApi(`/patungan/${id}/log`, "POST", payload),
     join: (id, payload) => callApi(`/patungan/${id}/join`, "POST", payload),
     leave: (id) => callApi(`/patungan/${id}/leave`, "POST"),
+    finish: (id, payload) => callApi(`/patungan/${id}/finish`, "POST", payload),
     delete: (id) => callApi(`/patungan/${id}`, "DELETE"),
     updateStatus: (id, payload) => callApi(`/patungan/${id}/status`, "PATCH", payload),
     getParticipants: (id) => callApi(`/patungan/${id}/participants`, "GET"),
