@@ -45,6 +45,7 @@ function App() {
     <div className="bg-bg-base text-text-base min-h-screen font-sans transition-colors duration-300 selection:bg-primary-base selection:text-text-inverted">
       <Toaster 
         position="top-right" 
+        closeButton
         toastOptions={{
           classNames: {
             toast: 'rounded-l-xl rounded-r-none font-bold shadow-xl border-0 !p-3 !pr-5',
