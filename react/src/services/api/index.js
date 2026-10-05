@@ -66,7 +66,18 @@ export const api = {
     addReview: (id, payload) => callApi(`/patungan/${id}/reviews`, "POST", payload),
   },
   community: {
-    getAll: () => callApi("/community", "GET"),
+    getAll: (params) => {
+      let query = "";
+      if (params) {
+        const queryParams = new URLSearchParams();
+        if (params.q) queryParams.append("q", params.q);
+        if (params.category) queryParams.append("category", params.category);
+        if (queryParams.toString()) {
+          query = `?${queryParams.toString()}`;
+        }
+      }
+      return callApi(`/community${query}`, "GET");
+    },
     getDetail: (id) => callApi(`/community/${id}`, "GET"),
     create: (payload) => callApi("/community", "POST", payload),
     join: (id) => callApi(`/community/${id}/join`, "POST"),

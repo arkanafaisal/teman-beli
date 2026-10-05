@@ -6,3 +6,22 @@ export const createCommunityModel = async (data) => {
     data
   });
 };
+
+export const getAllCommunitiesModel = async (category, q) => {
+  const where = {};
+  
+  if (category && category !== 'all') {
+    const categories = category.split(',');
+    where.category = { in: categories };
+  }
+  
+  if (q) {
+    where.title = { contains: q, mode: 'insensitive' };
+  }
+
+  return await prisma.community.findMany({
+    where,
+    orderBy: { createdAt: 'desc' },
+    include: { author: { select: { name: true, department: true } } }
+  });
+};

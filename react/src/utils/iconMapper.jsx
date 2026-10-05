@@ -26,20 +26,37 @@ export const getCategoryIcon = (emoji, className = "w-5 h-5") => {
   }
 };
 
-export const getCategoryColor = (emoji) => {
-  switch (emoji) {
-    case "📚": return "text-primary-base bg-primary-soft";
+export const getCategoryColor = (keyOrEmoji) => {
+  switch (keyOrEmoji) {
+    case "📚":
+    case "KAMPUS": return "text-primary-base bg-primary-soft";
     case "🧪": return "text-success-base bg-success-soft";
     case "🍿": return "text-warning-text bg-warning-soft";
-    case "🏠": return "text-danger-base bg-danger-soft";
+    case "🏠":
+    case "KOS": return "text-danger-base bg-danger-soft";
     case "📦": return "text-primary-base bg-primary-soft";
     case "🎧": return "text-danger-base bg-danger-soft";
     case "☕": return "text-warning-text bg-warning-soft";
-    case "🍛": return "text-success-base bg-success-soft";
-    case "🖨️": return "text-primary-base bg-primary-soft";
-    case "🧺": return "text-danger-base bg-danger-soft";
-    case "🎟️": return "text-warning-text bg-warning-soft";
-    case "💻": return "text-primary-base bg-primary-soft";
+    case "🍛":
+    case "PANGAN":
+    case "kuliner": return "text-success-base bg-success-soft";
+    case "🖨️":
+    case "cetak":
+    case "laundry": return "text-primary-base bg-primary-soft";
+    case "🎟️":
+    case "promo": return "text-warning-text bg-warning-soft";
+    case "💻":
+    case "DIGITAL": return "text-primary-base bg-primary-soft";
     default: return "text-text-base bg-bg-subtle";
   }
+};
+
+export const getCategoryStyles = (keyOrEmoji) => {
+  const badgeBg = getCategoryColor(keyOrEmoji);
+  const bgClass = badgeBg.split(' ').find(c => c.startsWith('bg-')) || 'bg-bg-subtle';
+  
+  let avatarBg = bgClass.replace('-soft', '-base');
+  if (avatarBg === 'bg-bg-subtle') avatarBg = 'bg-primary-base';
+  
+  return { badgeBg, avatarBg };
 };
