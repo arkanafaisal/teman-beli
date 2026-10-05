@@ -20,6 +20,8 @@ model User {
 
   patungansHosted Patungan[] @relation("HostPatungan")
   participations  PatunganParticipant[] @relation("UserParticipation")
+  reviewsGiven    Review[]   @relation("GivenReviews")
+  reviewsReceived Review[]   @relation("ReceivedReviews")
 }
 
 enum PatunganStatus {
@@ -57,6 +59,7 @@ model Patungan {
 
   participants PatunganParticipant[]
   logs         PatunganLog[]
+  reviews      Review[]
 
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -89,4 +92,23 @@ model PatunganLog {
   patungan   Patungan @relation(fields: [patunganId], references: [id])
 
   createdAt  DateTime @default(now())
+}
+
+model Review {
+  id         String   @id @default(uuid())
+  rating     Int
+  comment    String?
+
+  reviewerId String
+  reviewer   User     @relation("GivenReviews", fields: [reviewerId], references: [id])
+
+  hostId     String
+  host       User     @relation("ReceivedReviews", fields: [hostId], references: [id])
+
+  patunganId String
+  patungan   Patungan @relation(fields: [patunganId], references: [id])
+
+  createdAt  DateTime @default(now())
+
+  @@unique([reviewerId, patunganId])
 }

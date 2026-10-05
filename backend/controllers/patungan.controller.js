@@ -233,3 +233,38 @@ PatunganController.deleteParticipant = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+PatunganController.addReview = async (req, res) => {
+  try {
+    const { createReviewSchema } = await import('../schemas/review.schema.js');
+    const validatedData = createReviewSchema.parse(req.body);
+    const { id } = req.params;
+    const userId = req.user.id;
+
+    const existing = await PatunganModel.getPatunganById(id);
+    if (!existing) return res.sendStatus(404);
+    if (existing.status !== 'FINISHED') return res.sendStatus(400);
+    
+    // Cegah host rating diri sendiri
+    if (existing.hostId === userId) return res.sendStatus(403);
+
+    const participant = await PatunganModel.checkParticipation(id, userId);
+    if (!participant || participant.status !== 'ACCEPTED') {
+      return res.sendStatus(403);
+    }
+
+    const alreadyReviewed = await PatunganModel.checkReview(id, userId);
+    if (alreadyReviewed) {
+      return res.sendStatus(409);
+    }
+
+    await PatunganModel.createReview(id, userId, existing.hostId, validatedData.rating, validatedData.comment);
+    res.sendStatus(201);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return res.sendStatus(400);
+    }
+    console.error(error);
+    res.sendStatus(500);
+  }
+};

@@ -245,5 +245,47 @@ export const PatunganModel = {
 
       return participant;
     });
+  },
+
+  checkReview: async (patunganId, reviewerId) => {
+    return await prisma.review.findUnique({
+      where: {
+        reviewerId_patunganId: {
+          reviewerId,
+          patunganId
+        }
+      }
+    });
+  },
+
+  createReview: async (patunganId, reviewerId, hostId, rating, comment) => {
+    return await prisma.$transaction(async (tx) => {
+      // 1. Buat review baru
+      const review = await tx.review.create({
+        data: {
+          patunganId,
+          reviewerId,
+          hostId,
+          rating,
+          comment
+        }
+      });
+
+      // 2. Hitung ulang rata-rata rating host
+      const allHostReviews = await tx.review.findMany({
+        where: { hostId }
+      });
+      
+      const totalRating = allHostReviews.reduce((sum, r) => sum + r.rating, 0);
+      const avgRating = totalRating / allHostReviews.length;
+
+      // 3. Update rating host
+      await tx.user.update({
+        where: { id: hostId },
+        data: { rating: avgRating }
+      });
+
+      return review;
+    });
   }
 };

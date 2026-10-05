@@ -21,6 +21,8 @@ export const getApiMessage = (path, code, method = "GET") => {
       normalizedPath = "/patungan/:id/participants";
     } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/participants\/[a-f0-9\-]+$/)) {
       normalizedPath = "/patungan/:id/participants/:participantId";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/reviews$/)) {
+      normalizedPath = "/patungan/:id/reviews";
     }
   } else if (path.startsWith("/community/")) {
     if (path.match(/^\/community\/[a-f0-9\-]+$/)) {
@@ -157,6 +159,15 @@ export const getApiMessage = (path, code, method = "GET") => {
         400: "Link bukti diperlukan dan harus berupa URL yang valid.",
         403: "Hanya host yang bisa menyelesaikan patungan.",
         404: "Patungan tidak ditemukan."
+      }
+    },
+    "/patungan/:id/reviews": {
+      POST: {
+        201: "Ulasan berhasil dikirim. Terima kasih!",
+        400: "Data ulasan tidak valid atau patungan belum selesai.",
+        403: "Anda tidak diizinkan memberi ulasan (Host tidak bisa menilai diri sendiri, atau Anda bukan partisipan yang valid).",
+        404: "Patungan tidak ditemukan.",
+        409: "Anda sudah pernah memberikan ulasan untuk patungan ini."
       }
     },
     "/community": {

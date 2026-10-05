@@ -63,6 +63,7 @@ export const api = {
     getParticipants: (id) => callApi(`/patungan/${id}/participants`, "GET"),
     updateParticipantStatus: (id, participantId, status) => callApi(`/patungan/${id}/participants/${participantId}`, "PATCH", { status }),
     deleteParticipant: (id, participantId) => callApi(`/patungan/${id}/participants/${participantId}`, "DELETE"),
+    addReview: (id, payload) => callApi(`/patungan/${id}/reviews`, "POST", payload),
   },
   community: {
     getAll: () => callApi("/community", "GET"),

@@ -14,7 +14,15 @@ HistoryController.getAll = async (req, res, next) => {
         userId: userId,
         patungan: { status: { not: 'CANCELLED' } }
       },
-      include: { patungan: true },
+      include: { 
+        patungan: {
+          include: {
+            reviews: {
+              where: { reviewerId: userId }
+            }
+          }
+        } 
+      },
       orderBy: { joinedAt: 'desc' },
       take: limit
     });
@@ -30,7 +38,14 @@ HistoryController.getAll = async (req, res, next) => {
         unitPrice: unitPrice,
         unit: p.patungan.unit,
         date: isHost ? p.patungan.createdAt : p.joinedAt,
-        status: isHost ? p.patungan.status : p.status
+        status: isHost ? p.patungan.status : p.status,
+        proofLink: p.patungan.proofLink,
+        isReviewed: p.patungan.reviews && p.patungan.reviews.length > 0,
+        hostId: p.patungan.hostId,
+        patunganId: p.patungan.id,
+        targetQuota: p.patungan.targetQuota,
+        totalPrice: p.patungan.totalPrice,
+        quota: p.quota // quota dari participant
       };
     });
 

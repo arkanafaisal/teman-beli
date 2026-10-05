@@ -73,6 +73,20 @@ export const profileData = {
       }
     ]
   },
+  ratingModal: {
+    title: "Detail & Penilaian",
+    labelUnit: "Satuan:",
+    labelTotal: "Total Terkumpul:",
+    labelMyQuota: "Porsi Saya:",
+    labelProof: "Lihat Bukti Selesai",
+    ratingTitle: "Berikan Ulasan untuk Host",
+    ratingSubtitle: "Bagaimana pengalaman patungan Anda?",
+    placeholderComment: "Tulis komentar opsional tentang host atau barang...",
+    submitBtn: "Kirim Ulasan",
+    submittingBtn: "Mengirim...",
+    alreadyReviewed: "Anda sudah memberikan ulasan.",
+    ratingValueLabel: "⭐"
+  },
   passwordCard: {
     title: "Atur Password Login",
     description: "Atur password jika Anda ingin login manual menggunakan email .ac.id tanpa melalui tombol Google.",
