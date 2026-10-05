@@ -104,8 +104,8 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onJoin }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
   const remainingQuota = item.targetQuota - item.currentQuota;
   
-  const [showJoinForm, setShowJoinForm] = useState(false);
   const [joinQuota, setJoinQuota] = useState("");
+  const isExpired = new Date(item.deadline).getTime() <= new Date().getTime();
 
   let waText = patunganData.detail.actions.whatsappTemplate
     .replace("{creatorName}", item.creatorName)
@@ -195,57 +195,53 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onJoin }) {
           <span className="text-xs text-text-muted block mt-1">{getFullDateTime(item.createdAt)}</span>
         </div>
       </div>
-
       <div>
         {isLoggedIn ? (
-          isHost ? (
-            <div className="flex flex-col gap-3 w-full">
-              <button className="w-full bg-primary-base opacity-50 cursor-not-allowed text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center">
-                {patunganData.detail.actions.manageButton}
-              </button>
-              <button className="w-full bg-success-base opacity-50 cursor-not-allowed text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center">
-                {patunganData.detail.actions.finishButton}
-              </button>
-            </div>
-          ) : (
-            <div className="flex flex-col gap-3 w-full">
-              <a href={waLink} target="_blank" rel="noreferrer" className="w-full bg-success-base hover:bg-success-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-success-base/20">
-                <MessageCircle className="w-5 h-5" />
-                {patunganData.detail.actions.whatsappButton}
-              </a>
-              {!showJoinForm ? (
-                <div className="flex flex-col items-center gap-1.5 mt-1">
-                  <button onClick={() => setShowJoinForm(true)} className="cursor-pointer w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-bold py-3.5 rounded-xl transition shadow-lg shadow-primary-glow">
-                    {patunganData.detail.actions.joinButton}
-                  </button>
-                  <span className="text-[10px] text-text-muted text-center leading-tight max-w-[85%]">{patunganData.detail.actions.joinHelper}</span>
-                </div>
-              ) : (
-                <div className="p-4 bg-bg-subtle rounded-xl border border-border-base mt-1 flex flex-col gap-3">
-                  <label className="text-xs font-bold text-text-heading">Berapa {item.unit} yang ingin Anda ikuti?</label>
-                  <div className="flex gap-2">
-                    <input 
-                      type="number" 
-                      value={joinQuota} 
-                      onChange={e => setJoinQuota(e.target.value)} 
-                      className="flex-1 px-3 py-2 text-sm rounded-lg border border-border-base dark:bg-bg-surface outline-none focus:border-primary-base transition-colors" 
-                      placeholder={`Contoh: 1`} 
-                    />
-                    <button 
-                      onClick={() => {
-                        onJoin(joinQuota);
-                        setShowJoinForm(false);
-                        setJoinQuota("");
-                      }} 
-                      className="bg-primary-base hover:bg-primary-hover transition text-text-inverted px-4 py-2 rounded-lg font-bold text-sm cursor-pointer"
-                    >
-                      Daftar
-                    </button>
+          <div className="flex flex-col gap-3 w-full">
+            {isHost && (
+              <>
+                <button className="w-full bg-primary-base opacity-50 cursor-not-allowed text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center">
+                  {patunganData.detail.actions.manageButton}
+                </button>
+                <button className="w-full bg-success-base opacity-50 cursor-not-allowed text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center">
+                  {patunganData.detail.actions.finishButton}
+                </button>
+              </>
+            )}
+
+            {!isHost && (
+              <>
+                <a href={waLink} target="_blank" rel="noreferrer" className="w-full bg-success-base hover:bg-success-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-success-base/20">
+                  <MessageCircle className="w-5 h-5" />
+                  {patunganData.detail.actions.whatsappButton}
+                </a>
+            
+                {!isExpired && (
+                  <div className="flex flex-col gap-1.5 mt-1">
+                    <div className="flex gap-2">
+                      <input 
+                        type="number" 
+                        value={joinQuota} 
+                        onChange={e => setJoinQuota(e.target.value)} 
+                        className="flex-1 px-3 py-3 text-sm font-bold rounded-xl border border-border-base bg-bg-surface outline-none focus:border-primary-base transition-colors min-w-0" 
+                        placeholder={`Jml ${item.unit}`} 
+                      />
+                      <button 
+                        onClick={() => {
+                          onJoin(joinQuota);
+                          setJoinQuota("");
+                        }} 
+                        className="bg-primary-base hover:bg-primary-hover transition text-text-inverted px-4 py-3 rounded-xl font-bold text-xs sm:text-sm cursor-pointer shadow-lg shadow-primary-glow whitespace-nowrap shrink-0"
+                      >
+                        {patunganData.detail.actions.joinButton}
+                      </button>
+                    </div>
+                    <span className="text-[10px] text-text-muted text-center leading-tight">{patunganData.detail.actions.joinHelper}</span>
                   </div>
-                </div>
-              )}
-            </div>
-          )
+                )}
+              </>
+            )}
+          </div>
         ) : (
           <button
             onClick={onLogin}
