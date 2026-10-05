@@ -5,8 +5,8 @@ export const profileData = {
     department: "Informatika UNS",
     verification: "Verified SSO Kampus",
     rating: "⭐ 4.9 / 5.0",
-    hostCount: 5,
-    participantCount: 7
+    hostLabel: "x Host",
+    joinLabel: "x Ikut"
   },
   reviewsCard: {
     title: "Ulasan dari Teman Kampus",
@@ -28,6 +28,12 @@ export const profileData = {
   historyCard: {
     title: "Riwayat Aktivitas",
     subtitle: "Daftar patungan dan transaksi terkini",
+    loadingText: "Memuat riwayat...",
+    emptyText: "Belum ada riwayat patungan.",
+    statusFinished: "Selesai",
+    statusCancelled: "Dibatalkan",
+    roleHost: "Host",
+    roleJoin: "Ikut",
     activities: [
       {
         id: "act-1",

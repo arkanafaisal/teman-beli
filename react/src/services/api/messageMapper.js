@@ -174,6 +174,18 @@ export const getApiMessage = (path, code, method = "GET") => {
       POST: {
         403: "Anda tidak bisa keluar karena Anda adalah pembuat atau belum bergabung."
       }
+    },
+    "/history": {
+      GET: {
+        401: "Anda harus login untuk melihat riwayat aktivitas.",
+        500: "Gagal memuat riwayat aktivitas."
+      }
+    },
+    "/history/summary": {
+      GET: {
+        401: "Anda harus login untuk melihat rangkuman aktivitas.",
+        500: "Gagal memuat rangkuman aktivitas."
+      }
     }
   };
 

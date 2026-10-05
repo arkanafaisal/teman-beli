@@ -1,9 +1,22 @@
 import { profileData } from "../../data/profile";
 import { useAuth } from "../../context/AuthContext";
 import LetterAvatar from "../common/LetterAvatar";
+import { useState, useEffect } from "react";
+import { api } from "../../services/api";
 
 export default function ProfileCard() {
   const { user } = useAuth();
+  const [summary, setSummary] = useState({ hosted: 0, joined: 0 });
+
+  useEffect(() => {
+    if (user.isLoggedIn) {
+      api.history.getSummary().then(res => {
+        if (res.success) {
+          setSummary(res.payload);
+        }
+      });
+    }
+  }, [user.isLoggedIn]);
   const data = profileData.profileCard;
 
   // Use AuthContext user data if logged in, otherwise mock data
@@ -35,8 +48,8 @@ export default function ProfileCard() {
         <div className="w-px h-8 bg-border-base"></div>
         
         <div className="flex flex-col text-xs font-bold text-text-muted">
-          <span>0x Host</span>
-          <span>0x Ikut</span>
+          <span>{summary.hosted}{data.hostLabel}</span>
+          <span>{summary.joined}{data.joinLabel}</span>
         </div>
       </div>
     </div>
