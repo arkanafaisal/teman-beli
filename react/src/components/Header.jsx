@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Sun, Moon, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { appData } from "../data/app";
@@ -14,6 +14,8 @@ export default function Header() {
     return localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches);
   });
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const mobileMenuRef = useRef(null);
+  const toggleBtnRef = useRef(null);
 
   const { user, login, logout } = useAuth();
   const currentPath = window.location.pathname;
@@ -21,7 +23,7 @@ export default function Header() {
   const handleGoogleSuccess = async (credentialResponse) => {
     // Memanggil endpoint login backend asli dengan token dari Google
     const res = await api.auth.login({ credential: credentialResponse.credential });
-    
+
     if (res.success) {
       // Jika sukses di backend (cookies di set), kita fetch profil ulang
       const profileRes = await api.user.getProfile();
@@ -46,8 +48,23 @@ export default function Header() {
   }
 
   useEffect(() => {
-    // Scrolling logic removed as requested, navbar is permanently in compact state
-  }, []);
+    function handleClickOutside(event) {
+      if (
+        isMobileMenuOpen &&
+        mobileMenuRef.current &&
+        !mobileMenuRef.current.contains(event.target) &&
+        toggleBtnRef.current &&
+        !toggleBtnRef.current.contains(event.target)
+      ) {
+        setIsMobileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isMobileMenuOpen]);
 
   const toggleTheme = () => {
     if (isDarkMode) {
@@ -71,8 +88,8 @@ export default function Header() {
     : "hover:text-primary-text transition";
 
   const getMobileClass = (path) => isActive(path)
-    ? "py-2 border-b border-border-subtle text-primary-text font-bold"
-    : "py-2 border-b border-border-subtle hover:text-primary-text";
+    ? "px-4 py-3 bg-primary-base text-text-inverted font-bold shadow-md shadow-primary-glow transition-all"
+    : "px-4 py-3 text-text-base hover:bg-bg-subtle hover:text-primary-text transition-all";
 
   return (
     <>
@@ -129,7 +146,7 @@ export default function Header() {
                   <button onClick={executeLogout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
                 </div>
               ) : (
-                <button 
+                <button
                   onClick={() => setIsLoginModalOpen(true)}
                   className="bg-primary-base hover:bg-primary-hover text-text-inverted px-5 py-2 rounded-xl font-bold transition shadow-md shadow-primary-glow text-sm lg:text-base cursor-pointer"
                 >
@@ -140,6 +157,7 @@ export default function Header() {
 
             {/* Mobile Menu Toggle Button */}
             <button
+              ref={toggleBtnRef}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="lg:hidden cursor-pointer p-2 rounded-xl text-text-base hover:text-primary-text focus:outline-none active:scale-95 transition"
               aria-label="Open Menu"
@@ -157,8 +175,8 @@ export default function Header() {
 
       {/* Mobile & Tablet Drawer Menu */}
       {isMobileMenuOpen && (
-        <div className="fixed right-0 top-16 w-64 bg-bg-glass backdrop-blur-xl border-l border-b border-border-subtle rounded-bl-3xl p-5 pt-4 z-40 lg:hidden shadow-2xl transition-all duration-300">
-          <nav className="flex flex-col gap-4 text-base font-semibold text-text-base">
+        <div ref={mobileMenuRef} className="fixed right-0 top-16 w-64 bg-bg-glass backdrop-blur-xl border-l border-border-base rounded-bl-3xl z-40 lg:hidden shadow-2xl transition-all duration-300">
+          <nav className="flex flex-col gap-0 text-base font-semibold text-text-base">
             {appData.header.navLinks.map((link) => (
               <a key={link.path} href={link.path} className={getMobileClass(link.path)}>
                 {link.label}
@@ -171,7 +189,7 @@ export default function Header() {
                   {appData.header.auth.logoutButton}
                 </button>
               ) : (
-                <button 
+                <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
                     setIsLoginModalOpen(true);
@@ -187,9 +205,9 @@ export default function Header() {
       )}
 
       {/* Login Modal */}
-      <AuthModal 
-        isOpen={isLoginModalOpen} 
-        onClose={() => setIsLoginModalOpen(false)} 
+      <AuthModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
         onSuccess={(res) => {
           setIsLoginModalOpen(false);
           handleGoogleSuccess(res);
