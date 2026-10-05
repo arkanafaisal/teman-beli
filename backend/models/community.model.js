@@ -34,6 +34,21 @@ export const getAllCommunitiesModel = async (category, q, userId) => {
   });
 };
 
+export const getCommunityByIdModel = async (id, userId) => {
+  return await prisma.community.findUnique({
+    where: { id },
+    include: {
+      author: { select: { name: true, department: true, rating: true, reviewCount: true } },
+      comments: {
+        orderBy: { createdAt: 'desc' },
+        include: { author: { select: { name: true } } }
+      },
+      _count: { select: { likes: true } },
+      likes: userId ? { where: { userId }, select: { id: true } } : false
+    }
+  });
+};
+
 export const createCommunityCommentModel = async (data) => {
   return await prisma.communityComment.create({
     data

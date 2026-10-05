@@ -18,7 +18,11 @@ export default function Community() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategories, setActiveCategories] = useState([]);
   const [items, setItems] = useState([]);
-  const [activeItem, setActiveItem] = useState(null);
+  const [activeItem, setActiveItem] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const patunganId = params.get('id');
+    return patunganId ? { id: patunganId } : null;
+  });
   const [commentText, setCommentText] = useState("");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -69,6 +73,16 @@ export default function Community() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery, activeCategories]);
 
+  useEffect(() => {
+    const url = new URL(window.location);
+    if (activeItem?.id) {
+      url.searchParams.set('id', activeItem.id);
+    } else {
+      url.searchParams.delete('id');
+    }
+    window.history.replaceState({}, '', url);
+  }, [activeItem]);
+
 
 
   const handleOpenModal = (item) => {
@@ -101,7 +115,9 @@ export default function Community() {
     setItems(newItems);
 
     if (activeItem && activeItem.id === id) {
-      setActiveItem(updateItemLikeState(activeItem));
+      if (activeItem.judul) {
+        setActiveItem(updateItemLikeState(activeItem));
+      }
     }
 
     // API call

@@ -1,5 +1,5 @@
 import { createCommunitySchema, createCommunityCommentSchema } from '../schemas/community.schema.js';
-import { createCommunityModel, getAllCommunitiesModel, createCommunityCommentModel, toggleCommunityLikeModel } from '../models/community.model.js';
+import { createCommunityModel, getAllCommunitiesModel, getCommunityByIdModel, createCommunityCommentModel, toggleCommunityLikeModel } from '../models/community.model.js';
 
 export const createCommunity = async (req, res) => {
   try {
@@ -61,6 +61,44 @@ export const getAllCommunities = async (req, res) => {
     }));
 
     return res.status(200).json(formatted);
+  } catch (error) {
+    console.error(error);
+    return res.sendStatus(500);
+  }
+};
+
+export const getCommunityDetail = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const userId = req.user?.id;
+    
+    const c = await getCommunityByIdModel(id, userId);
+    
+    if (!c) {
+      return res.sendStatus(404);
+    }
+    
+    const formatted = {
+      id: c.id,
+      judul: c.title,
+      kategoriKey: c.category,
+      lokasi: c.location,
+      ringkasan: c.summary,
+      deskripsiLengkap: c.description,
+      author: c.author.name,
+      authorInfo: c.author.department || "Mahasiswa",
+      authorRating: c.author.rating,
+      authorReviewCount: c.author.reviewCount,
+      likes: c._count?.likes || 0,
+      isLiked: c.likes && c.likes.length > 0,
+      comments: c.comments ? c.comments.map(comment => ({
+        author: comment.author.name,
+        text: comment.text,
+        date: comment.createdAt
+      })) : []
+    };
+
+    return res.status(200).json({ payload: formatted });
   } catch (error) {
     console.error(error);
     return res.sendStatus(500);
