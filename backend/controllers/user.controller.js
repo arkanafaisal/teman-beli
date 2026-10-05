@@ -54,3 +54,25 @@ UserController.setPassword = async (req, res, next) => {
     next(error);
   }
 };
+
+UserController.getReviews = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const reviews = await prisma.review.findMany({
+      where: { hostId: userId },
+      include: {
+        reviewer: {
+          select: { name: true, department: true }
+        }
+      },
+      orderBy: { createdAt: 'desc' },
+      take: limit
+    });
+
+    res.status(200).json({ success: true, payload: reviews });
+  } catch (error) {
+    next(error);
+  }
+};

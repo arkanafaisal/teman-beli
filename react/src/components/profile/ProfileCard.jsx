@@ -3,6 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import LetterAvatar from "../common/LetterAvatar";
 import { useState, useEffect } from "react";
 import { api } from "../../services/api";
+import { Star } from "lucide-react";
 
 export default function ProfileCard() {
   const { user } = useAuth();
@@ -41,8 +42,8 @@ export default function ProfileCard() {
 
       <div className="mt-5 flex items-center gap-4">
         <div className="text-warning-text text-base font-extrabold flex gap-1 items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 fill-warning-text" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          {user.isLoggedIn && user.rating !== undefined ? parseFloat(user.rating).toFixed(1) : data.rating}
+          <Star className="w-4 h-4 fill-warning-text text-warning-text" />
+          {user.isLoggedIn && user.rating !== undefined ? parseFloat(user.rating).toFixed(1) : "4.9"} / 5.0
         </div>
         
         <div className="w-px h-8 bg-border-base"></div>

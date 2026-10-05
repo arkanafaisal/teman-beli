@@ -18,9 +18,9 @@ export default function ProfileHistory() {
     });
   }, []);
 
-  const handleReviewed = (activityId) => {
+  const handleReviewed = (activityId, reviewData) => {
     setActivities(prev => prev.map(act => 
-      act.id === activityId ? { ...act, isReviewed: true } : act
+      act.id === activityId ? { ...act, isReviewed: true, myReview: reviewData } : act
     ));
   };
 
