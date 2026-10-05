@@ -3,7 +3,13 @@ export const getApiMessage = (path, code, method = "GET") => {
   // Normalisasi Path dinamis agar sesuai dictionary
   let normalizedPath = path;
   if (path.match(/\/patungan\/\d+/)) {
-    normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/patungan/:id/comments" : m.includes("join") ? "/patungan/:id/join" : m.includes("leave") ? "/patungan/:id/leave" : m.includes("status") ? "/patungan/:id/status" : m.includes("log") ? "/patungan/:id/log" : "/patungan/:id");
+    if (path.match(/\/patungan\/\d+\/participants\/\d+/)) {
+      normalizedPath = "/patungan/:id/participants/:participantId";
+    } else if (path.match(/\/patungan\/\d+\/participants/)) {
+      normalizedPath = "/patungan/:id/participants";
+    } else {
+      normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/patungan/:id/comments" : m.includes("join") ? "/patungan/:id/join" : m.includes("leave") ? "/patungan/:id/leave" : m.includes("status") ? "/patungan/:id/status" : m.includes("log") ? "/patungan/:id/log" : "/patungan/:id");
+    }
   }
   if (path.match(/\/community\/\d+/)) {
     normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/community/:id/comments" : m.includes("join") ? "/community/:id/join" : m.includes("leave") ? "/community/:id/leave" : "/community/:id");
@@ -14,9 +20,16 @@ export const getApiMessage = (path, code, method = "GET") => {
     "/auth/login": {
       POST: {
         200: "Login Berhasil! Domain email kampus terverifikasi.",
-        400: "Data otentikasi (Token Google) tidak valid atau kosong.",
+        400: "Data otentikasi tidak valid atau kosong.",
         401: "Sesi otentikasi Google Anda kedaluwarsa atau tidak valid.",
         403: "Akses Ditolak: Harap gunakan email kampus (.ac.id atau .edu)."
+      }
+    },
+    "/auth/login-manual": {
+      POST: {
+        400: "Data email atau password tidak valid.",
+        401: "Email atau password salah.",
+        403: "Akun ini belum memiliki password. Silakan login via Google terlebih dahulu."
       }
     },
     "/auth/logout": {
@@ -37,6 +50,12 @@ export const getApiMessage = (path, code, method = "GET") => {
       PUT: {
         200: "Profil Anda berhasil diperbarui.",
         400: "Data form profil tidak lengkap atau tidak valid."
+      }
+    },
+    "/users/password": {
+      PUT: {
+        200: "Password berhasil disimpan.",
+        400: "Password minimal 6 karakter dan konfirmasi harus cocok."
       }
     },
     "/users/reviews": {
@@ -77,7 +96,27 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/patungan/:id/join": {
       POST: {
-        403: "Kuota patungan ini sudah penuh atau Anda sudah bergabung."
+        400: "Jumlah porsi tidak valid.",
+        403: "Anda adalah host dari patungan ini.",
+        404: "Patungan tidak ditemukan.",
+        409: "Anda sudah mendaftar pada patungan ini."
+      }
+    },
+    "/patungan/:id/participants": {
+      GET: {
+        403: "Hanya host yang bisa melihat partisipan.",
+        404: "Patungan tidak ditemukan."
+      }
+    },
+    "/patungan/:id/participants/:participantId": {
+      PATCH: {
+        400: "Status partisipan tidak valid.",
+        403: "Hanya host yang bisa mengubah status partisipan.",
+        404: "Patungan tidak ditemukan."
+      },
+      DELETE: {
+        403: "Hanya host yang bisa menghapus partisipan.",
+        404: "Patungan tidak ditemukan."
       }
     },
     "/patungan/:id/leave": {

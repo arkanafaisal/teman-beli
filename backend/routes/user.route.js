@@ -6,6 +6,6 @@ import { rateLimiter } from '../middlewares/rateLimiter.js';
 const router = express.Router();
 
 router.get('/profile', requireAuth, rateLimiter('api.get'), UserController.getProfile);
-router.put('/password', requireAuth, rateLimiter('api.get'), UserController.setPassword);
+router.put('/password', requireAuth, rateLimiter('user.update'), UserController.setPassword);
 
 export default router;

@@ -30,6 +30,10 @@ const limitsConfig = {
     windowMs: 60 * 60 * 1000,
     limit: 5
   },
+  'user.update': {
+    windowMs: 15 * 60 * 1000,
+    limit: 10
+  },
   'api.get': { 
     windowMs: 15 * 60 * 1000, 
     limit: 300 // Operasi GET butuh limit lebih besar

@@ -36,10 +36,7 @@ UserController.setPassword = async (req, res, next) => {
     const validatedData = setPasswordSchema.safeParse(req.body);
 
     if (!validatedData.success) {
-      return res.status(400).json({ 
-        success: false, 
-        message: validatedData.error.issues[0].message 
-      });
+      return res.sendStatus(400);
     }
 
     const { password } = validatedData.data;
@@ -52,7 +49,7 @@ UserController.setPassword = async (req, res, next) => {
       data: { password: hashedPassword }
     });
 
-    res.status(200).json({ success: true, message: "Password berhasil disimpan" });
+    res.sendStatus(200);
   } catch (error) {
     next(error);
   }

@@ -84,26 +84,23 @@ AuthController.loginManual = async (req, res) => {
     const validatedData = loginManualSchema.safeParse(req.body);
     
     if (!validatedData.success) {
-      return res.status(400).json({ 
-        success: false, 
-        message: validatedData.error.issues[0].message 
-      });
+      return res.sendStatus(400);
     }
 
     const { email, password } = validatedData.data;
 
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {
-      return res.status(401).json({ success: false, message: "Email atau password salah" });
+      return res.sendStatus(401);
     }
 
     if (!user.password) {
-      return res.status(401).json({ success: false, message: "Akun ini belum memiliki password. Silakan login via Google terlebih dahulu." });
+      return res.sendStatus(403);
     }
 
     const isValid = await bcrypt.compare(password, user.password);
     if (!isValid) {
-      return res.status(401).json({ success: false, message: "Email atau password salah" });
+      return res.sendStatus(401);
     }
 
     const accessToken = jwt.sign(
@@ -121,10 +118,10 @@ AuthController.loginManual = async (req, res) => {
     setHttpCookie(res, 'access_token', accessToken, 15 * 60 * 1000); 
     setHttpCookie(res, 'refresh_token', refreshToken, 7 * 24 * 60 * 60 * 1000); 
 
-    res.status(200).json({ success: true });
+    res.sendStatus(200);
   } catch (err) {
     console.error(err);
-    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+    res.sendStatus(500);
   }
 };
 
