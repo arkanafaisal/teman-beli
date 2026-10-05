@@ -184,6 +184,12 @@ export const getApiMessage = (path, code, method = "GET") => {
         404: "Komunitas tidak ditemukan."
       }
     },
+    "/community/:id/like": {
+      POST: {
+        200: "Berhasil mengubah like komunitas.",
+        404: "Komunitas tidak ditemukan."
+      }
+    },
     "/community/:id": {
       DELETE: {
         403: "Anda tidak memiliki hak untuk menghapus komunitas ini."

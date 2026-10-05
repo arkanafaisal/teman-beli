@@ -34,6 +34,10 @@ const limitsConfig = {
     windowMs: 15 * 60 * 1000,
     limit: 15
   },
+  'community.like': {
+    windowMs: 5 * 60 * 1000,
+    limit: 50
+  },
   'user.update': {
     windowMs: 15 * 60 * 1000,
     limit: 10

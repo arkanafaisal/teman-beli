@@ -81,6 +81,7 @@ export const api = {
     getDetail: (id) => callApi(`/community/${id}`, "GET"),
     create: (payload) => callApi("/community", "POST", payload),
     addComment: (id, payload) => callApi(`/community/${id}/comments`, "POST", payload),
+    toggleLike: (id) => callApi(`/community/${id}/like`, "POST"),
     join: (id) => callApi(`/community/${id}/join`, "POST"),
     leave: (id) => callApi(`/community/${id}/leave`, "POST"),
     delete: (id) => callApi(`/community/${id}`, "DELETE"),

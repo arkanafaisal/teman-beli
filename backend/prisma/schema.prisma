@@ -25,6 +25,7 @@ model User {
   reviewsReceived Review[]   @relation("ReceivedReviews")
   communities     Community[] @relation("UserCommunities")
   communityComments CommunityComment[] @relation("UserCommunityComments")
+  communityLikes  CommunityLike[]
 }
 
 enum PatunganStatus {
@@ -128,6 +129,7 @@ model Community {
   author      User     @relation("UserCommunities", fields: [authorId], references: [id])
 
   comments    CommunityComment[]
+  likes       CommunityLike[]
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
@@ -144,4 +146,15 @@ model CommunityComment {
   community   Community @relation(fields: [communityId], references: [id])
 
   createdAt   DateTime  @default(now())
+}
+
+model CommunityLike {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  communityId String
+  community   Community @relation(fields: [communityId], references: [id])
+  createdAt   DateTime  @default(now())
+
+  @@unique([userId, communityId])
 }

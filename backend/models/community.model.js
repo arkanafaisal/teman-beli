@@ -7,7 +7,7 @@ export const createCommunityModel = async (data) => {
   });
 };
 
-export const getAllCommunitiesModel = async (category, q) => {
+export const getAllCommunitiesModel = async (category, q, userId) => {
   const where = {};
   
   if (category && category !== 'all') {
@@ -27,7 +27,9 @@ export const getAllCommunitiesModel = async (category, q) => {
       comments: {
         orderBy: { createdAt: 'desc' },
         include: { author: { select: { name: true } } }
-      }
+      },
+      _count: { select: { likes: true } },
+      likes: userId ? { where: { userId }, select: { id: true } } : false
     }
   });
 };
@@ -36,4 +38,30 @@ export const createCommunityCommentModel = async (data) => {
   return await prisma.communityComment.create({
     data
   });
+};
+
+export const toggleCommunityLikeModel = async (communityId, userId) => {
+  const existingLike = await prisma.communityLike.findUnique({
+    where: {
+      userId_communityId: {
+        userId,
+        communityId
+      }
+    }
+  });
+
+  if (existingLike) {
+    await prisma.communityLike.delete({
+      where: { id: existingLike.id }
+    });
+    return { isLiked: false };
+  } else {
+    await prisma.communityLike.create({
+      data: {
+        userId,
+        communityId
+      }
+    });
+    return { isLiked: true };
+  }
 };

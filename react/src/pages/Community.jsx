@@ -82,26 +82,33 @@ export default function Community() {
     setCommentText("");
   };
 
-  const handleLike = (id) => {
-    const newItems = items.map(item => {
-      if (item.id === id) {
-        if (!item.isLiked) {
-          return { ...item, likes: item.likes + 1, isLiked: true };
-        } else {
-          return { ...item, likes: item.likes - 1, isLiked: false };
-        }
+  const handleLike = async (id) => {
+    if (!user?.isLoggedIn) {
+      toast.error(communityData.alerts.loginRequired);
+      return;
+    }
+
+    // Optimistic UI update
+    const updateItemLikeState = (item) => {
+      if (item.isLiked) {
+        return { ...item, likes: item.likes - 1, isLiked: false };
+      } else {
+        return { ...item, likes: item.likes + 1, isLiked: true };
       }
-      return item;
-    });
+    };
+
+    const newItems = items.map(item => item.id === id ? updateItemLikeState(item) : item);
     setItems(newItems);
 
-    // Also update active item if open
     if (activeItem && activeItem.id === id) {
-      if (!activeItem.isLiked) {
-        setActiveItem({ ...activeItem, likes: activeItem.likes + 1, isLiked: true });
-      } else {
-        setActiveItem({ ...activeItem, likes: activeItem.likes - 1, isLiked: false });
-      }
+      setActiveItem(updateItemLikeState(activeItem));
+    }
+
+    // API call
+    const res = await api.community.toggleLike(id);
+    if (!res.success) {
+      // Revert if failed
+      fetchCommunities();
     }
   };
 
