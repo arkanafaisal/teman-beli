@@ -1,10 +1,8 @@
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { PrismaClient } from '@prisma/client';
 import { loginManualSchema } from '../schemas/auth.schema.js';
-
-const prisma = new PrismaClient();
+import { UserModel } from '../models/user.model.js';
 
 export const AuthController = {};
 
@@ -46,17 +44,10 @@ AuthController.login = async (req, res) => {
   }
 
   // 3. Find or Create User di Database
-  let user = await prisma.user.findUnique({
-    where: { email: email }
-  });
+  let user = await UserModel.getUserByEmail(email);
 
   if (!user) {
-    user = await prisma.user.create({
-      data: {
-        email: email,
-        name: name
-      }
-    });
+    user = await UserModel.createUser(email, name);
   }
 
   // 4. Generate JWT (Access Token 15 menit, Refresh Token 7 hari)
@@ -89,7 +80,7 @@ AuthController.loginManual = async (req, res) => {
 
     const { email, password } = validatedData.data;
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await UserModel.getUserWithPassword(email);
     if (!user) {
       return res.sendStatus(401);
     }
@@ -144,9 +135,7 @@ AuthController.refresh = async (req, res) => {
     const decoded = jwt.verify(refresh_token, process.env.JWT_REFRESH_SECRET);
     
     // Cari user di Database menggunakan decoded.id untuk memastikan akun belum dihapus/di-banned
-    const user = await prisma.user.findUnique({
-      where: { id: decoded.id }
-    });
+    const user = await UserModel.getUserById(decoded.id);
 
     if (!user) {
       res.clearCookie('access_token');

@@ -1,24 +1,12 @@
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcryptjs';
+import { UserModel } from '../models/user.model.js';
 import { setPasswordSchema } from '../schemas/auth.schema.js';
 
-const prisma = new PrismaClient();
 export const UserController = {};
 
 UserController.getProfile = async (req, res, next) => {
   try {
     const userId = req.user.id;
-
-    const user = await prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        department: true,
-        rating: true
-      }
-    });
+    const user = await UserModel.getUserById(userId);
 
     if (!user) {
       return res.sendStatus(404);
@@ -41,13 +29,7 @@ UserController.setPassword = async (req, res, next) => {
 
     const { password } = validatedData.data;
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    await prisma.user.update({
-      where: { id: userId },
-      data: { password: hashedPassword }
-    });
+    await UserModel.updatePassword(userId, password);
 
     res.sendStatus(200);
   } catch (error) {
@@ -60,16 +42,7 @@ UserController.getReviews = async (req, res, next) => {
     const userId = req.user.id;
     const limit = parseInt(req.query.limit) || 10;
 
-    const reviews = await prisma.review.findMany({
-      where: { hostId: userId },
-      include: {
-        reviewer: {
-          select: { name: true, department: true }
-        }
-      },
-      orderBy: { createdAt: 'desc' },
-      take: limit
-    });
+    const reviews = await UserModel.getReviewsByHost(userId, limit);
 
     res.status(200).json({ success: true, payload: reviews });
   } catch (error) {

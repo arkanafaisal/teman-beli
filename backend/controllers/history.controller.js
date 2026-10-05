@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { HistoryModel } from '../models/history.model.js';
 
-const prisma = new PrismaClient();
 export const HistoryController = {};
 
 HistoryController.getAll = async (req, res, next) => {
@@ -8,24 +7,7 @@ HistoryController.getAll = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 30;
     const userId = req.user.id;
     
-    // Cukup 1 query karena host juga pasti memiliki record di PatunganParticipant (dibuat otomatis saat patungan dibuat)
-    const allParticipations = await prisma.patunganParticipant.findMany({
-      where: { 
-        userId: userId,
-        patungan: { status: { not: 'CANCELLED' } }
-      },
-      include: { 
-        patungan: {
-          include: {
-            reviews: {
-              where: { reviewerId: userId }
-            }
-          }
-        } 
-      },
-      orderBy: { joinedAt: 'desc' },
-      take: limit
-    });
+    const allParticipations = await HistoryModel.getAllParticipations(userId, limit);
 
     const activities = allParticipations.map(p => {
       const isHost = p.patungan.hostId === userId;
@@ -60,7 +42,6 @@ HistoryController.getAll = async (req, res, next) => {
       };
     });
 
-    // Urutkan kembali berdasarkan tanggal karena tanggal host menggunakan createdAt patungan
     activities.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     res.json({ success: true, payload: activities });
@@ -73,22 +54,8 @@ HistoryController.getSummary = async (req, res, next) => {
   try {
     const userId = req.user.id;
     
-    const hostedCount = await prisma.patungan.count({
-      where: { 
-        hostId: userId,
-        status: { not: 'CANCELLED' }
-      }
-    });
-
-    const joinedCount = await prisma.patunganParticipant.count({
-      where: { 
-        userId: userId,
-        patungan: { 
-          hostId: { not: userId },
-          status: { not: 'CANCELLED' }
-        }
-      }
-    });
+    const hostedCount = await HistoryModel.getHostedCount(userId);
+    const joinedCount = await HistoryModel.getJoinedCount(userId);
 
     res.json({ success: true, payload: { hosted: hostedCount, joined: joinedCount } });
   } catch (error) {
