@@ -140,6 +140,7 @@ PatunganController.join = async (req, res) => {
 
     const existing = await PatunganModel.getPatunganById(id);
     if (!existing) return res.sendStatus(404);
+    if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
     if (existing.hostId === req.user.id) return res.sendStatus(403);
 
     // Check if already requested or joined
@@ -189,6 +190,7 @@ PatunganController.updateParticipantStatus = async (req, res) => {
 
     const existing = await PatunganModel.getPatunganById(id);
     if (!existing) return res.sendStatus(404);
+    if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
     if (existing.hostId !== req.user.id) {
       return res.sendStatus(403);
     }
@@ -213,6 +215,7 @@ PatunganController.deleteParticipant = async (req, res) => {
 
     const existing = await PatunganModel.getPatunganById(id);
     if (!existing) return res.sendStatus(404);
+    if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
     if (existing.hostId !== req.user.id) {
       return res.sendStatus(403);
     }

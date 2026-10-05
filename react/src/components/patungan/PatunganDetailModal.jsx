@@ -280,63 +280,64 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onManage, o
       <div>
         {isLoggedIn ? (
           <div className="flex flex-col gap-3 w-full">
-            {isHost && (
+            {item.status === 'FINISHED' ? (
+              <div className="w-full bg-bg-subtle border border-border-base text-success-base font-bold py-3.5 rounded-xl flex items-center justify-center gap-2">
+                <CheckCircle className="w-5 h-5" />
+                Patungan Selesai
+              </div>
+            ) : item.status === 'CANCELLED' ? (
+              <div className="w-full bg-bg-subtle border border-danger-base text-danger-base font-bold py-3.5 rounded-xl flex items-center justify-center gap-2">
+                Patungan Dibatalkan
+              </div>
+            ) : (
               <>
-                <button 
-                  onClick={onManage}
-                  className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center cursor-pointer shadow-lg shadow-primary-glow"
-                >
-                  {patunganData.detail.actions.manageButton}
-                </button>
-                {item.status === 'FINISHED' ? (
-                  <div className="w-full bg-bg-subtle border border-border-base text-success-base font-bold py-3.5 rounded-xl flex items-center justify-center gap-2">
-                    <CheckCircle className="w-5 h-5" />
-                    Patungan Selesai
-                  </div>
-                ) : item.status === 'CANCELLED' ? (
-                  <div className="w-full bg-bg-subtle border border-danger-base text-danger-base font-bold py-3.5 rounded-xl flex items-center justify-center gap-2">
-                    Patungan Dibatalkan
-                  </div>
-                ) : (
-                  <button 
-                    onClick={onFinish}
-                    className="w-full bg-success-base hover:bg-success-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center cursor-pointer shadow-lg shadow-success-base/20"
-                  >
-                    {patunganData.detail.actions.finishButton}
-                  </button>
+                {isHost && (
+                  <>
+                    <button 
+                      onClick={onManage}
+                      className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center cursor-pointer shadow-lg shadow-primary-glow"
+                    >
+                      {patunganData.detail.actions.manageButton}
+                    </button>
+                    <button 
+                      onClick={onFinish}
+                      className="w-full bg-success-base hover:bg-success-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center cursor-pointer shadow-lg shadow-success-base/20"
+                    >
+                      {patunganData.detail.actions.finishButton}
+                    </button>
+                  </>
                 )}
-              </>
-            )}
-
-            {!isHost && (
-              <>
-                <a href={waLink} target="_blank" rel="noreferrer" className="w-full bg-success-base hover:bg-success-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-success-base/20">
-                  <MessageCircle className="w-5 h-5" />
-                  {patunganData.detail.actions.whatsappButton}
-                </a>
-            
-                {!isExpired && (
-                  <div className="flex flex-col gap-1.5 mt-1">
-                    <div className="flex gap-2">
-                      <input 
-                        type="number" 
-                        value={joinQuota} 
-                        onChange={e => setJoinQuota(e.target.value)} 
-                        className="flex-1 px-3 py-3 text-sm font-bold rounded-xl border border-border-base bg-bg-surface outline-none focus:border-primary-base transition-colors min-w-0" 
-                        placeholder={`Jml ${item.unit}`} 
-                      />
-                      <button 
-                        onClick={() => {
-                          onJoin(joinQuota);
-                          setJoinQuota("");
-                        }} 
-                        className="bg-primary-base hover:bg-primary-hover transition text-text-inverted px-4 py-3 rounded-xl font-bold text-xs sm:text-sm cursor-pointer shadow-lg shadow-primary-glow whitespace-nowrap shrink-0"
-                      >
-                        {patunganData.detail.actions.joinButton}
-                      </button>
-                    </div>
-                    <span className="text-[10px] text-text-muted text-center leading-tight">{patunganData.detail.actions.joinHelper}</span>
-                  </div>
+                {!isHost && (
+                  <>
+                    <a href={waLink} target="_blank" rel="noreferrer" className="w-full bg-success-base hover:bg-success-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-success-base/20">
+                      <MessageCircle className="w-5 h-5" />
+                      {patunganData.detail.actions.whatsappButton}
+                    </a>
+                
+                    {!isExpired && item.status !== 'FULL' && (
+                      <div className="flex flex-col gap-1.5 mt-1">
+                        <div className="flex gap-2">
+                          <input 
+                            type="number" 
+                            value={joinQuota} 
+                            onChange={e => setJoinQuota(e.target.value)} 
+                            className="flex-1 px-3 py-3 text-sm font-bold rounded-xl border border-border-base bg-bg-surface outline-none focus:border-primary-base transition-colors min-w-0" 
+                            placeholder={`Jml ${item.unit}`} 
+                          />
+                          <button 
+                            onClick={() => {
+                              onJoin(joinQuota);
+                              setJoinQuota("");
+                            }} 
+                            className="bg-primary-base hover:bg-primary-hover transition text-text-inverted px-4 py-3 rounded-xl font-bold text-xs sm:text-sm cursor-pointer shadow-lg shadow-primary-glow whitespace-nowrap shrink-0"
+                          >
+                            {patunganData.detail.actions.joinButton}
+                          </button>
+                        </div>
+                        <span className="text-[10px] text-text-muted text-center leading-tight">{patunganData.detail.actions.joinHelper}</span>
+                      </div>
+                    )}
+                  </>
                 )}
               </>
             )}

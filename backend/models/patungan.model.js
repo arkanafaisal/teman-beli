@@ -43,6 +43,8 @@ export const PatunganModel = {
     
     if (hostId) {
       whereClause.hostId = hostId;
+    } else {
+      whereClause.status = { notIn: ['FINISHED', 'CANCELLED'] };
     }
     
     if (search) {
