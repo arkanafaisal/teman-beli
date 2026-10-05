@@ -40,7 +40,7 @@ UserController.setPassword = async (req, res, next) => {
 UserController.getReviews = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = 30;
 
     const reviews = await UserModel.getReviewsByHost(userId, limit);
 

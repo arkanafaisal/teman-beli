@@ -4,7 +4,7 @@ export const HistoryController = {};
 
 HistoryController.getAll = async (req, res, next) => {
   try {
-    const limit = parseInt(req.query.limit) || 30;
+    const limit = 30;
     const userId = req.user.id;
     
     const allParticipations = await HistoryModel.getAllParticipations(userId, limit);
