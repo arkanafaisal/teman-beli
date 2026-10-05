@@ -99,6 +99,7 @@ export default function PatunganDetailModal({ item, onClose }) {
       {isManageModalOpen && (
         <ManageParticipantsModal
           patunganId={localItem.id}
+          hostId={localItem.hostId}
           onClose={() => setIsManageModalOpen(false)}
           onUpdate={() => setRefreshTrigger(prev => prev + 1)}
         />

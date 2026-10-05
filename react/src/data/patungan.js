@@ -148,7 +148,7 @@ export const patunganData = {
     rejectButton: "Tolak",
     acceptedLabel: "Diterima",
     rejectedLabel: "Ditolak",
-    quotaLabel: "Quota:",
+    quotaLabel: "Kuota:",
     statusSuccess: "Status partisipan berhasil diupdate!",
     statusError: "Gagal mengupdate status",
     deleteButton: "Hapus",

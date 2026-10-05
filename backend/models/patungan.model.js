@@ -22,7 +22,8 @@ export const PatunganModel = {
         participants: {
           create: {
             userId: userId,
-            quota: data.currentQuota
+            quota: data.currentQuota,
+            status: 'ACCEPTED'
           }
         }
       }
@@ -129,6 +130,12 @@ export const PatunganModel = {
         patunganId,
         userId
       }
+    });
+  },
+
+  getParticipantById: async (participantId) => {
+    return await prisma.patunganParticipant.findUnique({
+      where: { id: participantId }
     });
   },
 

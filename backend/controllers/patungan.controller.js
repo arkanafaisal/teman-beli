@@ -146,6 +146,12 @@ PatunganController.updateParticipantStatus = async (req, res) => {
       return res.sendStatus(403);
     }
 
+    const participant = await PatunganModel.getParticipantById(participantId);
+    if (!participant) return res.sendStatus(404);
+    if (participant.userId === existing.hostId) {
+      return res.sendStatus(400); // Host tidak dapat diubah statusnya
+    }
+
     await PatunganModel.updateParticipantStatus(participantId, status);
     res.sendStatus(200);
   } catch (error) {
@@ -162,6 +168,12 @@ PatunganController.deleteParticipant = async (req, res) => {
     if (!existing) return res.sendStatus(404);
     if (existing.hostId !== req.user.id) {
       return res.sendStatus(403);
+    }
+
+    const participant = await PatunganModel.getParticipantById(participantId);
+    if (!participant) return res.sendStatus(404);
+    if (participant.userId === existing.hostId) {
+      return res.sendStatus(400); // Host tidak dapat dihapus
     }
 
     await PatunganModel.deleteParticipant(participantId);

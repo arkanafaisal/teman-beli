@@ -2,17 +2,34 @@ export const getApiMessage = (path, code, method = "GET") => {
 
   // Normalisasi Path dinamis agar sesuai dictionary
   let normalizedPath = path;
-  if (path.match(/\/patungan\/\d+/)) {
-    if (path.match(/\/patungan\/\d+\/participants\/\d+/)) {
-      normalizedPath = "/patungan/:id/participants/:participantId";
-    } else if (path.match(/\/patungan\/\d+\/participants/)) {
+  if (path.startsWith("/patungan/")) {
+    if (path.match(/^\/patungan\/[a-f0-9\-]+$/)) {
+      normalizedPath = "/patungan/:id";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/join$/)) {
+      normalizedPath = "/patungan/:id/join";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/leave$/)) {
+      normalizedPath = "/patungan/:id/leave";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/status$/)) {
+      normalizedPath = "/patungan/:id/status";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/log$/)) {
+      normalizedPath = "/patungan/:id/log";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/comments$/)) {
+      normalizedPath = "/patungan/:id/comments";
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/participants$/)) {
       normalizedPath = "/patungan/:id/participants";
-    } else {
-      normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/patungan/:id/comments" : m.includes("join") ? "/patungan/:id/join" : m.includes("leave") ? "/patungan/:id/leave" : m.includes("status") ? "/patungan/:id/status" : m.includes("log") ? "/patungan/:id/log" : "/patungan/:id");
+    } else if (path.match(/^\/patungan\/[a-f0-9\-]+\/participants\/[a-f0-9\-]+$/)) {
+      normalizedPath = "/patungan/:id/participants/:participantId";
     }
-  }
-  if (path.match(/\/community\/\d+/)) {
-    normalizedPath = path.replace(/\/\d+.*/, (m) => m.includes("comments") ? "/community/:id/comments" : m.includes("join") ? "/community/:id/join" : m.includes("leave") ? "/community/:id/leave" : "/community/:id");
+  } else if (path.startsWith("/community/")) {
+    if (path.match(/^\/community\/[a-f0-9\-]+$/)) {
+      normalizedPath = "/community/:id";
+    } else if (path.match(/^\/community\/[a-f0-9\-]+\/join$/)) {
+      normalizedPath = "/community/:id/join";
+    } else if (path.match(/^\/community\/[a-f0-9\-]+\/leave$/)) {
+      normalizedPath = "/community/:id/leave";
+    } else if (path.match(/^\/community\/[a-f0-9\-]+\/comments$/)) {
+      normalizedPath = "/community/:id/comments";
+    }
   }
 
   // Kamus mapping pesan berdasarkan path (endpoint) dan method
@@ -110,11 +127,12 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/patungan/:id/participants/:participantId": {
       PATCH: {
-        400: "Status partisipan tidak valid.",
+        400: "Host tidak dapat mengubah status dirinya sendiri.",
         403: "Hanya host yang bisa mengubah status partisipan.",
         404: "Patungan tidak ditemukan."
       },
       DELETE: {
+        400: "Host tidak dapat dihapus dari patungan.",
         403: "Hanya host yang bisa menghapus partisipan.",
         404: "Patungan tidak ditemukan."
       }
