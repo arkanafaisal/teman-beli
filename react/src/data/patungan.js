@@ -139,5 +139,17 @@ export const patunganData = {
   alerts: {
     loginRequired: "Anda harus login terlebih dahulu!",
     successMessage: "Pengumuman patungan berhasil diposting!"
+  },
+  manageParticipants: {
+    modalTitle: "Kelola Partisipan",
+    emptyState: "Belum ada partisipan yang mendaftar.",
+    loading: "Memuat partisipan...",
+    acceptButton: "Terima",
+    rejectButton: "Tolak",
+    acceptedLabel: "Diterima",
+    rejectedLabel: "Ditolak",
+    quotaLabel: "Quota:",
+    statusSuccess: "Status partisipan berhasil diupdate!",
+    statusError: "Gagal mengupdate status"
   }
 };

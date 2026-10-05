@@ -112,3 +112,44 @@ PatunganController.join = async (req, res) => {
     res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
   }
 };
+
+PatunganController.getParticipants = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const existing = await PatunganModel.getPatunganById(id);
+    
+    if (!existing) return res.status(404).json({ success: false, message: "Patungan tidak ditemukan" });
+    if (existing.hostId !== req.user.id) {
+      return res.status(403).json({ success: false, message: "Hanya host yang bisa melihat partisipan" });
+    }
+
+    const participants = await PatunganModel.getParticipants(id);
+    res.json({ success: true, payload: participants });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+  }
+};
+
+PatunganController.updateParticipantStatus = async (req, res) => {
+  try {
+    const { id, participantId } = req.params;
+    const { status } = req.body; // 'ACCEPTED' or 'REJECTED'
+    
+    if (!['ACCEPTED', 'REJECTED'].includes(status)) {
+      return res.status(400).json({ success: false, message: "Status tidak valid" });
+    }
+
+    const existing = await PatunganModel.getPatunganById(id);
+    if (!existing) return res.status(404).json({ success: false, message: "Patungan tidak ditemukan" });
+    if (existing.hostId !== req.user.id) {
+      return res.status(403).json({ success: false, message: "Hanya host yang bisa mengubah status partisipan" });
+    }
+
+    await PatunganModel.updateParticipantStatus(participantId, status);
+    res.json({ success: true, message: `Status berhasil diubah menjadi ${status}` });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+  }
+};

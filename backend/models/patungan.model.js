@@ -130,5 +130,45 @@ export const PatunganModel = {
         userId
       }
     });
+  },
+
+  getParticipants: async (patunganId) => {
+    return await prisma.patunganParticipant.findMany({
+      where: { patunganId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      },
+      orderBy: { joinedAt: 'asc' }
+    });
+  },
+
+  updateParticipantStatus: async (participantId, status) => {
+    return await prisma.$transaction(async (tx) => {
+      const participant = await tx.patunganParticipant.update({
+        where: { id: participantId },
+        data: { status }
+      });
+
+      // Recalculate the patungan currentQuota based on ACCEPTED participants
+      if (status === 'ACCEPTED' || status === 'REJECTED') {
+        const accepted = await tx.patunganParticipant.findMany({
+          where: { patunganId: participant.patunganId, status: 'ACCEPTED' }
+        });
+        const newQuota = accepted.reduce((sum, p) => sum + p.quota, 0);
+        
+        await tx.patungan.update({
+          where: { id: participant.patunganId },
+          data: { currentQuota: newQuota }
+        });
+      }
+
+      return participant;
+    });
   }
 };

@@ -9,12 +9,13 @@ import { getRelativeTime, getFullDateTime } from "../../utils/dateHelper";
 import { commentSchema } from "../../validations/commentValidation";
 import { toast } from "sonner";
 import PatunganForm from "./PatunganForm";
-
+import ManageParticipantsModal from "./ManageParticipantsModal";
 
 export default function PatunganDetailModal({ item, onClose }) {
   const { user, login } = useAuth();
   const [localItem, setLocalItem] = useState(item);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ export default function PatunganDetailModal({ item, onClose }) {
   return (
     <>
       <BottomModalWrapper onClose={onClose}>
-        <PatunganDetail item={localItem} isLoggedIn={user?.isLoggedIn} onLogin={handleLogin} isHost={isHost} onEdit={() => setIsEditModalOpen(true)} onJoin={handleJoin} />
+        <PatunganDetail item={localItem} isLoggedIn={user?.isLoggedIn} onLogin={handleLogin} isHost={isHost} onEdit={() => setIsEditModalOpen(true)} onManage={() => setIsManageModalOpen(true)} onJoin={handleJoin} />
         <PatunganReplies replies={localItem.replies} isLoggedIn={user?.isLoggedIn} isHost={isHost} onAddReply={handleAddReply} />
       </BottomModalWrapper>
 
@@ -95,12 +96,19 @@ export default function PatunganDetailModal({ item, onClose }) {
           />
         </CenterModalWrapper>
       )}
+      {isManageModalOpen && (
+        <ManageParticipantsModal
+          patunganId={localItem.id}
+          onClose={() => setIsManageModalOpen(false)}
+          onUpdate={() => setRefreshTrigger(prev => prev + 1)}
+        />
+      )}
     </>
   );
 }
 
 
-function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onJoin }) {
+function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onManage, onJoin }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
   const remainingQuota = item.targetQuota - item.currentQuota;
   
@@ -200,7 +208,10 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onJoin }) {
           <div className="flex flex-col gap-3 w-full">
             {isHost && (
               <>
-                <button className="w-full bg-primary-base opacity-50 cursor-not-allowed text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center">
+                <button 
+                  onClick={onManage}
+                  className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center cursor-pointer shadow-lg shadow-primary-glow"
+                >
                   {patunganData.detail.actions.manageButton}
                 </button>
                 <button className="w-full bg-success-base opacity-50 cursor-not-allowed text-text-inverted font-bold py-3.5 rounded-xl transition flex items-center justify-center">
