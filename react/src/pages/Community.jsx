@@ -105,27 +105,38 @@ export default function Community() {
     }
   };
 
-  const handleAddComment = (id) => {
+  const handleAddComment = async (id) => {
+    if (!user?.isLoggedIn) {
+      toast.error(communityData.alerts.loginRequired);
+      return;
+    }
+
     if (!commentText.trim()) return;
 
-    const newComment = {
-      author: user.isLoggedIn ? user.name : "Guest",
-      text: commentText,
-      date: "Baru saja"
-    };
+    const res = await api.community.addComment(id, { text: commentText });
+    if (res.success) {
+      const newComment = {
+        author: user.name,
+        text: commentText,
+        date: new Date().toISOString()
+      };
 
-    const newItems = items.map(item => {
-      if (item.id === id) {
-        return { ...item, comments: [...item.comments, newComment] };
+      const newItems = items.map(item => {
+        if (item.id === id) {
+          return { ...item, comments: [newComment, ...item.comments] };
+        }
+        return item;
+      });
+
+      setItems(newItems);
+      if (activeItem && activeItem.id === id) {
+        setActiveItem({ ...activeItem, comments: [newComment, ...activeItem.comments] });
       }
-      return item;
-    });
-
-    setItems(newItems);
-    if (activeItem && activeItem.id === id) {
-      setActiveItem({ ...activeItem, comments: [...activeItem.comments, newComment] });
+      setCommentText("");
+      
+      // Optionally fetch again to ensure consistency
+      fetchCommunities();
     }
-    setCommentText("");
   };
 
   return (

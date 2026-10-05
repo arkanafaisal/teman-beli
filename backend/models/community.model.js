@@ -22,6 +22,18 @@ export const getAllCommunitiesModel = async (category, q) => {
   return await prisma.community.findMany({
     where,
     orderBy: { createdAt: 'desc' },
-    include: { author: { select: { name: true, department: true } } }
+    include: { 
+      author: { select: { name: true, department: true } },
+      comments: {
+        orderBy: { createdAt: 'desc' },
+        include: { author: { select: { name: true } } }
+      }
+    }
+  });
+};
+
+export const createCommunityCommentModel = async (data) => {
+  return await prisma.communityComment.create({
+    data
   });
 };

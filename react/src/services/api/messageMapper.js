@@ -177,6 +177,13 @@ export const getApiMessage = (path, code, method = "GET") => {
         409: "Nama komunitas tersebut sudah pernah diajukan atau sudah ada.",
       }
     },
+    "/community/:id/comments": {
+      POST: {
+        201: "Komentar berhasil ditambahkan!",
+        400: "Komentar tidak valid. (Minimal 2 karakter, Maksimal 500 karakter).",
+        404: "Komunitas tidak ditemukan."
+      }
+    },
     "/community/:id": {
       DELETE: {
         403: "Anda tidak memiliki hak untuk menghapus komunitas ini."

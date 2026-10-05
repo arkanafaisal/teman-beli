@@ -4,6 +4,7 @@ import { MapPin, Heart, MessageCircle } from "lucide-react";
 import BottomModalWrapper from "../common/BottomModalWrapper";
 import { commentSchema } from "../../validations/commentValidation";
 import { useState } from "react";
+import { getFullDateTime } from "../../utils/dateHelper";
 
 export default function CommunityDetailModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
   const [error, setError] = useState("");
@@ -96,7 +97,7 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
                 <div key={idx} className="p-3 bg-bg-subtle rounded-xl border border-border-subtle">
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-bold text-xs text-text-heading">{c.author}</span>
-                    <span className="text-[10px] text-text-muted">{c.date}</span>
+                    <span className="text-[10px] text-text-muted">{getFullDateTime(c.date)}</span>
                   </div>
                   <p className="text-xs text-text-muted leading-normal">{c.text}</p>
                 </div>

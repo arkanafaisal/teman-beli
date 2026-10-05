@@ -30,6 +30,10 @@ const limitsConfig = {
     windowMs: 60 * 60 * 1000,
     limit: 5
   },
+  'community.comment': {
+    windowMs: 15 * 60 * 1000,
+    limit: 15
+  },
   'user.update': {
     windowMs: 15 * 60 * 1000,
     limit: 10

@@ -7,3 +7,7 @@ export const createCommunitySchema = z.object({
   ringkasan: z.string().min(1, 'Ringkasan info singkat tidak boleh kosong'),
   deskripsiLengkap: z.string().min(1, 'Deskripsi lengkap tidak boleh kosong')
 });
+
+export const createCommunityCommentSchema = z.object({
+  text: z.string().min(2, "Komentar minimal 2 karakter").max(500, "Komentar maksimal 500 karakter")
+});
