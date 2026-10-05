@@ -66,5 +66,15 @@ export const profileData = {
         amount: "Rp 15.000"
       }
     ]
+  },
+  passwordCard: {
+    title: "Atur Password Login",
+    description: "Atur password jika Anda ingin login manual menggunakan email .ac.id tanpa melalui tombol Google.",
+    newPasswordLabel: "Password Baru",
+    newPasswordPlaceholder: "Minimal 6 karakter",
+    confirmPasswordLabel: "Konfirmasi Password",
+    confirmPasswordPlaceholder: "Ketik ulang password baru",
+    buttonNormal: "Simpan Password",
+    buttonLoading: "Menyimpan..."
   }
 };

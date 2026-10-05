@@ -1,4 +1,6 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
+import { setPasswordSchema } from '../schemas/auth.schema.js';
 
 const prisma = new PrismaClient();
 export const UserController = {};
@@ -23,6 +25,34 @@ UserController.getProfile = async (req, res, next) => {
     }
 
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+UserController.setPassword = async (req, res, next) => {
+  try {
+    const userId = req.user.id;
+    const validatedData = setPasswordSchema.safeParse(req.body);
+
+    if (!validatedData.success) {
+      return res.status(400).json({ 
+        success: false, 
+        message: validatedData.error.issues[0].message 
+      });
+    }
+
+    const { password } = validatedData.data;
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    await prisma.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword }
+    });
+
+    res.status(200).json({ success: true, message: "Password berhasil disimpan" });
   } catch (error) {
     next(error);
   }

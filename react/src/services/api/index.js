@@ -25,12 +25,14 @@ const callApi = async (path, method = "GET", body = null) => {
 export const api = {
   auth: {
     login: (payload) => callApi("/auth/login", "POST", payload),
+    loginManual: (payload) => callApi("/auth/login-manual", "POST", payload),
     logout: () => callApi("/auth/logout", "POST"),
     refresh: () => callApi("/auth/refresh", "POST"),
   },
   user: {
     getProfile: () => callApi("/users/profile", "GET"),
     updateProfile: (payload) => callApi("/users/profile", "PUT", payload),
+    setPassword: (payload) => callApi("/users/password", "PUT", payload),
     getReviews: () => callApi("/users/reviews", "GET"),
     getActivity: () => callApi("/users/activity", "GET"),
   },

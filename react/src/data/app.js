@@ -19,7 +19,14 @@ export const appData = {
       modal: {
         title: "Masuk ke TemanBeli",
         warningTextHtml: "Wajib gunakan email kampus<br/>(akhiran .ac.id)",
-        explanationTextHtml: "<strong>Mengapa harus pakai akun kampus?</strong> Agar kita bisa memastikan semua orang di sini adalah mahasiswa asli. Ini demi keamanan dan kenyamanan patungan bersama!"
+        explanationTextHtml: "<strong>Mengapa harus pakai akun kampus?</strong> Agar kita bisa memastikan semua orang di sini adalah mahasiswa asli. Ini demi keamanan dan kenyamanan patungan bersama!",
+        manualLogin: {
+          emailPlaceholder: "Email Mahasiswa (.ac.id)",
+          passwordPlaceholder: "Password (jika sudah diset)",
+          buttonNormal: "Masuk Manual",
+          buttonLoading: "Memproses...",
+          divider: "ATAU"
+        }
       }
     }
   }

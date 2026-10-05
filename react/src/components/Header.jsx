@@ -7,6 +7,7 @@ import Badge from "./Badge";
 import { toast } from "sonner";
 import { api } from "../services/api";
 import AuthModal from "./AuthModal";
+import { loginManualSchema } from "../validations/authValidation";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -38,6 +39,26 @@ export default function Header() {
 
   const handleGoogleError = () => {
     toast.error("Gagal terhubung ke layanan Google.");
+  };
+
+  const handleManualLogin = async (email, password) => {
+    const result = loginManualSchema.safeParse({ email, password });
+    if (!result.success) {
+      toast.error(result.error.issues[0].message);
+      return;
+    }
+
+    const res = await api.auth.loginManual({ email, password });
+    if (res.success) {
+      const profileRes = await api.user.getProfile();
+      if (profileRes.success && profileRes.payload) {
+        login(profileRes.payload);
+        toast.success(`Selamat datang kembali, ${profileRes.payload.name}!`);
+        setIsLoginModalOpen(false);
+      }
+    } else {
+      toast.error(res.message || "Gagal masuk");
+    }
   };
 
   const executeLogout = async () => {
@@ -213,6 +234,7 @@ export default function Header() {
           handleGoogleSuccess(res);
         }}
         onError={handleGoogleError}
+        onManualLogin={handleManualLogin}
         isDarkMode={isDarkMode}
       />
 

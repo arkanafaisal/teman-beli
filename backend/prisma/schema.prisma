@@ -10,6 +10,7 @@ datasource db {
 model User {
   id           String   @id @default(uuid())
   email        String   @unique
+  password     String?
   name         String
   department   String?  // Jurusan (Misal: "Informatika UNS") - opsional, bisa diisi belakangan
   rating       Float    @default(0.0)  // Nilai ulasan (Misal: 4.9)

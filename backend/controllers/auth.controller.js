@@ -1,6 +1,8 @@
 import { OAuth2Client } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
 import { PrismaClient } from '@prisma/client';
+import { loginManualSchema } from '../schemas/auth.schema.js';
 
 const prisma = new PrismaClient();
 
@@ -75,6 +77,55 @@ AuthController.login = async (req, res) => {
   setHttpCookie(res, 'refresh_token', refreshToken, 7 * 24 * 60 * 60 * 1000); 
 
   res.sendStatus(200);
+};
+
+AuthController.loginManual = async (req, res) => {
+  try {
+    const validatedData = loginManualSchema.safeParse(req.body);
+    
+    if (!validatedData.success) {
+      return res.status(400).json({ 
+        success: false, 
+        message: validatedData.error.issues[0].message 
+      });
+    }
+
+    const { email, password } = validatedData.data;
+
+    const user = await prisma.user.findUnique({ where: { email } });
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Email atau password salah" });
+    }
+
+    if (!user.password) {
+      return res.status(401).json({ success: false, message: "Akun ini belum memiliki password. Silakan login via Google terlebih dahulu." });
+    }
+
+    const isValid = await bcrypt.compare(password, user.password);
+    if (!isValid) {
+      return res.status(401).json({ success: false, message: "Email atau password salah" });
+    }
+
+    const accessToken = jwt.sign(
+      { id: user.id, email: user.email, name: user.name },
+      process.env.JWT_SECRET,
+      { expiresIn: '15m' }
+    );
+    
+    const refreshToken = jwt.sign(
+      { id: user.id },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    setHttpCookie(res, 'access_token', accessToken, 15 * 60 * 1000); 
+    setHttpCookie(res, 'refresh_token', refreshToken, 7 * 24 * 60 * 60 * 1000); 
+
+    res.status(200).json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+  }
 };
 
 AuthController.logout = async (req, res) => {
