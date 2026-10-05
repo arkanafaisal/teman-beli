@@ -18,16 +18,26 @@ export const basePatunganSchema = z.object({
 });
 
 export const patunganSchema = basePatunganSchema.superRefine((data, ctx) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const minDate = new Date(today);
-  minDate.setDate(today.getDate() + 3);
+  const minDate = new Date();
+  // Tambah 3 hari dari detik ini
+  minDate.setDate(minDate.getDate() + 3);
 
-  if (new Date(data.deadline) < minDate) {
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 30);
+
+  const inputDate = new Date(data.deadline);
+
+  if (inputDate < minDate) {
     ctx.addIssue({
       path: ["deadline"],
       code: z.ZodIssueCode.custom,
-      message: "Tenggat waktu harus minimal 3 hari dari sekarang"
+      message: "Tenggat waktu harus minimal 3 hari dari waktu saat ini"
+    });
+  } else if (inputDate > maxDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Tenggat waktu maksimal 30 hari ke depan"
     });
   }
 });
@@ -37,16 +47,26 @@ export const updatePatunganSchema = basePatunganSchema.and(
     updateComment: z.string().min(5, { message: "Pesan pembaruan minimal 5 karakter" }).max(300)
   })
 ).superRefine((data, ctx) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const minDate = new Date(today);
-  minDate.setDate(today.getDate() + 1);
+  const minDate = new Date();
+  // Tambah 1 hari dari detik ini
+  minDate.setDate(minDate.getDate() + 1);
 
-  if (new Date(data.deadline) < minDate) {
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 30);
+
+  const inputDate = new Date(data.deadline);
+
+  if (inputDate < minDate) {
     ctx.addIssue({
       path: ["deadline"],
       code: z.ZodIssueCode.custom,
-      message: "Tenggat waktu (update) harus minimal 1 hari dari sekarang"
+      message: "Tenggat waktu (update) harus minimal 1 hari dari waktu saat ini"
+    });
+  } else if (inputDate > maxDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Tenggat waktu maksimal 30 hari ke depan"
     });
   }
 });

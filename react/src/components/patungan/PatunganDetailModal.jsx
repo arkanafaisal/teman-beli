@@ -5,7 +5,7 @@ import BottomModalWrapper from "../common/BottomModalWrapper";
 import CenterModalWrapper from "../common/CenterModalWrapper";
 import { patunganData } from "../../data/patungan";
 import { MapPin, Link as LinkIcon, MessageCircle, Lock, Edit } from "lucide-react";
-import { getRelativeTime } from "../../utils/dateHelper";
+import { getRelativeTime, getFullDateTime } from "../../utils/dateHelper";
 import { commentSchema } from "../../validations/commentValidation";
 import { toast } from "sonner";
 import PatunganForm from "./PatunganForm";
@@ -25,7 +25,7 @@ export default function PatunganDetailModal({ item, onClose }) {
       if (res.success && res.payload) {
         const fetchedLogs = res.payload.logs || [];
         const formattedReplies = fetchedLogs.map(log => ({
-          date: new Date(log.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' }),
+          date: getFullDateTime(log.createdAt),
           text: log.text
         }));
 
@@ -34,6 +34,7 @@ export default function PatunganDetailModal({ item, onClose }) {
           currentQuota: res.payload.currentQuota,
           status: res.payload.status,
           replies: formattedReplies,
+          createdAt: res.payload.createdAt,
           lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : prev.lastUpdated
         }));
       }
@@ -97,7 +98,7 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit }) {
   return (
     <div className="space-y-6">
       <div>
-        <div className="flex justify-between items-center mb-2">
+        <div className="flex justify-between items-end mb-2">
           <span className="text-xs font-bold text-primary-text">
             {item.category === "PANGAN" ? "Pangan" : item.category === "KOS" ? "Kos & Fasilitas" : item.category === "KAMPUS" ? "Kebutuhan Kampus" : item.category === "DIGITAL" ? "Layanan Digital" : item.category}
           </span>
@@ -107,7 +108,7 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit }) {
             </span>
             {item.lastUpdated && (
               <span className="text-[10px] text-text-muted mt-0.5 font-medium">
-                Update Terakhir: {new Date(item.lastUpdated).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
+                Pembaruan Terakhir: {getFullDateTime(item.lastUpdated)}
               </span>
             )}
           </div>
@@ -174,6 +175,7 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit }) {
         <div>
           <span className="text-xs text-text-muted block">{patunganData.detail.creator.createdBy}</span>
           <span className="font-semibold text-sm">{isLoggedIn ? item.creatorName : patunganData.detail.creator.protectedName}</span>
+          <span className="text-xs text-text-muted block mt-1">{getFullDateTime(item.createdAt)}</span>
         </div>
       </div>
 

@@ -10,6 +10,13 @@ export default function PatunganForm({ onSuccess, initialData }) {
   const { user } = useAuth();
   const isEditMode = !!initialData;
 
+  const getLocalDatetimeLocal = (dateString) => {
+    if (!dateString) return "";
+    const d = new Date(dateString);
+    const pad = (n) => n.toString().padStart(2, '0');
+    return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  };
+
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
     category: initialData?.category || "KAMPUS",
@@ -18,7 +25,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
     totalPrice: initialData?.totalPrice || "",
     currentQuota: initialData?.currentQuota || "",
     area: initialData?.area || "",
-    deadline: initialData?.deadline ? initialData.deadline.split('T')[0] : "",
+    deadline: getLocalDatetimeLocal(initialData?.deadline),
     whatsapp: initialData?.whatsapp || "",
     notes: initialData?.notes || "",
     refLink: initialData?.refLink || "",
@@ -167,7 +174,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
           error={errors.area}
         />
         <FormInput
-          type="date"
+          type="datetime-local"
           label={patunganData.form.deadline.label}
           name="deadline"
           required

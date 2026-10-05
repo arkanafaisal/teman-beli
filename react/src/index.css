@@ -213,6 +213,13 @@ html {
   scrollbar-width: none; /* Firefox */
 }
 
+/* Fix date/time picker icon contrast in Dark Mode */
+.dark input[type="date"]::-webkit-calendar-picker-indicator,
+.dark input[type="datetime-local"]::-webkit-calendar-picker-indicator,
+.dark input[type="time"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
 /* --- SONNER TOAST OVERRIDES --- */
 [data-sonner-toaster] {
   right: 0px !important;

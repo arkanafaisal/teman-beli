@@ -15,16 +15,25 @@ const baseSchema = z.object({
 }).refine(data => data.currentQuota <= data.targetQuota);
 
 export const patunganSchema = baseSchema.superRefine((data, ctx) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const minDate = new Date(today);
-  minDate.setDate(today.getDate() + 3);
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 3);
 
-  if (new Date(data.deadline) < minDate) {
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 30);
+
+  const inputDate = new Date(data.deadline);
+
+  if (inputDate < minDate) {
     ctx.addIssue({
       path: ["deadline"],
       code: z.ZodIssueCode.custom,
-      message: "Deadline untuk patungan baru minimal 3 hari dari sekarang"
+      message: "Deadline untuk patungan baru minimal 3 hari dari waktu saat ini"
+    });
+  } else if (inputDate > maxDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Deadline maksimal 30 hari dari waktu saat ini"
     });
   }
 });
@@ -34,16 +43,25 @@ export const updatePatunganSchema = baseSchema.and(
     updateComment: z.string().min(5).max(300)
   })
 ).superRefine((data, ctx) => {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const minDate = new Date(today);
-  minDate.setDate(today.getDate() + 1);
+  const minDate = new Date();
+  minDate.setDate(minDate.getDate() + 1);
 
-  if (new Date(data.deadline) < minDate) {
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 30);
+
+  const inputDate = new Date(data.deadline);
+
+  if (inputDate < minDate) {
     ctx.addIssue({
       path: ["deadline"],
       code: z.ZodIssueCode.custom,
-      message: "Deadline saat update minimal 1 hari (besok)"
+      message: "Deadline saat update minimal 1 hari dari waktu saat ini"
+    });
+  } else if (inputDate > maxDate) {
+    ctx.addIssue({
+      path: ["deadline"],
+      code: z.ZodIssueCode.custom,
+      message: "Deadline maksimal 30 hari dari waktu saat ini"
     });
   }
 });
