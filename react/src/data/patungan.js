@@ -150,6 +150,9 @@ export const patunganData = {
     rejectedLabel: "Ditolak",
     quotaLabel: "Quota:",
     statusSuccess: "Status partisipan berhasil diupdate!",
-    statusError: "Gagal mengupdate status"
+    statusError: "Gagal mengupdate status",
+    deleteButton: "Hapus",
+    deleteSuccess: "Partisipan berhasil dihapus!",
+    deleteError: "Gagal menghapus partisipan"
   }
 };

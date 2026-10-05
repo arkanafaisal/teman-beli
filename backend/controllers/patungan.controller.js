@@ -92,24 +92,24 @@ PatunganController.join = async (req, res) => {
     const quota = parseInt(req.body.quota);
     
     if (isNaN(quota) || quota < 1) {
-      return res.status(400).json({ success: false, message: "Jumlah porsi tidak valid" });
+      return res.sendStatus(400);
     }
 
     const existing = await PatunganModel.getPatunganById(id);
-    if (!existing) return res.status(404).json({ success: false, message: "Patungan tidak ditemukan" });
-    if (existing.hostId === req.user.id) return res.status(400).json({ success: false, message: "Anda adalah host dari patungan ini" });
+    if (!existing) return res.sendStatus(404);
+    if (existing.hostId === req.user.id) return res.sendStatus(403);
 
     // Check if already requested or joined
     const alreadyParticipated = await PatunganModel.checkParticipation(id, req.user.id);
     if (alreadyParticipated) {
-      return res.status(400).json({ success: false, message: "Anda sudah mendaftar pada patungan ini" });
+      return res.sendStatus(409);
     }
 
     await PatunganModel.joinPatungan(id, req.user.id, quota);
-    res.status(201).json({ success: true });
+    res.sendStatus(201);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+    res.sendStatus(500);
   }
 };
 
@@ -118,16 +118,16 @@ PatunganController.getParticipants = async (req, res) => {
     const { id } = req.params;
     const existing = await PatunganModel.getPatunganById(id);
     
-    if (!existing) return res.status(404).json({ success: false, message: "Patungan tidak ditemukan" });
+    if (!existing) return res.sendStatus(404);
     if (existing.hostId !== req.user.id) {
-      return res.status(403).json({ success: false, message: "Hanya host yang bisa melihat partisipan" });
+      return res.sendStatus(403);
     }
 
     const participants = await PatunganModel.getParticipants(id);
     res.json({ success: true, payload: participants });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+    res.sendStatus(500);
   }
 };
 
@@ -137,19 +137,37 @@ PatunganController.updateParticipantStatus = async (req, res) => {
     const { status } = req.body; // 'ACCEPTED' or 'REJECTED'
     
     if (!['ACCEPTED', 'REJECTED'].includes(status)) {
-      return res.status(400).json({ success: false, message: "Status tidak valid" });
+      return res.sendStatus(400);
     }
 
     const existing = await PatunganModel.getPatunganById(id);
-    if (!existing) return res.status(404).json({ success: false, message: "Patungan tidak ditemukan" });
+    if (!existing) return res.sendStatus(404);
     if (existing.hostId !== req.user.id) {
-      return res.status(403).json({ success: false, message: "Hanya host yang bisa mengubah status partisipan" });
+      return res.sendStatus(403);
     }
 
     await PatunganModel.updateParticipantStatus(participantId, status);
-    res.json({ success: true, message: `Status berhasil diubah menjadi ${status}` });
+    res.sendStatus(200);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+    res.sendStatus(500);
+  }
+};
+
+PatunganController.deleteParticipant = async (req, res) => {
+  try {
+    const { id, participantId } = req.params;
+
+    const existing = await PatunganModel.getPatunganById(id);
+    if (!existing) return res.sendStatus(404);
+    if (existing.hostId !== req.user.id) {
+      return res.sendStatus(403);
+    }
+
+    await PatunganModel.deleteParticipant(participantId);
+    res.sendStatus(200);
+  } catch (error) {
+    console.error(error);
+    res.sendStatus(500);
   }
 };

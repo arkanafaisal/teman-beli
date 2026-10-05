@@ -13,4 +13,5 @@ router.post('/:id/log', requireAuth, rateLimiter('patungan.addLog'), PatunganCon
 router.post('/:id/join', requireAuth, rateLimiter('patungan.join'), PatunganController.join);
 router.get('/:id/participants', requireAuth, rateLimiter('api.get'), PatunganController.getParticipants);
 router.patch('/:id/participants/:participantId', requireAuth, rateLimiter('patungan.update'), PatunganController.updateParticipantStatus);
+router.delete('/:id/participants/:participantId', requireAuth, rateLimiter('patungan.update'), PatunganController.deleteParticipant);
 export default router;

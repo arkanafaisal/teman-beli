@@ -3,7 +3,7 @@ import BottomModalWrapper from "../common/BottomModalWrapper";
 import { patunganData } from "../../data/patungan";
 import { api } from "../../services/api";
 import { toast } from "sonner";
-import { User, CheckCircle, XCircle } from "lucide-react";
+import { User, CheckCircle, XCircle, Trash2 } from "lucide-react";
 
 export default function ManageParticipantsModal({ patunganId, onClose, onUpdate }) {
   const [participants, setParticipants] = useState([]);
@@ -28,12 +28,24 @@ export default function ManageParticipantsModal({ patunganId, onClose, onUpdate 
 
   const handleUpdateStatus = async (participantId, newStatus) => {
     const res = await api.patungan.updateParticipantStatus(patunganId, participantId, newStatus);
-    if (res.success) {
+    if (res.success || !res.message) {
       toast.success(data.statusSuccess);
       fetchParticipants();
       if (onUpdate) onUpdate(); // To trigger parent refresh
     } else {
       toast.error(res.message || data.statusError);
+    }
+  };
+
+  const handleDelete = async (participantId) => {
+    if (!window.confirm("Yakin ingin menghapus partisipan ini?")) return;
+    const res = await api.patungan.deleteParticipant(patunganId, participantId);
+    if (res.success || !res.message) {
+      toast.success(data.deleteSuccess);
+      fetchParticipants();
+      if (onUpdate) onUpdate();
+    } else {
+      toast.error(res.message || data.deleteError);
     }
   };
 
@@ -78,15 +90,33 @@ export default function ManageParticipantsModal({ patunganId, onClose, onUpdate 
                       </button>
                     </div>
                   ) : p.status === 'ACCEPTED' ? (
-                    <span className="inline-flex flex-col items-center justify-center bg-success-base/10 text-success-base px-2 py-1 rounded text-[10px] font-bold">
-                      <CheckCircle className="w-3.5 h-3.5 mb-0.5" />
-                      {data.acceptedLabel}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex flex-col items-center justify-center bg-success-base/10 text-success-base px-2 py-1 rounded text-[10px] font-bold">
+                        <CheckCircle className="w-3.5 h-3.5 mb-0.5" />
+                        {data.acceptedLabel}
+                      </span>
+                      <button 
+                        onClick={() => handleDelete(p.id)}
+                        className="text-text-muted hover:text-danger-base transition p-1"
+                        title={data.deleteButton}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   ) : (
-                    <span className="inline-flex flex-col items-center justify-center bg-danger-base/10 text-danger-base px-2 py-1 rounded text-[10px] font-bold">
-                      <XCircle className="w-3.5 h-3.5 mb-0.5" />
-                      {data.rejectedLabel}
-                    </span>
+                    <div className="flex items-center gap-2">
+                      <span className="inline-flex flex-col items-center justify-center bg-danger-base/10 text-danger-base px-2 py-1 rounded text-[10px] font-bold">
+                        <XCircle className="w-3.5 h-3.5 mb-0.5" />
+                        {data.rejectedLabel}
+                      </span>
+                      <button 
+                        onClick={() => handleDelete(p.id)}
+                        className="text-text-muted hover:text-danger-base transition p-1"
+                        title={data.deleteButton}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
                   )}
                 </div>
               </div>
