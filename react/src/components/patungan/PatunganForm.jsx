@@ -12,7 +12,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
 
   const [formData, setFormData] = useState({
     title: initialData?.title || "",
-    category: initialData?.category || "Alat Tulis & Cetak",
+    category: initialData?.category || "KAMPUS",
     unit: initialData?.unit || "",
     targetQuota: initialData?.targetQuota || "",
     totalPrice: initialData?.totalPrice || "",

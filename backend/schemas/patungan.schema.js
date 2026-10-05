@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const baseSchema = z.object({
   title: z.string().min(5).max(100),
-  category: z.string().min(1),
+  category: z.enum(['PANGAN', 'KOS', 'KAMPUS', 'DIGITAL']),
   unit: z.string().min(1),
   targetQuota: z.coerce.number().min(1),
   totalPrice: z.coerce.number().min(1000),

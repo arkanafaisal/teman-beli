@@ -24,7 +24,7 @@ export default function PatunganCard({ item, onClick, index = 0 }) {
       {/* Card Header */}
       <div className="border-b border-border-subtle bg-bg-subtle/50 flex justify-between items-center px-4 pt-2 sm:px-5 sm:pt-2">
         <span className="text-[10px] sm:text-xs font-bold text-text-muted py-1 rounded-md">
-          {item.category}
+          {item.category === "PANGAN" ? "Pangan" : item.category === "KOS" ? "Kos & Fasilitas" : item.category === "KAMPUS" ? "Kebutuhan Kampus" : item.category === "DIGITAL" ? "Layanan Digital" : item.category}
         </span>
         <span className="text-[10px] sm:text-xs font-extrabold text-danger-base tracking-wide shrink-0">
           {getRelativeTime(item.deadline)}

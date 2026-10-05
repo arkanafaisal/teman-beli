@@ -9,10 +9,10 @@ export const patunganData = {
       placeholder: "Cari barang atau titik kumpul...",
     },
     filters: [
-      { label: "Alat Tulis", value: "Alat Tulis & Cetak", icon: "📚" },
-      { label: "Praktikum", value: "Bahan Praktikum", icon: "🧪" },
-      { label: "Makanan", value: "Makanan / Snacking", icon: "🍿" },
-      { label: "Kost", value: "Kebutuhan Kost", icon: "🏠" }
+      { label: "Pangan", value: "PANGAN", icon: "🍿" },
+      { label: "Kos", value: "KOS", icon: "🏠" },
+      { label: "Kampus", value: "KAMPUS", icon: "📚" },
+      { label: "Digital", value: "DIGITAL", icon: "💻" }
     ],
     emptyState: {
       message: "Tidak ada patungan yang cocok.",
@@ -79,11 +79,10 @@ export const patunganData = {
     category: {
       label: "Kategori",
       options: [
-        { value: "Alat Tulis & Cetak", label: "Alat Tulis & Cetak" },
-        { value: "Bahan Praktikum", label: "Bahan Praktikum" },
-        { value: "Makanan / Snacking", label: "Makanan / Snacking" },
-        { value: "Kebutuhan Kost", label: "Kebutuhan Kost" },
-        { value: "Lainnya", label: "Lainnya" }
+        { value: "PANGAN", label: "Pangan" },
+        { value: "KOS", label: "Kos & Fasilitas" },
+        { value: "KAMPUS", label: "Alat & Kebutuhan Kampus" },
+        { value: "DIGITAL", label: "Layanan Digital" }
       ]
     },
     unit: {

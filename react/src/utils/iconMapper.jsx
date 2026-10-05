@@ -1,4 +1,4 @@
-import { BookOpen, FlaskConical, Popcorn, Home, Package, Headphones, Coffee, Soup, Printer, ShoppingBasket, Ticket } from "lucide-react";
+import { BookOpen, FlaskConical, Popcorn, Home, Package, Headphones, Coffee, Soup, Printer, ShoppingBasket, Ticket, Laptop } from "lucide-react";
 
 export const getCategoryIcon = (emoji, className = "w-5 h-5") => {
   const defaultProps = { className, strokeWidth: 2.5 };
@@ -16,6 +16,7 @@ export const getCategoryIcon = (emoji, className = "w-5 h-5") => {
     case "🖨️": return <Printer {...defaultProps} />;
     case "🧺": return <ShoppingBasket {...defaultProps} />;
     case "🎟️": return <Ticket {...defaultProps} />;
+    case "💻": return <Laptop {...defaultProps} />;
     
     default: return <span className={className.includes("w-") ? "text-lg" : ""}>{emoji}</span>;
   }
@@ -34,6 +35,7 @@ export const getCategoryColor = (emoji) => {
     case "🖨️": return "text-primary-base bg-primary-soft";
     case "🧺": return "text-danger-base bg-danger-soft";
     case "🎟️": return "text-warning-text bg-warning-soft";
+    case "💻": return "text-primary-base bg-primary-soft";
     default: return "text-text-base bg-bg-subtle";
   }
 };

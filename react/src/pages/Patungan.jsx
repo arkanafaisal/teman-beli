@@ -69,9 +69,17 @@ export default function Patungan() {
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery, activeCategories, activeTab, user?.id]);
 
+  const handleTabChange = (tabId) => {
+    if (tabId === "mine" && !user?.isLoggedIn) {
+      toast.error(patunganData.feed.alerts.loginRequired);
+      return;
+    }
+    setActiveTab(tabId);
+  };
+
   const filterTabs = [
     { id: "all", label: "Semua" },
-    ...(user?.isLoggedIn ? [{ id: "mine", label: "Patungan Saya" }] : [])
+    { id: "mine", label: "Patungan Saya" }
   ];
 
   return (
@@ -91,7 +99,7 @@ export default function Patungan() {
         searchPlaceholder={patunganData.feed.search.placeholder}
         tabs={filterTabs}
         activeTab={activeTab}
-        setActiveTab={setActiveTab}
+        setActiveTab={handleTabChange}
       />
       
       {items.length === 0 ? (

@@ -99,7 +99,7 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit }) {
       <div>
         <div className="flex justify-between items-center mb-2">
           <span className="text-xs font-bold text-primary-text">
-            {item.category}
+            {item.category === "PANGAN" ? "Pangan" : item.category === "KOS" ? "Kos & Fasilitas" : item.category === "KAMPUS" ? "Kebutuhan Kampus" : item.category === "DIGITAL" ? "Layanan Digital" : item.category}
           </span>
           <div className="flex flex-col items-end">
             <span className="text-[10px] sm:text-xs font-extrabold text-danger-base tracking-wide">

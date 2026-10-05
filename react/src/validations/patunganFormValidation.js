@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const basePatunganSchema = z.object({
   title: z.string().min(5, { message: "Judul minimal 5 karakter" }).max(100, { message: "Judul maksimal 100 karakter" }),
-  category: z.string().min(1, { message: "Kategori harus dipilih" }),
+  category: z.enum(['PANGAN', 'KOS', 'KAMPUS', 'DIGITAL'], { errorMap: () => ({ message: "Kategori tidak valid" }) }),
   unit: z.string().min(1, { message: "Satuan tidak boleh kosong" }),
   targetQuota: z.coerce.number({ invalid_type_error: "Harus berupa angka" }).min(1, { message: "Target minimal 1" }),
   totalPrice: z.coerce.number({ invalid_type_error: "Harus berupa angka" }).min(1000, { message: "Harga minimal Rp 1.000" }),

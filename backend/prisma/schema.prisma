@@ -28,10 +28,17 @@ enum PatunganStatus {
   CANCELLED
 }
 
+enum PatunganCategory {
+  PANGAN
+  KOS
+  KAMPUS
+  DIGITAL
+}
+
 model Patungan {
   id           String   @id @default(uuid())
   title        String
-  category     String
+  category     PatunganCategory
   unit         String
   targetQuota  Int
   totalPrice   Float
