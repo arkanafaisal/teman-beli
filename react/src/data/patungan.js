@@ -90,7 +90,7 @@ export const patunganData = {
       placeholder: "rim"
     },
     targetQuota: {
-      label: "Total Kebutuhan Kuota",
+      label: "Target Total Satuan",
       placeholder: "500"
     },
     totalPrice: {
@@ -98,7 +98,7 @@ export const patunganData = {
       placeholder: "50000"
     },
     currentQuota: {
-      label: "Porsi Kamu (Awal)",
+      label: "Kontribusi Awalmu",
       placeholder: "100"
     },
     unitPricePreview: {
@@ -110,10 +110,10 @@ export const patunganData = {
       placeholder: "Kantin FITDS UNS"
     },
     deadline: {
-      label: "Batas Waktu (Deadline)"
+      label: "Waktu Selesai"
     },
     whatsapp: {
-      label: "Nomor WhatsApp (Aktif)",
+      label: "Nomor WhatsApp Aktif",
       placeholder: "6281234567890",
       helpText: "Format menggunakan kode negara 62..."
     },

@@ -121,6 +121,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
           required
           placeholder={patunganData.form.unit.placeholder}
           value={formData.unit}
+          maxLength={15}
           onChange={handleChange}
           error={errors.unit}
         />
@@ -135,16 +136,21 @@ export default function PatunganForm({ onSuccess, initialData }) {
           placeholder={patunganData.form.targetQuota.placeholder}
           value={formData.targetQuota}
           onChange={handleChange}
+          suffix={formData.unit || "satuan"}
           error={errors.targetQuota}
         />
         <FormInput
-          type="number"
+          type="text"
           label={patunganData.form.totalPrice.label}
           name="totalPrice"
           required
           placeholder={patunganData.form.totalPrice.placeholder}
-          value={formData.totalPrice}
-          onChange={handleChange}
+          value={formData.totalPrice ? Number(formData.totalPrice).toLocaleString('id-ID') : ""}
+          onChange={(e) => {
+            const rawValue = e.target.value.replace(/\D/g, "");
+            setFormData(prev => ({ ...prev, totalPrice: rawValue }));
+            if (errors.totalPrice) setErrors(prev => ({ ...prev, totalPrice: undefined }));
+          }}
           error={errors.totalPrice}
         />
         <FormInput
@@ -155,6 +161,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
           placeholder={patunganData.form.currentQuota.placeholder}
           value={formData.currentQuota}
           onChange={handleChange}
+          suffix={formData.unit || "satuan"}
           error={errors.currentQuota}
         />
       </div>
