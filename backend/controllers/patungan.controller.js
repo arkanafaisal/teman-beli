@@ -85,3 +85,30 @@ PatunganController.addLog = async (req, res) => {
     res.sendStatus(500);
   }
 };
+
+PatunganController.join = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const quota = parseInt(req.body.quota);
+    
+    if (isNaN(quota) || quota < 1) {
+      return res.status(400).json({ success: false, message: "Jumlah porsi tidak valid" });
+    }
+
+    const existing = await PatunganModel.getPatunganById(id);
+    if (!existing) return res.status(404).json({ success: false, message: "Patungan tidak ditemukan" });
+    if (existing.hostId === req.user.id) return res.status(400).json({ success: false, message: "Anda adalah host dari patungan ini" });
+
+    // Check if already requested or joined
+    const alreadyParticipated = await PatunganModel.checkParticipation(id, req.user.id);
+    if (alreadyParticipated) {
+      return res.status(400).json({ success: false, message: "Anda sudah mendaftar pada patungan ini" });
+    }
+
+    await PatunganModel.joinPatungan(id, req.user.id, quota);
+    res.status(201).json({ success: true });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Terjadi kesalahan server" });
+  }
+};

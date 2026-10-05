@@ -60,11 +60,18 @@ model Patungan {
   updatedAt    DateTime @updatedAt
 }
 
+enum ParticipantStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
 model PatunganParticipant {
   id         String   @id @default(uuid())
   patunganId String
   userId     String
   quota      Int
+  status     ParticipantStatus @default(PENDING)
 
   patungan   Patungan @relation(fields: [patunganId], references: [id])
   user       User     @relation("UserParticipation", fields: [userId], references: [id])

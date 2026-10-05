@@ -10,5 +10,6 @@ router.get('/:id', rateLimiter('api.get'), PatunganController.getDetail); // Pub
 router.post('/', requireAuth, rateLimiter('patungan.create'), PatunganController.create);
 router.put('/:id', requireAuth, rateLimiter('patungan.update'), PatunganController.update);
 router.post('/:id/log', requireAuth, rateLimiter('patungan.addLog'), PatunganController.addLog);
+router.post('/:id/join', requireAuth, rateLimiter('patungan.join'), PatunganController.join);
 
 export default router;

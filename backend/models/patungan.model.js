@@ -110,5 +110,25 @@ export const PatunganModel = {
         text
       }
     });
+  },
+
+  joinPatungan: async (patunganId, userId, quota) => {
+    return await prisma.patunganParticipant.create({
+      data: {
+        patunganId,
+        userId,
+        quota,
+        status: 'PENDING'
+      }
+    });
+  },
+
+  checkParticipation: async (patunganId, userId) => {
+    return await prisma.patunganParticipant.findFirst({
+      where: {
+        patunganId,
+        userId
+      }
+    });
   }
 };
