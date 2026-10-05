@@ -18,8 +18,22 @@ export default function Patungan() {
   const [searchQuery, setSearchQuery] = useState("");
   const [activeCategories, setActiveCategories] = useState([]);
   const [activeTab, setActiveTab] = useState("all");
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    const patunganId = params.get('id');
+    return patunganId ? { id: patunganId } : null;
+  });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+  useEffect(() => {
+    const url = new URL(window.location);
+    if (selectedItem?.id) {
+      url.searchParams.set('id', selectedItem.id);
+    } else {
+      url.searchParams.delete('id');
+    }
+    window.history.replaceState({}, '', url);
+  }, [selectedItem]);
 
   const handleCreate = () => {
     if (!user?.isLoggedIn) {

@@ -13,7 +13,7 @@ import ManageParticipantsModal from "./ManageParticipantsModal";
 
 export default function PatunganDetailModal({ item, onClose }) {
   const { user, login } = useAuth();
-  const [localItem, setLocalItem] = useState(item);
+  const [localItem, setLocalItem] = useState(item.title ? item : null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isManageModalOpen, setIsManageModalOpen] = useState(false);
   const [isFinishModalOpen, setIsFinishModalOpen] = useState(false);
@@ -33,23 +33,35 @@ export default function PatunganDetailModal({ item, onClose }) {
           text: log.text
         }));
 
-        setLocalItem(prev => ({
-          ...prev,
-          currentQuota: res.payload.currentQuota,
-          status: res.payload.status,
-          proofLink: res.payload.proofLink,
-          replies: formattedReplies,
-          createdAt: res.payload.createdAt,
-          lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : prev.lastUpdated
-        }));
+        setLocalItem(prev => {
+          const baseData = prev || item;
+          const unitPrice = baseData.unitPrice || Math.round(res.payload.totalPrice / res.payload.targetQuota);
+          const creatorName = res.payload.host?.name || baseData.creatorName;
+          
+          return {
+            ...baseData,
+            ...res.payload,
+            unitPrice,
+            creatorName,
+            replies: formattedReplies,
+            lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : baseData.lastUpdated
+          };
+        });
       }
     };
 
     fetchDetail();
   }, [item?.id, refreshTrigger]);
 
-  if (!localItem) return null;
-
+  if (!localItem?.title) {
+    return (
+      <BottomModalWrapper onClose={onClose}>
+        <div className="flex justify-center items-center h-64 text-text-muted font-medium text-sm">
+          Memuat detail...
+        </div>
+      </BottomModalWrapper>
+    );
+  }
   const isHost = user?.isLoggedIn && user?.id === localItem.hostId;
 
   const handleAddReply = async (text, onSuccess) => {
