@@ -172,6 +172,7 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/community": {
       POST: {
+        201: "Informasi berhasil ditambahkan!",
         400: "Data pengajuan komunitas tidak valid.",
         409: "Nama komunitas tersebut sudah pernah diajukan atau sudah ada.",
       }

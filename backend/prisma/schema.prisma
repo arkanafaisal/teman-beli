@@ -22,6 +22,7 @@ model User {
   participations  PatunganParticipant[] @relation("UserParticipation")
   reviewsGiven    Review[]   @relation("GivenReviews")
   reviewsReceived Review[]   @relation("ReceivedReviews")
+  communities     Community[] @relation("UserCommunities")
 }
 
 enum PatunganStatus {
@@ -111,4 +112,19 @@ model Review {
   createdAt  DateTime @default(now())
 
   @@unique([reviewerId, patunganId])
+}
+
+model Community {
+  id          String   @id @default(uuid())
+  title       String   @unique
+  category    String
+  location    String
+  summary     String
+  description String
+
+  authorId    String
+  author      User     @relation("UserCommunities", fields: [authorId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

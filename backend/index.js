@@ -9,6 +9,7 @@ import authRouter from './routes/auth.route.js';
 import userRouter from './routes/user.route.js';
 import patunganRouter from './routes/patungan.route.js';
 import historyRouter from './routes/history.route.js';
+import communityRouter from './routes/community.route.js';
 import { rateLimiter } from './middlewares/rateLimiter.js';
 
 const app = express();
@@ -56,6 +57,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/patungan', patunganRouter);
 app.use('/api/history', historyRouter);
+app.use('/api/community', communityRouter);
 
 // Route awal (health check)
 app.get('/api/health', rateLimiter('api.get'), (req, res) => {
