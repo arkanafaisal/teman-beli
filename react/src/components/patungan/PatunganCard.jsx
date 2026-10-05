@@ -1,8 +1,10 @@
 import { patunganData } from "../../data/patungan";
 import { MapPin } from "lucide-react";
 import { getRelativeTime } from "../../utils/dateHelper";
+import { useAuth } from "../../context/AuthContext";
 
 export default function PatunganCard({ item, onClick, index = 0 }) {
+  const { user } = useAuth();
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
 
   const CardContent = (
@@ -59,7 +61,14 @@ export default function PatunganCard({ item, onClick, index = 0 }) {
     </>
   );
 
-  const containerClasses = `group bg-bg-surface rounded-2xl sm:rounded-3xl border border-border-base overflow-hidden hover:shadow-xl hover:border-primary-soft transition duration-300 flex flex-col h-full active:scale-[0.98] ${onClick ? 'cursor-pointer' : ''}`;
+  const isHost = user?.isLoggedIn && item.hostId === user.id;
+
+  let borderClasses = "border-border-base";
+  if (isHost) {
+    borderClasses = "border-warning-base shadow-sm shadow-warning-base/20";
+  }
+
+  const containerClasses = `group bg-bg-surface rounded-2xl sm:rounded-3xl border ${borderClasses} overflow-hidden hover:shadow-xl hover:border-primary-soft transition duration-300 flex flex-col h-full active:scale-[0.98] ${onClick ? 'cursor-pointer' : ''}`;
 
   if (onClick) {
     return (
