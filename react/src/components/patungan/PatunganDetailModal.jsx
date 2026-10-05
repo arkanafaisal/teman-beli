@@ -285,7 +285,14 @@ function PatunganDetail({ item, isLoggedIn, onLogin, isHost, onEdit, onManage, o
       <div className="py-4 flex items-center justify-between">
         <div>
           <span className="text-xs text-text-muted block">{patunganData.detail.creator.createdBy}</span>
-          <span className="font-semibold text-sm">{isLoggedIn ? item.creatorName : patunganData.detail.creator.protectedName}</span>
+          <div className="flex items-center gap-2">
+            <span className="font-semibold text-sm">{isLoggedIn ? item.creatorName : patunganData.detail.creator.protectedName}</span>
+            {isLoggedIn && (
+              <span className="text-xs font-medium text-warning-text flex items-center gap-1">
+                ⭐ {item.creatorRating > 0 ? item.creatorRating.toFixed(1) : "-"} <span className="text-text-muted font-normal">({item.creatorReviewCount})</span>
+              </span>
+            )}
+          </div>
           <span className="text-xs text-text-muted block mt-1">{getFullDateTime(item.createdAt)}</span>
         </div>
       </div>

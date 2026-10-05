@@ -64,6 +64,8 @@ export default function Patungan() {
         unitPrice: Math.round(item.totalPrice / item.targetQuota),
         creatorName: item.host.name,
         creatorCampus: item.host.department || "Universitas Terdaftar",
+        creatorRating: item.host.rating || 0,
+        creatorReviewCount: item.host.reviewCount || 0,
         isVerified: true,
         replies: []
       }));

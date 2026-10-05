@@ -59,7 +59,7 @@ export const PatunganModel = {
       orderBy: { createdAt: 'desc' },
       include: {
         host: {
-          select: { name: true, department: true }
+          select: { name: true, department: true, rating: true, reviewCount: true }
         }
       }
     });
@@ -69,7 +69,7 @@ export const PatunganModel = {
       where: { id },
       include: {
         host: {
-          select: { name: true, department: true }
+          select: { name: true, department: true, rating: true, reviewCount: true }
         },
         logs: {
           take: 5,
@@ -271,18 +271,18 @@ export const PatunganModel = {
         }
       });
 
-      // 2. Hitung ulang rata-rata rating host
-      const allHostReviews = await tx.review.findMany({
-        where: { hostId }
-      });
+      // 2. Hitung rating baru secara efisien dengan reviewCount
+      const host = await tx.user.findUnique({ where: { id: hostId } });
+      const currentRating = host.rating || 0;
+      const currentCount = host.reviewCount || 0;
       
-      const totalRating = allHostReviews.reduce((sum, r) => sum + r.rating, 0);
-      const avgRating = totalRating / allHostReviews.length;
+      const newCount = currentCount + 1;
+      const newRating = ((currentRating * currentCount) + rating) / newCount;
 
       // 3. Update rating host
       await tx.user.update({
         where: { id: hostId },
-        data: { rating: avgRating }
+        data: { rating: newRating, reviewCount: newCount }
       });
 
       return review;
