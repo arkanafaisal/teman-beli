@@ -8,6 +8,13 @@ import Community from "./pages/Community";
 import Profile from "./pages/Profile";
 import History from "./pages/History";
 
+// Admin Pages
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminPatungan from "./pages/admin/Patungan";
+import AdminKomunitas from "./pages/admin/Komunitas";
+import AdminPengguna from "./pages/admin/Pengguna";
+import AdminUlasan from "./pages/admin/Ulasan";
+
 function App() {
   const [currentPath, setCurrentPath] = useState(window.location.pathname);
 
@@ -37,9 +44,21 @@ function App() {
     PageComponent = Profile;
   } else if (currentPath === "/riwayat" || currentPath === "/riwayat.html") {
     PageComponent = History;
+  } else if (currentPath.startsWith("/admin")) {
+    if (currentPath === "/admin" || currentPath === "/admin/" || currentPath === "/admin/index.html") {
+      PageComponent = AdminDashboard;
+    } else if (currentPath === "/admin/patungan" || currentPath === "/admin/patungan.html") {
+      PageComponent = AdminPatungan;
+    } else if (currentPath === "/admin/komunitas" || currentPath === "/admin/komunitas.html") {
+      PageComponent = AdminKomunitas;
+    } else if (currentPath === "/admin/pengguna" || currentPath === "/admin/pengguna.html") {
+      PageComponent = AdminPengguna;
+    } else if (currentPath === "/admin/ulasan" || currentPath === "/admin/ulasan.html") {
+      PageComponent = AdminUlasan;
+    }
   }
 
-  const isPlainLayout = false;
+  const isPlainLayout = currentPath.startsWith("/admin");
 
   return (
     <div className="bg-bg-base text-text-base min-h-screen font-sans transition-colors duration-300 selection:bg-primary-base selection:text-text-inverted">
