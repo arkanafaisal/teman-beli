@@ -1,3 +1,4 @@
+import { toast } from "sonner";
 import { communityData } from "../../data/community";
 import { getCategoryIcon, getCategoryColor, getCategoryStyles } from "../../utils/iconMapper";
 import { MapPin, Heart, MessageCircle } from "lucide-react";
@@ -35,6 +36,9 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
           avatarLetter: fullData.author ? fullData.author.charAt(0).toUpperCase() : "A",
         };
         setLocalItem(mappedData);
+      } else {
+        toast.error(res.message || "Komunitas tidak ditemukan.");
+        onClose();
       }
       setIsLoading(false);
     };

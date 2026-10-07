@@ -47,6 +47,9 @@ export default function PatunganDetailModal({ item, onClose }) {
             lastUpdated: fetchedLogs.length > 0 ? fetchedLogs[0].createdAt : baseData.lastUpdated
           };
         });
+      } else {
+        toast.error(res.message || "Patungan tidak ditemukan.");
+        onClose();
       }
     };
 
