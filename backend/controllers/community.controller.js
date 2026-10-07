@@ -1,4 +1,3 @@
-import { createCommunitySchema, createCommunityCommentSchema } from '../schemas/community.schema.js';
 import { createCommunityModel, getAllCommunitiesModel, getCommunityByIdModel, createCommunityCommentModel, toggleCommunityLikeModel } from '../models/community.model.js';
 
 export const createCommunity = async (req, res) => {
@@ -8,12 +7,7 @@ export const createCommunity = async (req, res) => {
       return res.sendStatus(401);
     }
 
-    const parseResult = createCommunitySchema.safeParse(req.body);
-    if (!parseResult.success) {
-      return res.sendStatus(400);
-    }
-
-    const { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap } = parseResult.data;
+    const { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap } = req.validated;
 
     await createCommunityModel({
       title: judul,
@@ -99,14 +93,9 @@ export const addComment = async (req, res) => {
     const user = req.user;
     if (!user) return res.sendStatus(401);
 
-    const parseResult = createCommunityCommentSchema.safeParse(req.body);
-    if (!parseResult.success) {
-      return res.sendStatus(400);
-    }
-
     const { id } = req.params;
     await createCommunityCommentModel({
-      text: parseResult.data.text,
+      text: req.validated.text,
       authorId: user.id,
       communityId: id
     });

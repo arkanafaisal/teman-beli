@@ -71,13 +71,7 @@ AuthController.login = async (req, res) => {
 };
 
 AuthController.loginManual = async (req, res) => {
-  const validatedData = loginManualSchema.safeParse(req.body);
-  
-  if (!validatedData.success) {
-    return res.sendStatus(400);
-  }
-
-  const { email, password } = validatedData.data;
+  const { email, password } = req.validated;
 
   const user = await UserModel.getUserWithPassword(email);
   if (!user) {

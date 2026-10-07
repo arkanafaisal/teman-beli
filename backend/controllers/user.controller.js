@@ -1,5 +1,5 @@
 import { UserModel } from '../models/user.model.js';
-import { setPasswordSchema } from '../schemas/auth.schema.js';
+// Removed schema import
 
 export const UserController = {};
 
@@ -16,13 +16,7 @@ UserController.getProfile = async (req, res) => {
 
 UserController.setPassword = async (req, res) => {
   const userId = req.user.id;
-  const validatedData = setPasswordSchema.safeParse(req.body);
-
-  if (!validatedData.success) {
-    return res.sendStatus(400);
-  }
-
-  const { password } = validatedData.data;
+  const { password } = req.validated;
 
   await UserModel.updatePassword(userId, password);
 
