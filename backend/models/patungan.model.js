@@ -54,7 +54,7 @@ export const PatunganModel = {
 
     return await prisma.patungan.findMany({
       where: whereClause,
-      orderBy: { createdAt: 'desc' },
+      orderBy: { deadline: 'asc' },
       include: {
         host: {
           select: { name: true, department: true, rating: true, reviewCount: true }
