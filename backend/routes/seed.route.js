@@ -43,7 +43,7 @@ const locations = ["Kutek (Kukusan Teknik)", "Kukusan Kelurahan", "Barel", "Pond
 // Route khusus Seed Database
 router.get('/', rateLimiter('seed.database'), async (req, res) => {
   const seedPassword = process.env.SEED_PASSWORD;
-  
+
   if (!seedPassword) {
     return res.status(500).json({ error: "Variabel SEED_PASSWORD belum di-set di .env" });
   }
@@ -55,7 +55,7 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
   try {
     // Menggunakan Interactive Transaction agar semuanya sukses atau di-rollback jika gagal
     await prisma.$transaction(async (tx) => {
-      
+
       // 1. Bersihkan semua data terlebih dahulu
       await tx.communityLike.deleteMany();
       await tx.communityComment.deleteMany();
@@ -69,11 +69,11 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
       // 2. Buat 5 User Testing
       const hashedPassword = await bcrypt.hash("password123", 10);
       const usersData = [
-        { name: "Testing Satu", email: "testing1@ui.ac.id", password: hashedPassword, department: "Informatika UI", rating: 4.9, reviewCount: 12 },
-        { name: "Testing Dua", email: "testing2@ui.ac.id", password: hashedPassword, department: "Sistem Informasi UI", rating: 5.0, reviewCount: 8 },
-        { name: "Testing Tiga", email: "testing3@ui.ac.id", password: hashedPassword, department: "Teknik Komputer UI", rating: 4.8, reviewCount: 24 },
-        { name: "Testing Empat", email: "testing4@ui.ac.id", password: hashedPassword, department: "Ilmu Komputer UI", rating: 4.9, reviewCount: 5 },
-        { name: "Testing Lima", email: "testing5@ui.ac.id", password: hashedPassword, department: "Teknik Elektro UI", rating: 4.7, reviewCount: 19 }
+        { name: "Testing Satu", email: "testing1@student.uns.ac.id", password: hashedPassword, department: "Informatika UI", rating: 4.9, reviewCount: 12 },
+        { name: "Testing Dua", email: "testing2@student.uns.ac.id", password: hashedPassword, department: "Sistem Informasi UI", rating: 5.0, reviewCount: 8 },
+        { name: "Testing Tiga", email: "testing3@student.uns.ac.id", password: hashedPassword, department: "Teknik Komputer UI", rating: 4.8, reviewCount: 24 },
+        { name: "Testing Empat", email: "testing4@student.uns.ac.id", password: hashedPassword, department: "Ilmu Komputer UI", rating: 4.9, reviewCount: 5 },
+        { name: "Testing Lima", email: "testing5@student.uns.ac.id", password: hashedPassword, department: "Teknik Elektro UI", rating: 4.7, reviewCount: 19 }
       ];
 
       const createdUsers = [];
@@ -87,7 +87,7 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
         const host = getRandom(createdUsers);
         const category = getRandom(patunganCats);
         const title = getRandom(patunganTitles[category]);
-        
+
         await tx.patungan.create({
           data: {
             title: `${title} #${i + 1}`,
@@ -106,6 +106,59 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
         });
       }
 
+      // 3.5 Buat 5 Patungan FINISHED dengan history dan review
+      for (let i = 0; i < 5; i++) {
+        const host = getRandom(createdUsers);
+        const category = getRandom(patunganCats);
+        const title = getRandom(patunganTitles[category]);
+
+        const finishedPatungan = await tx.patungan.create({
+          data: {
+            title: `${title} (Selesai)`,
+            category: category,
+            unit: category === 'DIGITAL' ? "Bulan" : "Orang",
+            targetQuota: 4,
+            totalPrice: 100000,
+            currentQuota: 4,
+            area: getRandom(locations),
+            deadline: new Date(Date.now() - 86400000 * (Math.floor(Math.random() * 5) + 1)), // 1-5 hari lalu
+            whatsapp: "081234567890",
+            notes: "Sudah selesai diproses.",
+            hostId: host.id,
+            status: 'FINISHED',
+            proofLink: "https://example.com/proof.jpg"
+          }
+        });
+
+        // Tambahkan partisipan
+        const otherUsers = createdUsers.filter(u => u.id !== host.id);
+        const participants = otherUsers.slice(0, 3);
+
+        for (const participant of participants) {
+          await tx.patunganParticipant.create({
+            data: {
+              patunganId: finishedPatungan.id,
+              userId: participant.id,
+              quota: 1,
+              status: 'ACCEPTED'
+            }
+          });
+
+          // Tambahkan ulasan secara acak (80% chance)
+          if (Math.random() > 0.2) {
+            await tx.review.create({
+              data: {
+                rating: Math.floor(Math.random() * 2) + 4, // 4 atau 5
+                comment: "Mantap, transaksi lancar dan terpercaya! Recommended.",
+                reviewerId: participant.id,
+                hostId: host.id,
+                patunganId: finishedPatungan.id
+              }
+            });
+          }
+        }
+      }
+
       // 4. Buat 10 Komunitas dengan data dinamis
       const communityCats = ['MAKAN', 'KAMPUS', 'KOS'];
       const communities = [];
@@ -113,7 +166,7 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
         const author = getRandom(createdUsers);
         const category = getRandom(communityCats);
         const title = getRandom(communityTitles[category]);
-        
+
         communities.push(await tx.community.create({
           data: {
             title: `${title} - Mock ${i + 1}`,
@@ -130,7 +183,7 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
       for (const comm of communities) {
         const numLikes = Math.floor(Math.random() * 3) + 1; // 1 to 3
         const shuffledUsers = [...createdUsers].sort(() => 0.5 - Math.random());
-        
+
         for (let j = 0; j < numLikes; j++) {
           await tx.communityLike.create({
             data: {
@@ -140,16 +193,19 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
           });
         }
       }
+    }, {
+      maxWait: 15000,
+      timeout: 30000
     }); // Akhir dari transaction
 
-    return res.status(200).json({ 
-      success: true, 
+    return res.status(200).json({
+      success: true,
       message: "Database berhasil di-seed dengan Transaksi Penuh!",
       details: {
         users: 5,
         patungan: 10,
         community: 10,
-        notes: "Gunakan email testing1@ui.ac.id s.d. testing5@ui.ac.id dengan password 'password123'"
+        notes: "Gunakan email testing1@student.uns.ac.id s.d. testing5@student.uns.ac.id dengan password 'password123'"
       }
     });
 
