@@ -125,3 +125,48 @@ export const toggleLike = async (req, res) => {
     throw error;
   }
 };
+
+export const updateCommunity = async (req, res) => {
+  try {
+    const user = req.user;
+    if (!user) return res.sendStatus(401);
+
+    const { id } = req.validatedParams;
+    const { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap } = req.validated;
+
+    const c = await getCommunityByIdModel(id, user.id);
+    if (!c) return res.sendStatus(404);
+    if (c.authorId !== user.id) return res.sendStatus(403);
+
+    const { updateCommunityModel } = await import('../models/community.model.js');
+    await updateCommunityModel(id, {
+      title: judul,
+      category: kategoriKey,
+      location: lokasi,
+      summary: ringkasan,
+      description: deskripsiLengkap
+    });
+
+    return res.sendStatus(200);
+  } catch (error) {
+    if (error.code === 'P2002') {
+      return res.sendStatus(409);
+    }
+    throw error;
+  }
+};
+
+export const deleteCommunity = async (req, res) => {
+  const user = req.user;
+  if (!user) return res.sendStatus(401);
+
+  const { id } = req.validatedParams;
+  const c = await getCommunityByIdModel(id, user.id);
+  if (!c) return res.sendStatus(404);
+  if (c.authorId !== user.id) return res.sendStatus(403);
+
+  const { deleteCommunityModel } = await import('../models/community.model.js');
+  await deleteCommunityModel(id);
+
+  return res.sendStatus(200);
+};

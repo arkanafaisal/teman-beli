@@ -17,6 +17,7 @@ const limitsConfig = {
   'user.updateProfile': { windowMs: 15 * 60 * 1000, limit: 15 },
   'user.deleteProfile': { windowMs: 15 * 60 * 1000, limit: 5 },
   'user.getReviews': { windowMs: 15 * 60 * 1000, limit: 100 },
+  'user.getCommunities': { windowMs: 15 * 60 * 1000, limit: 100 },
 
   // === PATUNGAN ROUTER ===
   'patungan.getAll': { windowMs: 15 * 60 * 1000, limit: 300 },
@@ -40,6 +41,8 @@ const limitsConfig = {
   'community.create': { windowMs: 60 * 60 * 1000, limit: 5 },
   'community.getAll': { windowMs: 15 * 60 * 1000, limit: 300 },
   'community.getDetail': { windowMs: 15 * 60 * 1000, limit: 300 },
+  'community.update': { windowMs: 60 * 60 * 1000, limit: 15 },
+  'community.delete': { windowMs: 60 * 60 * 1000, limit: 5 },
   'community.addComment': { windowMs: 15 * 60 * 1000, limit: 15 },
   'community.toggleLike': { windowMs: 5 * 60 * 1000, limit: 50 }
 };

@@ -11,5 +11,6 @@ router.get('/profile', requireAuth, rateLimiter('user.getProfile'), UserControll
 router.put('/profile', requireAuth, rateLimiter('user.updateProfile'), validate({ body: updateProfileSchema }), UserController.updateProfile);
 router.delete('/profile', requireAuth, rateLimiter('user.deleteProfile'), validate({ body: deleteProfileSchema }), UserController.deleteProfile);
 router.get('/reviews', requireAuth, rateLimiter('user.getReviews'), UserController.getReviews);
+router.get('/communities', requireAuth, rateLimiter('user.getCommunities'), UserController.getUserCommunities);
 
 export default router;

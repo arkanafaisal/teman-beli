@@ -1,7 +1,7 @@
 import { toast } from "sonner";
 import { communityData } from "../../data/community";
 import { getCategoryIcon, getCategoryColor, getCategoryStyles } from "../../utils/iconMapper";
-import { MapPin, Heart, MessageCircle } from "lucide-react";
+import { MapPin, Heart, MessageCircle, Edit } from "lucide-react";
 import BottomModalWrapper from "../common/BottomModalWrapper";
 import { commentSchema } from "../../validations/commentValidation";
 import { useState, useEffect } from "react";
@@ -9,7 +9,7 @@ import { getFullDateTime } from "../../utils/dateHelper";
 import { useAuth } from "../../context/AuthContext";
 import { api } from "../../services/api";
 
-export default function CommunityDetailModal({ item, onClose, onAddComment, onLike, commentText, setCommentText }) {
+export default function CommunityDetailModal({ item, onClose, onAddComment, onLike, commentText, setCommentText, onEdit, onDelete }) {
   const [error, setError] = useState("");
   const { user } = useAuth();
   const [localItem, setLocalItem] = useState(item?.judul ? item : null);
@@ -87,7 +87,18 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
           </span>
         </div>
 
-        <h2 className="text-xl font-extrabold text-text-heading mb-2">{localItem.judul}</h2>
+        <div className="relative mb-2">
+          <h2 className="text-xl font-extrabold text-text-heading pr-12">{localItem.judul}</h2>
+          {onEdit && (
+            <button
+              onClick={() => onEdit(localItem)}
+              className="absolute right-0 top-0 p-2 bg-warning-base text-text-inverted rounded-xl flex items-center justify-center transition hover:bg-warning-hover shadow-sm cursor-pointer"
+              title="Edit Komunitas"
+            >
+              <Edit className="w-4 h-4" />
+            </button>
+          )}
+        </div>
         <p className="text-xs text-primary-text font-semibold mb-4 flex items-center gap-1.5">
           <MapPin className="w-3.5 h-3.5" />
           {localItem.lokasi}

@@ -80,3 +80,31 @@ export const toggleCommunityLikeModel = async (communityId, userId) => {
     return { isLiked: true };
   }
 };
+
+export const updateCommunityModel = async (id, data) => {
+  return await prisma.community.update({
+    where: { id },
+    data
+  });
+};
+
+export const deleteCommunityModel = async (id) => {
+  // Hard delete with manual cascade
+  return await prisma.$transaction([
+    prisma.communityLike.deleteMany({ where: { communityId: id } }),
+    prisma.communityComment.deleteMany({ where: { communityId: id } }),
+    prisma.community.delete({ where: { id } })
+  ]);
+};
+
+export const getUserCommunitiesModel = async (userId) => {
+  return await prisma.community.findMany({
+    where: { authorId: userId },
+    orderBy: { createdAt: 'desc' },
+    include: {
+      author: { select: { name: true, department: true, rating: true, reviewCount: true } },
+      _count: { select: { likes: true } },
+      likes: { where: { userId }, select: { id: true } }
+    }
+  });
+};

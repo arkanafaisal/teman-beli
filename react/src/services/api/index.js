@@ -35,6 +35,7 @@ export const api = {
     deleteProfile: ({ name }) => callApi("/users/profile", "DELETE", { name }),
     getReviews: () => callApi("/users/reviews", "GET"),
     getActivity: () => callApi("/users/activity", "GET"),
+    getCommunities: () => callApi("/users/communities", "GET"),
   },
   patungan: {
     getAll: ({ q, category, hostId } = {}) => {
@@ -77,11 +78,10 @@ export const api = {
     },
     getDetail: ({ id }) => callApi(`/community/${id}`, "GET"),
     create: ({ judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }) => callApi("/community", "POST", { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }),
+    update: ({ id, judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }) => callApi(`/community/${id}`, "PUT", { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }),
+    delete: ({ id }) => callApi(`/community/${id}`, "DELETE"),
     addComment: ({ id, text }) => callApi(`/community/${id}/comments`, "POST", { text }),
     toggleLike: ({ id }) => callApi(`/community/${id}/like`, "POST"),
-    //join: ({ id }) => callApi(`/community/${id}/join`, "POST"),
-    //leave: ({ id }) => callApi(`/community/${id}/leave`, "POST"),
-    //delete: ({ id }) => callApi(`/community/${id}`, "DELETE"),
   },
   history: {
     getAll: () => callApi("/history", "GET"),

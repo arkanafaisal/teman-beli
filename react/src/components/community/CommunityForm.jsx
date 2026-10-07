@@ -6,17 +6,18 @@ import { communitySchema } from "../../validations/communityFormValidation";
 import { toast } from "sonner";
 import { api } from "../../services/api";
 
-export default function CommunityForm({ onSuccess }) {
+export default function CommunityForm({ onSuccess, initialData = null, onDelete }) {
   const { user } = useAuth();
   
   const [formData, setFormData] = useState({
-    judul: "",
-    kategoriKey: "MAKAN",
-    lokasi: "",
-    ringkasan: "",
-    deskripsiLengkap: "",
+    judul: initialData?.judul || "",
+    kategoriKey: initialData?.kategoriKey || "MAKAN",
+    lokasi: initialData?.lokasi || "",
+    ringkasan: initialData?.ringkasan || "",
+    deskripsiLengkap: initialData?.deskripsiLengkap || "",
   });
   const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,7 +55,14 @@ export default function CommunityForm({ onSuccess }) {
     }
 
     // --- PANGGIL API BACKEND ---
-    const res = await api.community.create(formData);
+    setIsSubmitting(true);
+    let res;
+    if (initialData?.id) {
+      res = await api.community.update(initialData.id, formData);
+    } else {
+      res = await api.community.create(formData);
+    }
+    setIsSubmitting(false);
     
     if (res.success) {
       toast.success(res.message);
@@ -122,9 +130,19 @@ export default function CommunityForm({ onSuccess }) {
         error={errors.deskripsiLengkap}
       />
 
-      <button type="submit" className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow">
-        {communityData.form.submitButton}
+      <button type="submit" disabled={isSubmitting} className="w-full bg-primary-base hover:bg-primary-hover text-text-inverted font-medium py-3 rounded-xl transition shadow-lg shadow-primary-glow disabled:opacity-50 disabled:cursor-not-allowed">
+        {isSubmitting ? "Menyimpan..." : (initialData?.id ? "Simpan Perubahan" : communityData.form.submitButton)}
       </button>
+
+      {initialData?.id && onDelete && (
+        <button
+          type="button"
+          onClick={onDelete}
+          className="cursor-pointer mt-3 w-full border border-danger-base text-danger-base hover:bg-danger-base hover:text-text-inverted font-medium py-3 rounded-xl transition"
+        >
+          Hapus Komunitas
+        </button>
+      )}
     </form>
   );
 }

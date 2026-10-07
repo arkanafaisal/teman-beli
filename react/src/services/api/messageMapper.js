@@ -93,6 +93,12 @@ export const getApiMessage = (path, code, method = "GET") => {
         401: "Anda belum masuk."
       }
     },
+    "/users/communities": {
+      GET: {
+        200: "Komunitas berhasil dimuat.",
+        401: "Anda belum masuk."
+      }
+    },
     "/patungan": {
       GET: {
         200: "Daftar patungan berhasil dimuat."
@@ -204,8 +210,17 @@ export const getApiMessage = (path, code, method = "GET") => {
         200: "Detail komunitas berhasil dimuat.",
         404: "Komunitas tidak ditemukan."
       },
+      PUT: {
+        200: "Data komunitas berhasil diperbarui.",
+        400: "Data pembaruan tidak lengkap atau tidak valid.",
+        403: "Anda tidak diizinkan untuk mengedit komunitas ini.",
+        404: "Komunitas tidak ditemukan.",
+        409: "Nama komunitas sudah digunakan."
+      },
       DELETE: {
-        403: "Anda tidak memiliki hak untuk menghapus komunitas ini."
+        200: "Komunitas berhasil dihapus.",
+        403: "Anda tidak memiliki hak untuk menghapus komunitas ini.",
+        404: "Komunitas tidak ditemukan."
       }
     },
     "/community/:id/comments": {

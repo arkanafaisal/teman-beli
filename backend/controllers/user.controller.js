@@ -65,3 +65,27 @@ UserController.deleteProfile = async (req, res) => {
   
   res.sendStatus(200);
 };
+
+UserController.getUserCommunities = async (req, res) => {
+  const userId = req.user.id;
+  const { getUserCommunitiesModel } = await import('../models/community.model.js');
+  const communities = await getUserCommunitiesModel(userId);
+  
+  const formatted = communities.map(c => ({
+    id: c.id,
+    judul: c.title,
+    kategoriKey: c.category,
+    lokasi: c.location,
+    ringkasan: c.summary,
+    deskripsiLengkap: c.description,
+    author: c.author.name,
+    authorInfo: c.author.department || "Mahasiswa",
+    authorRating: c.author.rating,
+    authorReviewCount: c.author.reviewCount,
+    likes: c._count?.likes || 0,
+    isLiked: c.likes && c.likes.length > 0,
+    comments: [] // Generally not needed for the list preview
+  }));
+
+  res.status(200).json({ payload: formatted });
+};
