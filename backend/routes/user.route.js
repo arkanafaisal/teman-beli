@@ -8,7 +8,7 @@ import { setPasswordSchema } from '../schemas/auth.schema.js';
 const router = express.Router();
 
 router.get('/profile', requireAuth, rateLimiter('api.get'), UserController.getProfile);
-router.put('/password', requireAuth, rateLimiter('user.update'), validate(setPasswordSchema), UserController.setPassword);
+router.put('/password', requireAuth, rateLimiter('user.update'), validate({ body: setPasswordSchema }), UserController.setPassword);
 router.get('/reviews', requireAuth, rateLimiter('api.get'), UserController.getReviews);
 
 export default router;

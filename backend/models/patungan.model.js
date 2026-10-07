@@ -29,24 +29,22 @@ export const PatunganModel = {
       }
     });
   },
-  getAllPatungan: async (filters = {}) => {
-    const { search, category, hostId } = filters;
-    
+  getAllPatungan: async ({ search, category, hostId }) => {
     let whereClause = {};
-    
+
     if (category) {
       const categoriesArray = category.split(',');
       if (categoriesArray.length > 0) {
         whereClause.category = { in: categoriesArray };
       }
     }
-    
+
     if (hostId) {
       whereClause.hostId = hostId;
     } else {
       whereClause.status = { notIn: ['FINISHED', 'CANCELLED'] };
     }
-    
+
     if (search) {
       whereClause.OR = [
         { title: { contains: search, mode: 'insensitive' } },
@@ -275,7 +273,7 @@ export const PatunganModel = {
       const host = await tx.user.findUnique({ where: { id: hostId } });
       const currentRating = host.rating || 0;
       const currentCount = host.reviewCount || 0;
-      
+
       const newCount = currentCount + 1;
       const newRating = ((currentRating * currentCount) + rating) / newCount;
 

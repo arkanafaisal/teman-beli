@@ -85,3 +85,14 @@ export const joinPatunganSchema = z.object({
 export const updateParticipantStatusSchema = z.object({
   status: z.enum(['ACCEPTED', 'REJECTED'])
 });
+
+export const patunganQuerySchema = z.object({
+  q: z.string().min(1, "Kata kunci tidak boleh kosong").max(100, "Kata kunci terlalu panjang").optional(),
+  category: z.string().regex(/^(PANGAN|KOS|KAMPUS|DIGITAL)(,(PANGAN|KOS|KAMPUS|DIGITAL))*$/, "Format kategori tidak valid").optional(),
+  hostId: z.string().uuid("Host ID tidak valid").optional()
+});
+
+export const participantParamSchema = z.object({
+  id: z.string().uuid("ID Patungan tidak valid"),
+  participantId: z.string().uuid("ID Partisipan tidak valid")
+});

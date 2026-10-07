@@ -28,7 +28,7 @@ export const createCommunity = async (req, res) => {
 };
 
 export const getAllCommunities = async (req, res) => {
-  const { category, q } = req.query;
+  const { category, q } = req.validatedQuery;
   const userId = req.user?.id;
   const communities = await getAllCommunitiesModel(category, q, userId);
   
@@ -56,7 +56,7 @@ export const getAllCommunities = async (req, res) => {
 };
 
 export const getCommunityDetail = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.validatedParams;
   const userId = req.user?.id;
   
   const c = await getCommunityByIdModel(id, userId);
@@ -93,7 +93,7 @@ export const addComment = async (req, res) => {
     const user = req.user;
     if (!user) return res.sendStatus(401);
 
-    const { id } = req.params;
+    const { id } = req.validatedParams;
     await createCommunityCommentModel({
       text: req.validated.text,
       authorId: user.id,
@@ -114,7 +114,7 @@ export const toggleLike = async (req, res) => {
     const user = req.user;
     if (!user) return res.sendStatus(401);
 
-    const { id } = req.params;
+    const { id } = req.validatedParams;
     const result = await toggleCommunityLikeModel(id, user.id);
 
     return res.status(200).json({ payload: result });
