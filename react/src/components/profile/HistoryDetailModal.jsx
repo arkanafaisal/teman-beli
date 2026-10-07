@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { profileData } from "../../data/profile";
 import { api } from "../../services/api";
 import { Star, ExternalLink } from "lucide-react";
@@ -10,6 +10,14 @@ export default function HistoryDetailModal({ isOpen, onClose, activity, onReview
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setRating(0);
+      setComment("");
+      setIsLoading(false);
+    }
+  }, [isOpen, activity]);
 
   if (!isOpen || !activity) return null;
 

@@ -63,6 +63,10 @@ export default function Community() {
   }, []);
 
   useEffect(() => {
+    setCommentText("");
+  }, [activeItem?.id]);
+
+  useEffect(() => {
     AOS.refresh();
   }, [items]);
 

@@ -1,6 +1,6 @@
 import { GoogleLogin } from "@react-oauth/google";
 import { appData } from "../data/app";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FormInput from "./common/FormInput";
 import { X } from "lucide-react";
 
@@ -8,6 +8,14 @@ export default function AuthModal({ isOpen, onClose, onSuccess, onError, isDarkM
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setEmail("");
+      setPassword("");
+      setLoading(false);
+    }
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
