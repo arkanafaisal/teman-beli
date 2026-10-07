@@ -25,9 +25,9 @@ export default function History() {
       <main className="flex-grow max-w-3xl mx-auto px-4 sm:px-6 py-8 w-full flex flex-col items-center justify-center min-h-[60vh]">
         <div className="mb-4 text-text-muted"><LockKeyhole size={64} strokeWidth={1.5} /></div>
         <h2 className="text-2xl font-bold mb-2">Belum Masuk</h2>
-        <p className="text-text-muted text-center mb-6">Silakan login menggunakan SSO Kampus untuk melihat riwayat patungan Anda.</p>
-        <button onClick={() => window.location.href = "/"} className="bg-primary-base hover:bg-primary-hover text-text-inverted px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-primary-glow">
-          Kembali ke Beranda
+        <p className="text-text-muted text-center mb-6">Silakan masuk menggunakan email kampus untuk melihat riwayat patungan Anda.</p>
+        <button onClick={() => window.dispatchEvent(new CustomEvent('open-auth-modal'))} className="cursor-pointer bg-primary-base hover:bg-primary-hover text-text-inverted px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-primary-glow">
+          Masuk / Daftar
         </button>
       </main>
     );
@@ -47,16 +47,16 @@ export default function History() {
         {/* List Section */}
         <div className="md:col-span-2 bg-bg-surface p-6 rounded-3xl border border-border-base shadow-sm">
           <h3 className="font-bold text-sm sm:text-base text-text-heading mb-4">{historyData.listSection.title}</h3>
-          
+
           <div className="space-y-3">
             {displayedData.map((item) => (
               <HistoryCard key={item.id} item={item} />
             ))}
           </div>
-          
+
           {data.length > 3 && (
             <div className="mt-4 pt-3 border-t border-border-subtle text-center">
-              <button 
+              <button
                 onClick={() => setShowAll(!showAll)}
                 className="text-xs font-semibold text-primary-text hover:underline"
               >

@@ -22,9 +22,9 @@ export default function Profile() {
       <main className="flex-grow max-w-3xl mx-auto px-4 sm:px-6 py-8 w-full flex flex-col items-center justify-center min-h-[60vh]">
         <div className="mb-4 text-text-muted"><LockKeyhole size={64} strokeWidth={1.5} /></div>
         <h2 className="text-2xl font-bold mb-2">Belum Masuk</h2>
-        <p className="text-text-muted text-center mb-6">Silakan login menggunakan SSO Kampus untuk melihat profil Anda.</p>
-        <button onClick={() => window.location.href = "/"} className="bg-primary-base hover:bg-primary-hover text-text-inverted px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-primary-glow">
-          Kembali ke Beranda
+        <p className="text-text-muted text-center mb-6">Silakan masuk menggunakan email kampus untuk melihat profil Anda.</p>
+        <button onClick={() => window.dispatchEvent(new CustomEvent('open-auth-modal'))} className="cursor-pointer bg-primary-base hover:bg-primary-hover text-text-inverted px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-primary-glow">
+          Masuk / Daftar
         </button>
       </main>
     );
@@ -33,7 +33,7 @@ export default function Profile() {
   return (
     <main className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        
+
         {/* SISI KIRI: Profil & Pengaturan */}
         <div className="lg:col-span-5 space-y-6">
           <ProfileCard />

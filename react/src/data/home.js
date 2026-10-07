@@ -27,7 +27,7 @@ export const homeData = {
     items: [
       { 
         icon: "🛡️", 
-        title: "Keamanan SSO Kampus", 
+        title: "Keamanan Email Kampus", 
         desc: "Hanya akun verified email kampus yang dapat membuat pengumuman patungan. Mencegah potensi penipuan dari pihak luar." 
       },
       { 
@@ -72,7 +72,7 @@ export const homeData = {
         role: "Informatika UNS"
       },
       {
-        quote: "Paling seneng karena login-nya pake SSO Kampus, jadi ga takut ditipu anak luar pas transaksi patungan praktikum.",
+        quote: "Paling seneng karena login-nya pake email kampus, jadi ga takut ditipu anak luar pas transaksi patungan praktikum.",
         avatar: "R",
         name: "Rian F.",
         role: "Teknik Elektro"
@@ -91,7 +91,7 @@ export const homeData = {
     items: [
       {
         q: "Apakah Guest (tanpa login) bisa melihat pengumuman?",
-        a: "Bisa! Guest bisa melihat feed dan detail estimasi harga. Namun untuk melihat kontak Kreator dan ikut patungan, pengguna diwajibkan login SSO Kampus."
+        a: "Bisa! Guest bisa melihat feed dan detail estimasi harga. Namun untuk melihat kontak Kreator dan ikut patungan, pengguna diwajibkan login dengan email kampus."
       },
       {
         q: "Bagaimana metode pembayarannya?",

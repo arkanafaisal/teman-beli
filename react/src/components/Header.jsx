@@ -21,6 +21,14 @@ export default function Header() {
   const { user, login, logout } = useAuth();
   const currentPath = window.location.pathname;
 
+  useEffect(() => {
+    const handleOpenAuth = () => {
+      setIsLoginModalOpen(true);
+    };
+    window.addEventListener("open-auth-modal", handleOpenAuth);
+    return () => window.removeEventListener("open-auth-modal", handleOpenAuth);
+  }, []);
+
   const handleGoogleSuccess = async (credentialResponse) => {
     // Memanggil endpoint login backend asli dengan token dari Google
     const res = await api.auth.login({ credential: credentialResponse.credential });

@@ -3,7 +3,7 @@ export const profileData = {
     initial: "A",
     name: "Amelia Salsabila",
     department: "Informatika UNS",
-    verification: "Verified SSO Kampus",
+    verification: "Verified Email Kampus",
     rating: "⭐ 4.9 / 5.0",
     hostLabel: "x Host",
     joinLabel: "x Ikut"

@@ -55,7 +55,7 @@ export const patunganData = {
     actions: {
       whatsappButton: "Hubungi Kreator via WhatsApp",
       whatsappTemplate: "Halo {creatorName}, saya mau ikut patungan \"{title}\" yang di-post di TemanBeli. Masih ada slot?",
-      lockedButton: "Masuk dengan SSO Kampus untuk Ikut Patungan",
+      lockedButton: "Masuk dengan Email Kampus untuk Ikut Patungan",
       editButton: "Edit",
       joinButton: "Daftar Patungan",
       joinHelper: "(Pastikan sudah bertanya mengenai teknisnya kepada host-nya lewat WA)",
