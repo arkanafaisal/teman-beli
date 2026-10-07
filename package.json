@@ -1,0 +1,12 @@
+{
+  "name": "temanbeli",
+  "version": "1.0.0",
+  "description": "Root package for Heroku Deployment",
+  "scripts": {
+    "heroku-postbuild": "cd backend && npm install && npx prisma generate && cd ../react && npm install && npm run build",
+    "start": "cd backend && npm start"
+  },
+  "engines": {
+    "node": ">=20.x"
+  }
+}
