@@ -26,12 +26,6 @@ export default function ActionModal({
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    if (type === "prompt") {
-      if (inputValue !== matchText) {
-        setError(`Ketikkan "${matchText}" dengan benar.`);
-        return;
-      }
-    }
     onConfirm(inputValue);
   };
 
@@ -108,8 +102,13 @@ export default function ActionModal({
             )}
             <button 
               onClick={handleConfirm}
-              className={`flex-1 py-2.5 rounded-xl font-semibold text-sm text-text-inverted transition shadow-sm active:scale-95 ${
-                icon === "warning" ? "bg-danger-base hover:bg-danger-hover" : "bg-primary-base hover:bg-primary-hover shadow-primary-glow"
+              disabled={type === "prompt" && inputValue !== matchText}
+              className={`flex-1 py-2.5 rounded-xl font-semibold text-sm text-text-inverted transition shadow-sm ${
+                type === "prompt" && inputValue !== matchText 
+                  ? "bg-text-muted opacity-50 cursor-not-allowed" 
+                  : icon === "warning" 
+                    ? "bg-danger-base hover:bg-danger-hover active:scale-95" 
+                    : "bg-primary-base hover:bg-primary-hover shadow-primary-glow active:scale-95"
               }`}
             >
               {confirmText}
