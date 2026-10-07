@@ -58,7 +58,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
     setIsSubmitting(true);
     let res;
     if (initialData?.id) {
-      res = await api.community.update(initialData.id, formData);
+      res = await api.community.update({ id: initialData.id, ...formData });
     } else {
       res = await api.community.create(formData);
     }
