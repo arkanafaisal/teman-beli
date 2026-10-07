@@ -12,9 +12,9 @@ PatunganController.create = async (req, res) => {
 };
 
 PatunganController.getAll = async (req, res) => {
-  const { search, category, hostId } = req.validatedQuery;
+  const { q, category, hostId } = req.validatedQuery;
 
-  const patungans = await PatunganModel.getAllPatungan(search, category, hostId);
+  const patungans = await PatunganModel.getAllPatungan({ search: q, category, hostId });
   res.status(200).json(patungans);
 };
 
