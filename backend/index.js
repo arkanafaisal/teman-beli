@@ -52,13 +52,15 @@ app.use((err, req, res, next) => {
   next();
 });
 
+import seedRouter from './routes/seed.route.js';
+
 // Pendaftaran Router Utama
 app.use('/api/auth', authRouter);
 app.use('/api/users', userRouter);
 app.use('/api/patungan', patunganRouter);
 app.use('/api/history', historyRouter);
 app.use('/api/community', communityRouter);
-
+app.use('/api/seed', seedRouter);
 // Route awal (health check)
 app.get('/api/health', rateLimiter('health.check'), (req, res) => {
   res.sendStatus(200)

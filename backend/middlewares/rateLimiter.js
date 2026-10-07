@@ -4,6 +4,7 @@ import rateLimit from 'express-rate-limit';
 const limitsConfig = {
   // === GLOBAL / HEALTH ===
   'health.check': { windowMs: 15 * 60 * 1000, limit: 100 },
+  'seed.database': { windowMs: 60 * 60 * 1000, limit: 5 }, // 5 kali per jam untuk cegah abuse
 
   // === AUTH ROUTER ===
   'auth.loginGoogle': { windowMs: 15 * 60 * 1000, limit: 5 },
