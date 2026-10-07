@@ -21,7 +21,14 @@ export function AuthProvider({ children }) {
           rating: res.payload.rating,
           department: res.payload.department,
         });
-        toast.success(`Selamat datang, ${res.payload.name}!`);
+        
+        const lastGreeting = localStorage.getItem("last_greeting");
+        const now = new Date().getTime();
+        // Cek jika sudah lebih dari 4 jam (4 * 60 * 60 * 1000)
+        if (!lastGreeting || now - parseInt(lastGreeting) > 4 * 60 * 60 * 1000) {
+          toast.success(`Selamat datang, ${res.payload.name}!`);
+          localStorage.setItem("last_greeting", now.toString());
+        }
       }
       setIsInitializing(false);
     };
@@ -41,6 +48,7 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     setUser({ isLoggedIn: false, name: '' });
+    localStorage.removeItem("last_greeting");
   };
 
   return (

@@ -30,6 +30,7 @@ export default function Header() {
       const profileRes = await api.user.getProfile();
       if (profileRes.success && profileRes.payload) {
         login(profileRes.payload);
+        localStorage.setItem("last_greeting", new Date().getTime().toString());
         if (res.message) toast.success(res.message);
       }
     } else {
@@ -53,6 +54,7 @@ export default function Header() {
       const profileRes = await api.user.getProfile();
       if (profileRes.success && profileRes.payload) {
         login(profileRes.payload);
+        localStorage.setItem("last_greeting", new Date().getTime().toString());
         toast.success(`Selamat datang kembali, ${profileRes.payload.name}!`);
         setIsLoginModalOpen(false);
       }
