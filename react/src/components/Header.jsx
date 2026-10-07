@@ -57,7 +57,7 @@ export default function Header() {
         setIsLoginModalOpen(false);
       }
     } else {
-      toast.error(res.message || "Gagal masuk");
+      toast.error(res.message);
     }
   };
 

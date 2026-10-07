@@ -28,7 +28,7 @@ export default function ProfilePassword() {
         setPassword("");
         setConfirmPassword("");
       } else {
-        toast.error(res.message || "Gagal mengatur password");
+        toast.error(res.message);
       }
     } catch (err) {
       toast.error("Terjadi kesalahan server");

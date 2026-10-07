@@ -19,7 +19,7 @@ export default function ManageParticipantsModal({ patunganId, hostId, onClose, o
     if (res.success) {
       setParticipants(res.payload);
     } else {
-      toast.error(res.message || "Gagal memuat partisipan");
+      toast.error(res.message);
     }
     setLoading(false);
   };
@@ -35,7 +35,7 @@ export default function ManageParticipantsModal({ patunganId, hostId, onClose, o
       fetchParticipants();
       if (onUpdate) onUpdate(); // To trigger parent refresh
     } else {
-      toast.error(res.message || data.statusError);
+      toast.error(res.message);
     }
   };
 
@@ -51,7 +51,7 @@ export default function ManageParticipantsModal({ patunganId, hostId, onClose, o
       fetchParticipants();
       if (onUpdate) onUpdate();
     } else {
-      toast.error(res.message || data.deleteError);
+      toast.error(res.message);
     }
     setParticipantToDelete(null);
   };

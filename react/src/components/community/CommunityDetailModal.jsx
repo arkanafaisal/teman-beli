@@ -37,7 +37,7 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
         };
         setLocalItem(mappedData);
       } else {
-        toast.error(res.message || "Komunitas tidak ditemukan.");
+        toast.error(res.message);
         onClose();
       }
       setIsLoading(false);

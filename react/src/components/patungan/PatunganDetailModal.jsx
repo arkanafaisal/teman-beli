@@ -48,7 +48,7 @@ export default function PatunganDetailModal({ item, onClose }) {
           };
         });
       } else {
-        toast.error(res.message || "Patungan tidak ditemukan.");
+        toast.error(res.message);
         onClose();
       }
     };
@@ -74,7 +74,7 @@ export default function PatunganDetailModal({ item, onClose }) {
       toast.success("Update status berhasil ditambahkan");
       if (onSuccess) onSuccess();
     } else {
-      toast.error(res.message || "Gagal menambahkan pembaruan");
+      toast.error(res.message);
     }
   };
 
@@ -91,7 +91,7 @@ export default function PatunganDetailModal({ item, onClose }) {
       setIsFinishModalOpen(false);
       setRefreshTrigger(prev => prev + 1);
     } else {
-      setFinishError(res.message || "Gagal menyelesaikan patungan");
+      setFinishError(res.message);
     }
   };
 
@@ -117,7 +117,7 @@ export default function PatunganDetailModal({ item, onClose }) {
       toast.success("Berhasil mendaftar! Menunggu persetujuan host.");
       setRefreshTrigger(prev => prev + 1);
     } else {
-      toast.error(res.message || "Gagal mendaftar");
+      toast.error(res.message);
     }
   };
 

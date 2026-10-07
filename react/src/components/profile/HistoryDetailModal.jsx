@@ -33,7 +33,7 @@ export default function HistoryDetailModal({ isOpen, onClose, activity, onReview
       onReviewed(activity.id, { rating, comment });
       onClose();
     } else {
-      toast.error(res.message || "Terjadi kesalahan.");
+      toast.error(res.message);
     }
   };
 

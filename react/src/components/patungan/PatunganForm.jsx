@@ -93,7 +93,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
         window.location.href = "/";
       }
     } else {
-      toast.error(res.message || "Terjadi kesalahan, silakan coba lagi.");
+      toast.error(res.message);
     }
   };
 
@@ -106,7 +106,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
       toast.success("Patungan berhasil dibatalkan");
       if (onSuccess) onSuccess();
     } else {
-      toast.error(res.message || "Gagal membatalkan patungan");
+      toast.error(res.message);
     }
   };
 
