@@ -20,11 +20,7 @@ const setHttpCookie = (res, name, value, maxAge) => {
 };
 
 AuthController.login = async (req, res) => {
-  const { credential } = req.body; // Token yang didapat dari frontend (Google Login)
-
-  if (!credential) {
-    return res.sendStatus(400); // Bad Request jika tidak ada token
-  }
+  const { credential } = req.validated; // Token yang didapat dari frontend (Google Login)
 
   // 1. Verifikasi token ke Google
   const ticket = await client.verifyIdToken({

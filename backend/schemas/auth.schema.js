@@ -14,3 +14,7 @@ export const setPasswordSchema = z.object({
   password: z.string()
     .min(6, "Password minimal 6 karakter")
 });
+
+export const loginGoogleSchema = z.object({
+  credential: z.string().min(10).max(5000, "Token tidak valid")
+});

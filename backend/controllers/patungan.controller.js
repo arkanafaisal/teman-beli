@@ -56,15 +56,12 @@ PatunganController.finishPatungan = async (req, res) => {
 
 PatunganController.updateStatus = async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { status } = req.validated;
   const existing = await PatunganModel.getPatunganById(id);
   
   if (!existing) return res.sendStatus(404);
   if (existing.hostId !== req.user.id) return res.sendStatus(403);
   
-  const validStatuses = ['OPEN', 'FULL', 'FINISHED', 'CANCELLED'];
-  if (!validStatuses.includes(status)) return res.sendStatus(400);
-
   await PatunganModel.updateStatus(id, status);
   res.sendStatus(200);
 };
@@ -75,21 +72,13 @@ PatunganController.addLog = async (req, res) => {
   if (!existing) return res.sendStatus(404);
   if (existing.hostId !== req.user.id) return res.sendStatus(403);
 
-  if (!req.body.text || req.body.text.trim().length < 1) {
-    return res.sendStatus(400); 
-  }
-
-  await PatunganModel.addLog(req.params.id, req.body.text);
+  await PatunganModel.addLog(req.params.id, req.validated.text);
   res.sendStatus(201);
 };
 
 PatunganController.join = async (req, res) => {
   const { id } = req.params;
-  const quota = parseInt(req.body.quota);
-  
-  if (isNaN(quota) || quota < 1) {
-    return res.sendStatus(400);
-  }
+  const quota = req.validated.quota;
 
   const existing = await PatunganModel.getPatunganById(id);
   if (!existing) return res.sendStatus(404);
@@ -125,11 +114,7 @@ PatunganController.getParticipants = async (req, res) => {
 
 PatunganController.updateParticipantStatus = async (req, res) => {
   const { id, participantId } = req.params;
-  const { status } = req.body; // 'ACCEPTED' or 'REJECTED'
-  
-  if (!['ACCEPTED', 'REJECTED'].includes(status)) {
-    return res.sendStatus(400);
-  }
+  const { status } = req.validated; // 'ACCEPTED' or 'REJECTED'
 
   const existing = await PatunganModel.getPatunganById(id);
   if (!existing) return res.sendStatus(404);

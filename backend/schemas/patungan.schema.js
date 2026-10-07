@@ -69,3 +69,19 @@ export const updatePatunganSchema = baseSchema.and(
 export const finishPatunganSchema = z.object({
   proofLink: z.string().url("Format link bukti harus berupa URL yang valid.").min(1, "Link bukti diperlukan"),
 });
+
+export const updatePatunganStatusSchema = z.object({
+  status: z.enum(['OPEN', 'FULL', 'FINISHED', 'CANCELLED'])
+});
+
+export const addPatunganLogSchema = z.object({
+  text: z.string().trim().min(1, "Log tidak boleh kosong").max(1000)
+});
+
+export const joinPatunganSchema = z.object({
+  quota: z.coerce.number().int().min(1)
+});
+
+export const updateParticipantStatusSchema = z.object({
+  status: z.enum(['ACCEPTED', 'REJECTED'])
+});
