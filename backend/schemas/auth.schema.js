@@ -10,11 +10,11 @@ export const loginManualSchema = z.object({
     .min(6, "Password minimal 6 karakter")
 });
 
-export const setPasswordSchema = z.object({
-  password: z.string()
-    .min(6, "Password minimal 6 karakter")
-});
-
 export const loginGoogleSchema = z.object({
   credential: z.string().min(10).max(5000, "Token tidak valid")
+});
+
+export const updateProfileSchema = z.object({
+  department: z.string().min(2, "Nama departemen minimal 2 karakter").max(100, "Nama departemen terlalu panjang").or(z.literal("")).nullable().optional(),
+  password: z.string().min(6, "Password minimal 6 karakter").optional().or(z.literal(""))
 });

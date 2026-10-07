@@ -31,8 +31,7 @@ export const api = {
   },
   user: {
     getProfile: () => callApi("/users/profile", "GET"),
-    //updateProfile: ({ name, department, whatsapp }) => callApi("/users/profile", "PUT", { name, department, whatsapp }),
-    setPassword: ({ password }) => callApi("/users/password", "PUT", { password }),
+    updateProfile: ({ department, password }) => callApi("/users/profile", "PUT", { department, password }),
     getReviews: () => callApi("/users/reviews", "GET"),
     getActivity: () => callApi("/users/activity", "GET"),
   },

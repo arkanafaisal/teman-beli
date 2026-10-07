@@ -1,7 +1,7 @@
 import ProfileCard from "../components/profile/ProfileCard";
 import ProfileReviews from "../components/profile/ProfileReviews";
 import ProfileHistory from "../components/profile/ProfileHistory";
-import ProfilePassword from "../components/profile/ProfilePassword";
+import ProfileEdit from "../components/profile/ProfileEdit";
 import { useAuth } from "../context/AuthContext";
 import { LockKeyhole } from "lucide-react";
 
@@ -34,10 +34,10 @@ export default function Profile() {
     <main className="flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-8 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* SISI KIRI: Profil & Ulasan & Set Password */}
+        {/* SISI KIRI: Profil & Pengaturan */}
         <div className="lg:col-span-5 space-y-6">
           <ProfileCard />
-          <ProfilePassword />
+          <ProfileEdit />
           <ProfileReviews />
         </div>
 

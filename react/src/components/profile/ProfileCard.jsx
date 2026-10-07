@@ -36,7 +36,10 @@ export default function ProfileCard() {
         <LetterAvatar name={name} sizeClasses="w-14 h-14 text-xl" />
         <div className="min-w-0">
           <h2 className={`font-bold text-text-heading truncate ${getDynamicFontSize(name)}`}>{name}</h2>
-          <p className="text-xs text-text-muted mt-0.5 line-clamp-2">{user.isLoggedIn ? user.email : data.department}</p>
+          <p className="text-xs text-text-muted mt-0.5 truncate">{user.isLoggedIn ? user.email : data.department}</p>
+          {user.isLoggedIn && user.department && (
+            <p className="text-xs text-primary-text font-bold mt-0.5 truncate">{user.department}</p>
+          )}
         </div>
       </div>
 

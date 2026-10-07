@@ -92,14 +92,13 @@ export const profileData = {
     alreadyReviewed: "Anda sudah memberikan ulasan.",
     ratingValueLabel: "⭐"
   },
-  passwordCard: {
-    title: "Atur Password Login",
-    description: "Atur password jika Anda ingin login manual menggunakan email .ac.id tanpa melalui tombol Google.",
-    newPasswordLabel: "Password Baru",
-    newPasswordPlaceholder: "Minimal 6 karakter",
-    confirmPasswordLabel: "Konfirmasi Password",
-    confirmPasswordPlaceholder: "Ketik ulang password baru",
-    buttonNormal: "Simpan Password",
+  editProfileCard: {
+    title: "Pengaturan Akun",
+    departmentLabel: "Departemen / Jurusan",
+    departmentPlaceholder: "Informatika UNS",
+    passwordLabel: "Set / Reset Password",
+    passwordPlaceholder: "Kosongi untuk tidak mengubah",
+    buttonNormal: "Simpan Perubahan",
     buttonLoading: "Menyimpan..."
   }
 };

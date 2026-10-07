@@ -14,7 +14,7 @@ const limitsConfig = {
 
   // === USER ROUTER ===
   'user.getProfile': { windowMs: 15 * 60 * 1000, limit: 100 },
-  'user.updatePassword': { windowMs: 15 * 60 * 1000, limit: 10 },
+  'user.updateProfile': { windowMs: 15 * 60 * 1000, limit: 15 },
   'user.getReviews': { windowMs: 15 * 60 * 1000, limit: 100 },
 
   // === PATUNGAN ROUTER ===

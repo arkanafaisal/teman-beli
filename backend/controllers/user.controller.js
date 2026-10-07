@@ -14,11 +14,27 @@ UserController.getProfile = async (req, res) => {
   res.status(200).json(user);
 };
 
-UserController.setPassword = async (req, res) => {
+UserController.updateProfile = async (req, res) => {
   const userId = req.user.id;
-  const { password } = req.validated;
+  const { department, password } = req.validated;
 
-  await UserModel.updatePassword(userId, password);
+  const updateData = {};
+  if (department !== undefined && department !== null) {
+    updateData.department = department;
+  }
+  if (password) {
+    updateData.password = password;
+  }
+
+  if (Object.keys(updateData).length === 0) {
+    return res.sendStatus(400);
+  }
+
+  const updatedUser = await UserModel.updateProfile(userId, updateData);
+  
+  if (!updatedUser) {
+    return res.sendStatus(404);
+  }
 
   res.sendStatus(200);
 };

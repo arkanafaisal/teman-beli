@@ -76,12 +76,6 @@ export const getApiMessage = (path, code, method = "GET") => {
         400: "Data form profil tidak lengkap atau tidak valid."
       }
     },
-    "/users/password": {
-      PUT: {
-        200: "Password berhasil disimpan.",
-        400: "Password minimal 6 karakter dan konfirmasi harus cocok."
-      }
-    },
     "/users/reviews": {
       GET: {
         200: "Ulasan berhasil dimuat.",

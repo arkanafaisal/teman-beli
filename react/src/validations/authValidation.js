@@ -11,12 +11,9 @@ export const loginManualSchema = z.object({
     .min(6, "Password minimal 6 karakter")
 });
 
-export const setPasswordSchema = z.object({
-  password: z.string()
-    .min(6, "Password minimal 6 karakter"),
-  confirmPassword: z.string()
-    .min(6, "Konfirmasi password minimal 6 karakter")
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Konfirmasi password tidak cocok",
-  path: ["confirmPassword"]
+// Schema for setting password has been merged into updateProfileSchema
+
+export const updateProfileSchema = z.object({
+  department: z.string().min(2, "Nama departemen minimal 2 karakter").max(100, "Nama departemen maksimal 100 karakter").or(z.literal("")),
+  password: z.string().min(6, "Password minimal 6 karakter").optional().or(z.literal(""))
 });

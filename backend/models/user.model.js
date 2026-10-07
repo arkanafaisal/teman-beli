@@ -38,16 +38,6 @@ UserModel.createUser = async (email, name) => {
   });
 };
 
-UserModel.updatePassword = async (userId, plainPassword) => {
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(plainPassword, salt);
-  
-  return await prisma.user.update({
-    where: { id: userId },
-    data: { password: hashedPassword }
-  });
-};
-
 UserModel.getReviewsByHost = async (userId, limit) => {
   return await prisma.review.findMany({
     where: { hostId: userId },
@@ -58,5 +48,17 @@ UserModel.getReviewsByHost = async (userId, limit) => {
     },
     orderBy: { createdAt: 'desc' },
     take: limit
+  });
+};
+
+UserModel.updateProfile = async (userId, data) => {
+  if (data.password) {
+    const salt = await bcrypt.genSalt(10);
+    data.password = await bcrypt.hash(data.password, salt);
+  }
+
+  return await prisma.user.update({
+    where: { id: userId },
+    data
   });
 };
