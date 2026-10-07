@@ -15,7 +15,8 @@ export const getCategoryIcon = (emoji, className = "w-5 h-5") => {
     case "🎧": return <Headphones {...defaultProps} />;
     case "☕": return <Coffee {...defaultProps} />;
     case "🍛":
-    case "PANGAN": return <Soup {...defaultProps} />;
+    case "PANGAN": 
+    case "MAKAN": return <Soup {...defaultProps} />;
     case "🖨️": return <Printer {...defaultProps} />;
     case "🧺": return <ShoppingBasket {...defaultProps} />;
     case "🎟️": return <Ticket {...defaultProps} />;
@@ -39,12 +40,9 @@ export const getCategoryColor = (keyOrEmoji) => {
     case "☕": return "text-warning-text bg-warning-soft";
     case "🍛":
     case "PANGAN":
-    case "kuliner": return "text-success-base bg-success-soft";
-    case "🖨️":
-    case "cetak":
-    case "laundry": return "text-primary-base bg-primary-soft";
-    case "🎟️":
-    case "promo": return "text-warning-text bg-warning-soft";
+    case "MAKAN": return "text-success-base bg-success-soft";
+    case "🖨️": return "text-primary-base bg-primary-soft";
+    case "🎟️": return "text-warning-text bg-warning-soft";
     case "💻":
     case "DIGITAL": return "text-primary-base bg-primary-soft";
     default: return "text-text-base bg-bg-subtle";

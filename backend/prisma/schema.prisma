@@ -117,10 +117,16 @@ model Review {
   @@unique([reviewerId, patunganId])
 }
 
+enum CommunityCategory {
+  MAKAN
+  KAMPUS
+  KOS
+}
+
 model Community {
   id          String   @id @default(uuid())
   title       String   @unique
-  category    String
+  category    CommunityCategory
   location    String
   summary     String
   description String

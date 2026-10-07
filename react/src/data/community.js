@@ -9,10 +9,9 @@ export const communityData = {
   },
   filters: [
     { value: "all", label: "Semua", icon: "" },
-    { value: "kuliner", label: "Kuliner Hemat", icon: "🍛" },
-    { value: "cetak", label: "Cetak & Banner", icon: "🖨️" },
-    { value: "laundry", label: "Laundry & Kost", icon: "🧺" },
-    { value: "promo", label: "Promo KTM Kampus", icon: "🎟️" }
+    { value: "MAKAN", label: "Tempat Makan", icon: "🍛" },
+    { value: "KAMPUS", label: "Kebutuhan Kampus", icon: "📚" },
+    { value: "KOS", label: "Kos & Fasilitas", icon: "🏠" }
   ],
   modal: {
     commentCountPrefix: "Komentar & Diskusi",
@@ -29,10 +28,9 @@ export const communityData = {
     category: {
       label: "Kategori",
       options: [
-        { value: "kuliner", label: "Kuliner Hemat" },
-        { value: "cetak", label: "Cetak & Banner" },
-        { value: "laundry", label: "Laundry & Kost" },
-        { value: "promo", label: "Promo KTM Kampus" }
+        { value: "MAKAN", label: "Tempat Makan" },
+        { value: "KAMPUS", label: "Kebutuhan Kampus" },
+        { value: "KOS", label: "Kos & Fasilitas" }
       ]
     },
     location: {

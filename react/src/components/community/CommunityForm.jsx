@@ -11,7 +11,7 @@ export default function CommunityForm({ onSuccess }) {
   
   const [formData, setFormData] = useState({
     judul: "",
-    kategoriKey: "kuliner",
+    kategoriKey: "MAKAN",
     lokasi: "",
     ringkasan: "",
     deskripsiLengkap: "",
