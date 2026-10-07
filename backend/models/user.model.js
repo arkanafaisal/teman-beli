@@ -62,3 +62,10 @@ UserModel.updateProfile = async (userId, data) => {
     data
   });
 };
+
+UserModel.deleteProfile = async (userId) => {
+  return await prisma.user.update({
+    where: { id: userId },
+    data: { isDeleted: true }
+  });
+};

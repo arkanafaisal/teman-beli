@@ -18,3 +18,7 @@ export const updateProfileSchema = z.object({
   department: z.string().min(2, "Nama departemen minimal 2 karakter").max(100, "Nama departemen terlalu panjang").or(z.literal("")).nullable().optional(),
   password: z.string().min(6, "Password minimal 6 karakter").optional().or(z.literal(""))
 });
+
+export const deleteProfileSchema = z.object({
+  name: z.string().min(1)
+});

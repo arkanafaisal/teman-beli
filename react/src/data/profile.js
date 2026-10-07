@@ -99,6 +99,12 @@ export const profileData = {
     passwordLabel: "Set / Reset Password",
     passwordPlaceholder: "Kosongi untuk tidak mengubah",
     buttonNormal: "Simpan Perubahan",
-    buttonLoading: "Menyimpan..."
+    buttonLoading: "Menyimpan...",
+    deleteAccountBtn: "Hapus Akun",
+    deleteModalTitle: "Konfirmasi Hapus Akun",
+    deleteModalDesc: "Ketik nama Anda (<b>{name}</b>) di bawah ini untuk mengonfirmasi penghapusan",
+    deleteModalPlaceholder: "Ketik nama Anda di sini",
+    deleteModalConfirmBtn: "Hapus Akun",
+    deleteModalLoadingBtn: "Menghapus..."
   }
 };

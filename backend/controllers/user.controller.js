@@ -47,3 +47,21 @@ UserController.getReviews = async (req, res) => {
 
   res.status(200).json({ success: true, payload: reviews });
 };
+
+UserController.deleteProfile = async (req, res) => {
+  const userId = req.user.id;
+  const { name } = req.validated;
+
+  const user = await UserModel.getUserById(userId);
+  if (!user || user.name !== name) {
+    return res.sendStatus(403);
+  }
+  
+  await UserModel.deleteProfile(userId);
+  
+  // Clear the auth tokens
+  res.clearCookie('accessToken');
+  res.clearCookie('refreshToken');
+  
+  res.sendStatus(200);
+};

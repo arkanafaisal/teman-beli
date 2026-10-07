@@ -74,6 +74,11 @@ export const getApiMessage = (path, code, method = "GET") => {
       PUT: {
         200: "Profil Anda berhasil diperbarui.",
         400: "Data form profil tidak lengkap atau tidak valid."
+      },
+      DELETE: {
+        200: "Akun Anda berhasil dihapus.",
+        400: "Nama konfirmasi tidak boleh kosong.",
+        403: "Nama konfirmasi tidak cocok, penghapusan dibatalkan."
       }
     },
     "/users/reviews": {

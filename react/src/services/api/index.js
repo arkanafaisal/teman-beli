@@ -32,6 +32,7 @@ export const api = {
   user: {
     getProfile: () => callApi("/users/profile", "GET"),
     updateProfile: ({ department, password }) => callApi("/users/profile", "PUT", { department, password }),
+    deleteProfile: ({ name }) => callApi("/users/profile", "DELETE", { name }),
     getReviews: () => callApi("/users/reviews", "GET"),
     getActivity: () => callApi("/users/activity", "GET"),
   },

@@ -7,18 +7,42 @@ import { updateProfileSchema } from "../../validations/authValidation";
 import { profileData } from "../../data/profile";
 import { useAuth } from "../../context/AuthContext";
 
+import ActionModal from "../common/ActionModal";
+
 export default function ProfileEdit() {
-  const { user, login } = useAuth();
+  const { user, login, logout } = useAuth();
   const [department, setDepartment] = useState(user.department || "");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     if (user.department) {
       setDepartment(user.department);
     }
   }, [user.department]);
+
+  const handleDeleteAccount = async (confirmName) => {
+    setIsDeleting(true);
+    try {
+      const res = await api.user.deleteProfile({ name: confirmName });
+      if (res.success) {
+        toast.success(res.message);
+        setShowDeleteModal(false);
+        logout(); // hapus state
+        window.location.href = "/";
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error("Terjadi kesalahan sistem");
+    } finally {
+      setIsDeleting(false);
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,7 +62,7 @@ export default function ProfileEdit() {
       if (res.success) {
         // Also update AuthContext manually without fully reloading session if possible
         login({ ...user, department });
-        toast.success("Pengaturan profil berhasil disimpan");
+        toast.success(res.message);
         setPassword(""); // Clear password field
         setIsExpanded(false); // Auto collapse on success
       } else {
@@ -55,7 +79,7 @@ export default function ProfileEdit() {
 
   return (
     <div className="bg-bg-surface p-5 rounded-3xl border border-border-base shadow-sm">
-      <div 
+      <div
         className="flex items-center justify-between cursor-pointer group"
         onClick={() => setIsExpanded(!isExpanded)}
       >
@@ -65,10 +89,9 @@ export default function ProfileEdit() {
         </div>
       </div>
 
-      <div 
-        className={`grid transition-all duration-300 ease-in-out ${
-          isExpanded ? "grid-rows-[1fr] opacity-100 mt-5" : "grid-rows-[0fr] opacity-0"
-        }`}
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${isExpanded ? "grid-rows-[1fr] opacity-100 mt-5" : "grid-rows-[0fr] opacity-0"
+          }`}
       >
         <div className="overflow-hidden px-1 pb-1 -mx-1 -mb-1">
           <form onSubmit={handleSubmit} className="space-y-4 pt-1">
@@ -94,8 +117,33 @@ export default function ProfileEdit() {
               {loading ? data.buttonLoading : data.buttonNormal}
             </button>
           </form>
+
+          {/* Delete Account Section */}
+          <div className="mt-4 pt-4 border-t border-border-base">
+            <button
+              onClick={() => setShowDeleteModal(true)}
+              className="cursor-pointer w-full bg-danger-base text-text-inverted font-bold py-3 rounded-xl hover:bg-danger-base hover:text-text-inverted transition active:scale-95"
+            >
+              {data.deleteAccountBtn}
+            </button>
+          </div>
         </div>
       </div>
+
+      <ActionModal
+        isOpen={showDeleteModal}
+        type="prompt"
+        icon="warning"
+        title={data.deleteModalTitle}
+        description={<span dangerouslySetInnerHTML={{ __html: data.deleteModalDesc.replace('{name}', user.name) }} />}
+        matchText={user.name}
+        confirmText={isDeleting ? data.deleteModalLoadingBtn : data.deleteModalConfirmBtn}
+        cancelText="Batal"
+        onConfirm={handleDeleteAccount}
+        onCancel={() => {
+          if (!isDeleting) setShowDeleteModal(false);
+        }}
+      />
     </div>
   );
 }

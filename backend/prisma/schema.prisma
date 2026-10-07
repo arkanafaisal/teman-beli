@@ -15,6 +15,7 @@ model User {
   department   String?  // Jurusan (Misal: "Informatika UNS") - opsional, bisa diisi belakangan
   rating       Float    @default(0.0)  // Nilai ulasan (Misal: 4.9)
   reviewCount  Int      @default(0)    // Jumlah ulasan
+  isDeleted    Boolean  @default(false)
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
