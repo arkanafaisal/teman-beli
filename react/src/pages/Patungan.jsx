@@ -3,6 +3,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { patunganData } from "../data/patungan";
 import { toast } from "sonner";
+import { SearchX } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
 import PageHeader from "../components/common/PageHeader";
@@ -119,8 +120,8 @@ export default function Patungan() {
       />
       
       {items.length === 0 ? (
-        <div className="py-16 text-center" data-aos="fade-up">
-          <div className="text-4xl mb-4">🔍</div>
+        <div className="py-16 text-center flex flex-col items-center">
+          <div className="mb-4 text-text-muted"><SearchX size={56} strokeWidth={1.5} /></div>
           <h3 className="text-lg font-bold text-text-heading mb-2">{patunganData.feed.emptyState.message}</h3>
           <p className="text-sm text-text-muted">{patunganData.feed.emptyState.subMessage}</p>
         </div>

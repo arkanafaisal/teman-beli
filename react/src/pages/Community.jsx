@@ -4,6 +4,7 @@ import "aos/dist/aos.css";
 import { communityData } from "../data/community";
 import { toast } from "sonner";
 import { getCategoryStyles } from "../utils/iconMapper";
+import { SearchX } from "lucide-react";
 import PageHeader from "../components/common/PageHeader";
 import PageFilter from "../components/common/PageFilter";
 import CommunityCard from "../components/community/CommunityCard";
@@ -186,8 +187,8 @@ export default function Community() {
       />
 
       {items.length === 0 && !isLoading ? (
-        <div className="py-16 text-center" data-aos="fade-up">
-          <div className="text-4xl mb-4">🔍</div>
+        <div className="py-16 text-center flex flex-col items-center">
+          <div className="mb-4 text-text-muted"><SearchX size={56} strokeWidth={1.5} /></div>
           <h3 className="text-lg font-bold text-text-heading mb-2">Informasi tidak ditemukan</h3>
           <p className="text-sm text-text-muted">Coba ubah kata kunci atau kategori filter Anda.</p>
         </div>
