@@ -198,7 +198,7 @@ export default function Header() {
 
       {/* Mobile & Tablet Drawer Menu */}
       {isMobileMenuOpen && (
-        <div ref={mobileMenuRef} className="fixed right-0 top-16 w-64 bg-bg-glass backdrop-blur-xl border-l border-border-base rounded-bl-3xl z-40 lg:hidden shadow-2xl transition-all duration-300">
+        <div ref={mobileMenuRef} className="fixed right-0 top-16 w-48 bg-bg-glass backdrop-blur-xl border-l border-b border-border-base rounded-bl-3xl z-40 lg:hidden shadow-2xl transition-all duration-300">
           <nav className="flex flex-col gap-0 text-base font-semibold text-text-base">
             {appData.header.navLinks.map((link) => (
               <a key={link.path} href={link.path} className={getMobileClass(link.path)}>
@@ -206,7 +206,7 @@ export default function Header() {
               </a>
             ))}
 
-            <div className="flex flex-col gap-3">
+            <div className="flex flex-col gap-3 p-3 pt-2">
               {user.isLoggedIn ? (
                 <button onClick={executeLogout} className="cursor-pointer w-full text-center bg-danger-base hover:bg-danger-hover text-text-inverted font-semibold py-3 rounded-xl shadow-md transition" title="Keluar dari sesi saat ini">
                   {appData.header.auth.logoutButton}
