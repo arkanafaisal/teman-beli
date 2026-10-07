@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Project Patungan - Admin Teman Beli</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans antialiased transition-colors duration-200">
+
+  <div class="flex min-h-screen relative overflow-x-hidden">
+
+    <!-- BACKDROP OVERLAY (Mobile) -->
+    <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity duration-300"></div>
+
+    <!-- SIDEBAR RESPONSIVE -->
+    <aside id="sidebar" class="fixed lg:static top-0 bottom-0 left-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/60 flex flex-col shrink-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+      
+      <!-- Brand Admin & Tombol Close Mobile -->
+      <div class="p-6 border-b border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-600/20">
+            T
+          </div>
+          <div>
+            <h1 class="font-bold text-slate-900 dark:text-white text-base leading-none">Teman Beli</h1>
+            <span class="text-xs text-blue-600 dark:text-blue-400 font-medium">Admin Workspace</span>
+          </div>
+        </div>
+        <!-- Tombol Close (Mobile Only) -->
+        <button onclick="toggleSidebar()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+          <i class="ph ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Menu Navigasi Admin -->
+      <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
+        <p class="px-4 text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Utama</p>
+        
+        <a href="index.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-squares-four text-lg"></i>
+          Dashboard
+        </a>
+
+        <p class="px-4 text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-5 mb-2">Kelola Konten</p>
+
+        <a href="patungan.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold text-sm transition">
+          <i class="ph ph-handshake text-lg"></i>
+          Patungan
+        </a>
+
+        <a href="pengguna.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-users text-lg"></i>
+          Pengguna
+        </a>
+
+        <a href="ulasan.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-star text-lg"></i>
+          Ulasan & Rating
+        </a>
+
+        <a href="komunitas.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-users-three text-lg"></i>
+          Rekomendasi & Komunitas
+        </a>
+      </nav>
+
+      <!-- Bottom Actions -->
+      <div class="p-4 border-t border-slate-100 dark:border-slate-700/60 space-y-1">
+        <a href="../index.html" target="_blank" class="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition">
+          <i class="ph ph-arrow-square-out text-base"></i>
+          Lihat Tampilan User
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition">
+          <i class="ph ph-sign-out text-base"></i>
+          Keluar
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="flex-1 flex flex-col min-w-0">
+      
+      <!-- TOP HEADER -->
+      <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700/60 px-4 sm:px-8 py-4 flex justify-between items-center transition-colors duration-200">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
+            <i class="ph ph-list text-xl"></i>
+          </button>
+          <div>
+            <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Kelola Project Patungan</h2>
+            <p class="text-xs text-slate-400 hidden sm:block">Daftar semua listing patungan barang dan jasa</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button id="themeToggleBtn" onclick="toggleDarkMode()" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200">
+            <i id="themeIcon" class="ph ph-moon text-lg sm:text-xl"></i>
+          </button>
+          <div class="flex items-center gap-3 pl-3 border-l border-slate-200 dark:border-slate-700">
+            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs">BR</div>
+            <span class="text-xs font-semibold hidden sm:inline">Baginda Ratu</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="p-4 sm:p-8 space-y-6 flex-1 overflow-y-auto">
+
+        <!-- CONTROLS & FILTER -->
+        <div class="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4">
+          <div class="flex flex-wrap items-center gap-2">
+            <button class="px-3.5 py-1.5 bg-blue-600 text-white rounded-xl text-xs font-semibold">Semua (32)</button>
+            <button class="px-3.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 rounded-xl text-xs font-medium">Berjalan (24)</button>
+            <button class="px-3.5 py-1.5 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 rounded-xl text-xs font-medium">Selesai/Penuh (8)</button>
+          </div>
+
+          <button onclick="openPatunganModal()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-blue-600/20 transition flex items-center justify-center gap-2">
+            <i class="ph ph-plus-circle text-base"></i> Buat Patungan Baru
+          </button>
+        </div>
+
+        <!-- TABEL PATUNGAN -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm whitespace-nowrap">
+              <thead class="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-xs uppercase font-semibold">
+                <tr>
+                  <th class="px-6 py-4">Nama Project Patungan</th>
+                  <th class="px-6 py-4">Kategori</th>
+                  <th class="px-6 py-4">Harga / Orang</th>
+                  <th class="px-6 py-4">Progres Slot</th>
+                  <th class="px-6 py-4">Status</th>
+                  <th class="px-6 py-4 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-700 text-slate-700 dark:text-slate-300">
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition">
+                  <td class="px-6 py-4">
+                    <p class="font-bold text-slate-900 dark:text-white">Spotify Family Plan (1 Bulan)</p>
+                    <p class="text-[11px] text-slate-400">Penggagas: @aditya_p</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Digital</span>
+                  </td>
+                  <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">Rp 15.000</td>
+                  <td class="px-6 py-4 w-48">
+                    <div class="flex items-center justify-between text-xs mb-1">
+                      <span class="font-medium text-slate-600 dark:text-slate-400">5/6 Slot</span>
+                      <span class="font-bold text-blue-600">83%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                      <div class="bg-blue-500 h-full w-[83%]"></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800">Berjalan</span></td>
+                  <td class="px-6 py-4 text-right space-x-2">
+                    <button class="p-2 text-slate-400 hover:text-indigo-600 transition"><i class="ph ph-pencil text-lg"></i></button>
+                    <button class="p-2 text-slate-400 hover:text-rose-600 transition"><i class="ph ph-trash text-lg"></i></button>
+                  </td>
+                </tr>
+
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition">
+                  <td class="px-6 py-4">
+                    <p class="font-bold text-slate-900 dark:text-white">Buku Cetak Kalkulus Vol. 2 (Fotokopi)</p>
+                    <p class="text-[11px] text-slate-400">Penggagas: Admin</p>
+                  </td>
+                  <td class="px-6 py-4">
+                    <span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">Buku & Tulis</span>
+                  </td>
+                  <td class="px-6 py-4 font-semibold text-slate-900 dark:text-white">Rp 35.000</td>
+                  <td class="px-6 py-4 w-48">
+                    <div class="flex items-center justify-between text-xs mb-1">
+                      <span class="font-medium text-slate-600 dark:text-slate-400">2/2 Slot</span>
+                      <span class="font-bold text-blue-600">100%</span>
+                    </div>
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                      <div class="bg-blue-500 h-full w-[100%]"></div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4"><span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-600">Penuh / Selesai</span></td>
+                  <td class="px-6 py-4 text-right space-x-2">
+                    <button class="p-2 text-slate-400 hover:text-indigo-600 transition"><i class="ph ph-pencil text-lg"></i></button>
+                    <button class="p-2 text-slate-400 hover:text-rose-600 transition"><i class="ph ph-trash text-lg"></i></button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL FORM TAMBAH PATUNGAN -->
+  <div id="patunganModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white dark:bg-slate-800 w-full max-w-lg rounded-2xl border border-slate-200 dark:border-slate-700 p-6 space-y-5 shadow-xl">
+      <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-700 pb-3">
+        <h3 class="font-bold text-slate-900 dark:text-white text-base">Buat Project Patungan Baru</h3>
+        <button onclick="closePatunganModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-white"><i class="ph ph-x text-xl"></i></button>
+      </div>
+
+      <form class="space-y-4">
+        <div>
+          <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">Judul Patungan</label>
+          <input type="text" placeholder="Contoh: Netflix Premium 4K (4 Screen)" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">Kategori</label>
+            <select class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option>Digital & Subscription</option>
+              <option>Buku & Cetak Akademik</option>
+              <option>Kebutuhan Kos</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">Target Kuota Slot</label>
+            <input type="number" placeholder="4" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">Harga Total (Rp)</label>
+            <input type="number" placeholder="186000" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-slate-700 dark:text-slate-300 block mb-1">Harga Per Orang (Rp)</label>
+            <input type="number" placeholder="46500" class="w-full px-3.5 py-2 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl text-xs focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          </div>
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" onclick="closePatunganModal()" class="px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs font-semibold text-slate-600 dark:text-slate-300">Batal</button>
+          <button type="submit" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-blue-600/20">Publikasikan Patungan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      sidebar.classList.toggle('-translate-x-full');
+      backdrop.classList.toggle('hidden');
+    }
+
+    function toggleDarkMode() {
+      const htmlClass = document.documentElement.classList;
+      const themeIcon = document.getElementById('themeIcon');
+      if (htmlClass.contains('dark')) {
+        htmlClass.remove('dark');
+        localStorage.setItem('theme', 'light');
+        themeIcon.className = 'ph ph-moon text-lg sm:text-xl';
+      } else {
+        htmlClass.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.className = 'ph ph-sun text-lg sm:text-xl';
+      }
+    }
+
+    function openPatunganModal() { document.getElementById('patunganModal').classList.remove('hidden'); }
+    function closePatunganModal() { document.getElementById('patunganModal').classList.add('hidden'); }
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      document.getElementById('themeIcon').className = 'ph ph-sun text-lg sm:text-xl';
+    }
+  </script>
+</body>
+</html>

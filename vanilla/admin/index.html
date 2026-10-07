@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Teman Beli</title>
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans antialiased transition-colors duration-200">
+
+  <div class="flex min-h-screen relative overflow-x-hidden">
+
+    <!-- BACKDROP OVERLAY (Untuk Mobile Saat Sidebar Terbuka) -->
+    <div id="sidebarBackdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:hidden transition-opacity duration-300"></div>
+
+    <!-- SIDEBAR RESPONSIVE -->
+    <aside id="sidebar" class="fixed lg:static top-0 bottom-0 left-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/60 flex flex-col shrink-0 z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out">
+      
+      <!-- Brand Admin & Tombol Close Mobile -->
+      <div class="p-6 border-b border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-600/20">
+            T
+          </div>
+          <div>
+            <h1 class="font-bold text-slate-900 dark:text-white text-base leading-none">Teman Beli</h1>
+            <span class="text-xs text-blue-600 dark:text-blue-400 font-medium">Admin Workspace</span>
+          </div>
+        </div>
+        <!-- Tombol Close (Mobile Only) -->
+        <button onclick="toggleSidebar()" class="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+          <i class="ph ph-x text-xl"></i>
+        </button>
+      </div>
+
+      <!-- Menu Navigasi Admin -->
+      <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
+        <p class="px-4 text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Utama</p>
+        
+        <a href="index.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold text-sm transition">
+          <i class="ph ph-squares-four text-lg"></i>
+          Dashboard
+        </a>
+
+        <p class="px-4 text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-5 mb-2">Kelola Konten</p>
+
+        <a href="patungan.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-handshake text-lg"></i>
+          Patungan
+        </a>
+
+        <a href="pengguna.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-users text-lg"></i>
+          Pengguna
+        </a>
+
+        <a href="ulasan.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-star text-lg"></i>
+          Ulasan & Rating
+        </a>
+
+        <a href="komunitas.html" class="flex items-center gap-3 px-4 py-2.5 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700/50 font-medium text-sm text-slate-600 dark:text-slate-300 transition">
+          <i class="ph ph-users-three text-lg"></i>
+          Rekomendasi & Komunitas
+        </a>
+      </nav>
+
+      <!-- Bottom Actions -->
+      <div class="p-4 border-t border-slate-100 dark:border-slate-700/60 space-y-1">
+        <a href="../index.html" target="_blank" class="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition">
+          <i class="ph ph-arrow-square-out text-base"></i>
+          Lihat Tampilan User
+        </a>
+        <a href="#" class="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition">
+          <i class="ph ph-sign-out text-base"></i>
+          Keluar
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="flex-1 flex flex-col min-w-0">
+
+      <!-- TOP HEADER -->
+      <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700/60 px-4 sm:px-8 py-4 flex justify-between items-center transition-colors duration-200">
+        
+        <div class="flex items-center gap-3">
+          <!-- HAMBURGER BUTTON (Tampil di Mobile & Tablet) -->
+          <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:ring-2 hover:ring-blue-500/50 transition">
+            <i class="ph ph-list text-xl"></i>
+          </button>
+          
+          <h2 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Panel Administrasi</h2>
+        </div>
+        
+        <div class="flex items-center gap-3 sm:gap-5">
+          <!-- Dark / Light Mode Toggle Button -->
+          <button id="themeToggleBtn" onclick="toggleDarkMode()" class="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:ring-2 hover:ring-blue-500/50 transition">
+            <i id="themeIcon" class="ph ph-moon text-lg sm:text-xl"></i>
+          </button>
+
+          <!-- Profil Admin -->
+          <div class="flex items-center gap-3 pl-3 sm:pl-4 border-l border-slate-200 dark:border-slate-700">
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs sm:text-sm">
+              BR
+            </div>
+            <div class="text-xs hidden sm:block">
+              <p class="font-semibold text-slate-800 dark:text-slate-200">Baginda Ratu</p>
+              <p class="text-slate-400">Super Admin</p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- MAIN CONTAINER CONTENT -->
+      <main class="p-4 sm:p-8 space-y-8 flex-1 overflow-y-auto">
+
+        <!-- RINGKASAN STATISTIK -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Patungan Aktif</p>
+              <h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">32 Projek</h3>
+              <span class="inline-flex items-center text-xs font-medium text-blue-600 dark:text-blue-400 mt-1">
+                8 Kategori
+              </span>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl">
+              <i class="ph ph-handshake"></i>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Pengguna</p>
+              <h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">1,240</h3>
+              <span class="inline-flex items-center text-xs font-medium text-blue-600 dark:text-blue-400 mt-1">
+                +12 Mahasiswa/hari
+              </span>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 flex items-center justify-center text-2xl">
+              <i class="ph ph-users font-bold"></i>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Total Ulasan</p>
+              <h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">458</h3>
+              <span class="inline-flex items-center text-xs font-medium text-amber-500 mt-1">
+                ★ 4.8 / 5.0 Rata-rata
+              </span>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 flex items-center justify-center text-2xl">
+              <i class="ph ph-star"></i>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm flex items-center justify-between">
+            <div>
+              <p class="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Komunitas</p>
+              <h3 class="text-2xl font-bold text-slate-900 dark:text-white mt-1">14 Grup</h3>
+              <span class="inline-flex items-center text-xs font-medium text-purple-600 dark:text-purple-400 mt-1">
+                Aktif Diskusi
+              </span>
+            </div>
+            <div class="w-11 h-11 rounded-xl bg-purple-50 dark:bg-purple-950/50 text-purple-600 dark:text-purple-400 flex items-center justify-center text-2xl">
+              <i class="ph ph-users-three"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- MANAJEMEN PATUNGAN & KATEGORI -->
+        <section class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200/80 dark:border-slate-700/60 shadow-sm p-4 sm:p-6 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-slate-900 dark:text-white text-base sm:text-lg">Patungan Aktif & Kategori</h3>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Pantau progres ketersediaan slot patungan</p>
+            </div>
+            <button class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-semibold shadow-lg shadow-blue-600/20 transition self-start sm:self-auto">
+              + Tambah Patungan Baru
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm whitespace-nowrap">
+              <thead class="bg-slate-50 dark:bg-slate-700/50 text-slate-500 dark:text-slate-400 text-xs uppercase font-semibold">
+                <tr>
+                  <th class="px-4 py-3">Item / Produk</th>
+                  <th class="px-4 py-3">Kategori</th>
+                  <th class="px-4 py-3">Target Slot</th>
+                  <th class="px-4 py-3">Progress</th>
+                  <th class="px-4 py-3 text-right">Aksi</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-700 text-slate-700 dark:text-slate-300">
+                <tr>
+                  <td class="px-4 py-3 font-medium text-slate-900 dark:text-white">Spotify Family 1 Bulan</td>
+                  <td class="px-4 py-3"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800">Digital</span></td>
+                  <td class="px-4 py-3">5 / 6 Orang</td>
+                  <td class="px-4 py-3 w-48">
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                      <div class="bg-blue-500 h-full w-[83%]"></div>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-right">
+                    <button class="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline">Edit</button>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-4 py-3 font-medium text-slate-900 dark:text-white">Buku Cetak Kalkulus Vol. 2</td>
+                  <td class="px-4 py-3"><span class="px-2.5 py-1 rounded-full text-xs font-medium bg-amber-50 dark:bg-amber-950/50 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800">Buku & Tulis</span></td>
+                  <td class="px-4 py-3">2 / 2 Orang</td>
+                  <td class="px-4 py-3">
+                    <div class="w-full bg-slate-100 dark:bg-slate-700 h-2 rounded-full overflow-hidden">
+                      <div class="bg-blue-500 h-full w-[100%]"></div>
+                    </div>
+                  </td>
+                  <td class="px-4 py-3 text-right">
+                    <button class="text-xs text-blue-600 dark:text-blue-400 font-semibold hover:underline">Edit</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+  </div>
+
+  <!-- SCRIPT RESPONSIVE SIDEBAR & DARK MODE -->
+  <script>
+    // Toggle Sidebar Mobile
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const backdrop = document.getElementById('sidebarBackdrop');
+      
+      const isOpen = !sidebar.classList.contains('-translate-x-full');
+
+      if (isOpen) {
+        sidebar.classList.add('-translate-x-full');
+        backdrop.classList.add('hidden');
+      } else {
+        sidebar.classList.remove('-translate-x-full');
+        backdrop.classList.remove('hidden');
+      }
+    }
+
+    // Toggle Dark Mode
+    function toggleDarkMode() {
+      const htmlClass = document.documentElement.classList;
+      const themeIcon = document.getElementById('themeIcon');
+      
+      if (htmlClass.contains('dark')) {
+        htmlClass.remove('dark');
+        localStorage.setItem('theme', 'light');
+        themeIcon.className = 'ph ph-moon text-lg sm:text-xl';
+      } else {
+        htmlClass.add('dark');
+        localStorage.setItem('theme', 'dark');
+        themeIcon.className = 'ph ph-sun text-lg sm:text-xl';
+      }
+    }
+
+    // Check saved theme
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      document.getElementById('themeIcon').className = 'ph ph-sun text-lg sm:text-xl';
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.getElementById('themeIcon').className = 'ph ph-moon text-lg sm:text-xl';
+    }
+  </script>
+</body>
+</html>
