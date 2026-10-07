@@ -88,7 +88,7 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
         const category = getRandom(patunganCats);
         const title = getRandom(patunganTitles[category]);
 
-        await tx.patungan.create({
+        const patungan = await tx.patungan.create({
           data: {
             title: `${title} #${i + 1}`,
             category: category,
@@ -104,6 +104,34 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
             status: 'OPEN'
           }
         });
+
+        // Add Host as participant
+        await tx.patunganParticipant.create({
+          data: {
+            patunganId: patungan.id,
+            userId: host.id,
+            quota: 1,
+            status: 'ACCEPTED'
+          }
+        });
+
+        // Add some random users as pending/accepted participants
+        if (Math.random() > 0.5) {
+          const otherUser = getRandom(createdUsers.filter(u => u.id !== host.id));
+          await tx.patunganParticipant.create({
+            data: {
+              patunganId: patungan.id,
+              userId: otherUser.id,
+              quota: 1,
+              status: Math.random() > 0.5 ? 'ACCEPTED' : 'PENDING'
+            }
+          });
+          // Update currentQuota if ACCEPTED
+          await tx.patungan.update({
+            where: { id: patungan.id },
+            data: { currentQuota: { increment: 1 } }
+          });
+        }
       }
 
       // 3.5 Buat 5 Patungan FINISHED dengan history dan review
@@ -130,7 +158,17 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
           }
         });
 
-        // Tambahkan partisipan
+        // Tambahkan host sebagai partisipan
+        await tx.patunganParticipant.create({
+          data: {
+            patunganId: finishedPatungan.id,
+            userId: host.id,
+            quota: 1,
+            status: 'ACCEPTED'
+          }
+        });
+
+        // Tambahkan partisipan lain
         const otherUsers = createdUsers.filter(u => u.id !== host.id);
         const participants = otherUsers.slice(0, 3);
 
