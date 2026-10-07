@@ -80,7 +80,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
     // --- PANGGIL API BACKEND ---
     let res;
     if (isEditMode) {
-      res = await api.patungan.update(initialData.id, formData);
+      res = await api.patungan.update({ id: initialData.id, ...formData });
     } else {
       res = await api.patungan.create(formData);
     }
@@ -101,7 +101,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
 
   const executeCancelPatungan = async () => {
     setShowCancelModal(false);
-    const res = await api.patungan.updateStatus(initialData?.id, { status: "CANCELLED" });
+    const res = await api.patungan.updateStatus({ id: initialData?.id, status: "CANCELLED" });
     if (res.success || !res.message) {
       toast.success("Patungan berhasil dibatalkan");
       if (onSuccess) onSuccess();

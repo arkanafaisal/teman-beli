@@ -20,7 +20,7 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
     const fetchDetail = async () => {
       if (!localItem) setIsLoading(true);
       
-      const res = await api.community.getDetail(item.id);
+      const res = await api.community.getDetail({ id: item.id });
       if (res.success && res.payload) {
         const fullData = res.payload;
         const styles = getCategoryStyles(fullData.kategoriKey);

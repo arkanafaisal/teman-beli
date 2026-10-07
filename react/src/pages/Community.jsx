@@ -121,7 +121,7 @@ export default function Community() {
     }
 
     // API call
-    const res = await api.community.toggleLike(id);
+    const res = await api.community.toggleLike({ id });
     if (!res.success) {
       // Revert if failed
       fetchCommunities();
@@ -136,7 +136,7 @@ export default function Community() {
 
     if (!commentText.trim()) return;
 
-    const res = await api.community.addComment(id, { text: commentText });
+    const res = await api.community.addComment({ id, text: commentText });
     if (res.success) {
       const newComment = {
         author: user.name,

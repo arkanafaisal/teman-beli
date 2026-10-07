@@ -25,7 +25,7 @@ export default function HistoryDetailModal({ isOpen, onClose, activity, onReview
     }
 
     setIsLoading(true);
-    const res = await api.patungan.addReview(activity.patunganId, { rating, comment });
+    const res = await api.patungan.addReview({ id: activity.patunganId, rating, comment });
     setIsLoading(false);
 
     if (res.success) {

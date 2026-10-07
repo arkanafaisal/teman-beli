@@ -6,13 +6,13 @@ import { getApiMessage } from "./messageMapper";
  */
 const callApi = async (path, method = "GET", body = null) => {
   const result = await baseFetch(path, method, body);
-  
+
   if (!result.success && !result.message) {
     result.message = getApiMessage(path, result.code, method);
   }
-  
+
   if (result.success && !result.message) {
-    result.message = getApiMessage(path, result.code, method); 
+    result.message = getApiMessage(path, result.code, method);
   }
 
   return result;
@@ -24,79 +24,76 @@ const callApi = async (path, method = "GET", body = null) => {
  */
 export const api = {
   auth: {
-    login: (payload) => callApi("/auth/login", "POST", payload),
-    loginManual: (payload) => callApi("/auth/login-manual", "POST", payload),
+    login: ({ credential }) => callApi("/auth/login", "POST", { credential }),
+    loginManual: ({ email, password }) => callApi("/auth/login-manual", "POST", { email, password }),
     logout: () => callApi("/auth/logout", "POST"),
     refresh: () => callApi("/auth/refresh", "POST"),
   },
   user: {
     getProfile: () => callApi("/users/profile", "GET"),
-    updateProfile: (payload) => callApi("/users/profile", "PUT", payload),
-    setPassword: (payload) => callApi("/users/password", "PUT", payload),
+    //updateProfile: ({ name, department, whatsapp }) => callApi("/users/profile", "PUT", { name, department, whatsapp }),
+    setPassword: ({ password }) => callApi("/users/password", "PUT", { password }),
     getReviews: () => callApi("/users/reviews", "GET"),
     getActivity: () => callApi("/users/activity", "GET"),
   },
   patungan: {
-    // Parameter query string bisa dilempar sebagai params nantinya
-    getAll: (params) => {
+    getAll: ({ q, category, hostId } = {}) => {
       let query = "";
-      if (params) {
-        const queryParams = new URLSearchParams();
-        if (params.q) queryParams.append("q", params.q);
-        if (params.category) queryParams.append("category", params.category);
-        if (params.hostId) queryParams.append("hostId", params.hostId);
-        if (queryParams.toString()) {
-          query = `?${queryParams.toString()}`;
-        }
+      const queryParams = new URLSearchParams();
+      if (q) queryParams.append("q", q);
+      if (category) queryParams.append("category", category);
+      if (hostId) queryParams.append("hostId", hostId);
+      if (queryParams.toString()) {
+        query = `?${queryParams.toString()}`;
       }
       return callApi(`/patungan${query}`, "GET");
-    }, 
-    getDetail: (id) => callApi(`/patungan/${id}`, "GET"),
-    create: (payload) => callApi("/patungan", "POST", payload),
-    update: (id, payload) => callApi(`/patungan/${id}`, "PUT", payload),
-    addLog: (id, payload) => callApi(`/patungan/${id}/log`, "POST", payload),
-    join: (id, payload) => callApi(`/patungan/${id}/join`, "POST", payload),
-    leave: (id) => callApi(`/patungan/${id}/leave`, "POST"),
-    finish: (id, payload) => callApi(`/patungan/${id}/finish`, "POST", payload),
-    delete: (id) => callApi(`/patungan/${id}`, "DELETE"),
-    updateStatus: (id, payload) => callApi(`/patungan/${id}/status`, "PATCH", payload),
-    getParticipants: (id) => callApi(`/patungan/${id}/participants`, "GET"),
-    updateParticipantStatus: (id, participantId, status) => callApi(`/patungan/${id}/participants/${participantId}`, "PATCH", { status }),
-    deleteParticipant: (id, participantId) => callApi(`/patungan/${id}/participants/${participantId}`, "DELETE"),
-    addReview: (id, payload) => callApi(`/patungan/${id}/reviews`, "POST", payload),
+    },
+    getDetail: ({ id }) => callApi(`/patungan/${id}`, "GET"),
+    create: ({ title, category, unit, targetQuota, totalPrice, currentQuota, area, deadline, whatsapp, notes, refLink }) =>
+      callApi("/patungan", "POST", { title, category, unit, targetQuota, totalPrice, currentQuota, area, deadline, whatsapp, notes, refLink }),
+    update: ({ id, title, category, unit, targetQuota, totalPrice, currentQuota, area, deadline, whatsapp, notes, refLink, updateComment }) =>
+      callApi(`/patungan/${id}`, "PUT", { title, category, unit, targetQuota, totalPrice, currentQuota, area, deadline, whatsapp, notes, refLink, updateComment }),
+    addLog: ({ id, text }) => callApi(`/patungan/${id}/log`, "POST", { text }),
+    join: ({ id, quota }) => callApi(`/patungan/${id}/join`, "POST", { quota }),
+    //leave: ({ id }) => callApi(`/patungan/${id}/leave`, "POST"),
+    finish: ({ id, proofLink }) => callApi(`/patungan/${id}/finish`, "POST", { proofLink }),
+    //delete: ({ id }) => callApi(`/patungan/${id}`, "DELETE"),
+    updateStatus: ({ id, status }) => callApi(`/patungan/${id}/status`, "PATCH", { status }),
+    getParticipants: ({ id }) => callApi(`/patungan/${id}/participants`, "GET"),
+    updateParticipantStatus: ({ id, participantId, status }) => callApi(`/patungan/${id}/participants/${participantId}`, "PATCH", { status }),
+    deleteParticipant: ({ id, participantId }) => callApi(`/patungan/${id}/participants/${participantId}`, "DELETE"),
+    addReview: ({ id, rating, comment }) => callApi(`/patungan/${id}/reviews`, "POST", { rating, comment }),
   },
   community: {
-    getAll: (params) => {
+    getAll: ({ q, category } = {}) => {
       let query = "";
-      if (params) {
-        const queryParams = new URLSearchParams();
-        if (params.q) queryParams.append("q", params.q);
-        if (params.category) queryParams.append("category", params.category);
-        if (queryParams.toString()) {
-          query = `?${queryParams.toString()}`;
-        }
+      const queryParams = new URLSearchParams();
+      if (q) queryParams.append("q", q);
+      if (category) queryParams.append("category", category);
+      if (queryParams.toString()) {
+        query = `?${queryParams.toString()}`;
       }
       return callApi(`/community${query}`, "GET");
     },
-    getDetail: (id) => callApi(`/community/${id}`, "GET"),
-    create: (payload) => callApi("/community", "POST", payload),
-    addComment: (id, payload) => callApi(`/community/${id}/comments`, "POST", payload),
-    toggleLike: (id) => callApi(`/community/${id}/like`, "POST"),
-    join: (id) => callApi(`/community/${id}/join`, "POST"),
-    leave: (id) => callApi(`/community/${id}/leave`, "POST"),
-    delete: (id) => callApi(`/community/${id}`, "DELETE"),
+    getDetail: ({ id }) => callApi(`/community/${id}`, "GET"),
+    create: ({ judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }) => callApi("/community", "POST", { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }),
+    addComment: ({ id, text }) => callApi(`/community/${id}/comments`, "POST", { text }),
+    toggleLike: ({ id }) => callApi(`/community/${id}/like`, "POST"),
+    //join: ({ id }) => callApi(`/community/${id}/join`, "POST"),
+    //leave: ({ id }) => callApi(`/community/${id}/leave`, "POST"),
+    //delete: ({ id }) => callApi(`/community/${id}`, "DELETE"),
   },
   history: {
-    getAll: (params) => callApi("/history", "GET"),
+    getAll: () => callApi("/history", "GET"),
     getSummary: () => callApi("/history/summary", "GET"),
   },
   public: {
     getStats: () => callApi("/public/stats", "GET"),
   },
   comments: {
-    getForPatungan: (patunganId) => callApi(`/patungan/${patunganId}/comments`, "GET"),
-    postForPatungan: (patunganId, payload) => callApi(`/patungan/${patunganId}/comments`, "POST", payload),
-    getForCommunity: (communityId) => callApi(`/community/${communityId}/comments`, "GET"),
-    postForCommunity: (communityId, payload) => callApi(`/community/${communityId}/comments`, "POST", payload),
+    getForPatungan: ({ patunganId }) => callApi(`/patungan/${patunganId}/comments`, "GET"),
+    postForPatungan: ({ patunganId, text }) => callApi(`/patungan/${patunganId}/comments`, "POST", { text }),
+    getForCommunity: ({ communityId }) => callApi(`/community/${communityId}/comments`, "GET"),
+    postForCommunity: ({ communityId, text }) => callApi(`/community/${communityId}/comments`, "POST", { text }),
   }
 };

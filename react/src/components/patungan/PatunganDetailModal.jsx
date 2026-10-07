@@ -25,7 +25,7 @@ export default function PatunganDetailModal({ item, onClose }) {
     if (!item?.id) return;
 
     const fetchDetail = async () => {
-      const res = await api.patungan.getDetail(item.id);
+      const res = await api.patungan.getDetail({ id: item.id });
       if (res.success && res.payload) {
         const fetchedLogs = res.payload.logs || [];
         const formattedReplies = fetchedLogs.map(log => ({
@@ -65,7 +65,7 @@ export default function PatunganDetailModal({ item, onClose }) {
   const isHost = user?.isLoggedIn && user?.id === localItem.hostId;
 
   const handleAddReply = async (text, onSuccess) => {
-    const res = await api.patungan.addLog(localItem.id, { text });
+    const res = await api.patungan.addLog({ id: localItem.id, text });
     if (res.success) {
       setRefreshTrigger(prev => prev + 1);
       toast.success("Update status berhasil ditambahkan");
@@ -82,7 +82,7 @@ export default function PatunganDetailModal({ item, onClose }) {
     }
     
     setFinishError("");
-    const res = await api.patungan.finish(localItem.id, { proofLink });
+    const res = await api.patungan.finish({ id: localItem.id, proofLink });
     if (res.success || !res.message) {
       toast.success("Patungan berhasil diselesaikan!");
       setIsFinishModalOpen(false);
@@ -109,7 +109,7 @@ export default function PatunganDetailModal({ item, onClose }) {
       return;
     }
 
-    const res = await api.patungan.join(localItem.id, { quota: numQuota });
+    const res = await api.patungan.join({ id: localItem.id, quota: numQuota });
     if (res.success) {
       toast.success("Berhasil mendaftar! Menunggu persetujuan host.");
       setRefreshTrigger(prev => prev + 1);

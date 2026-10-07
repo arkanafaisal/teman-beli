@@ -15,7 +15,7 @@ export default function ManageParticipantsModal({ patunganId, hostId, onClose, o
 
   const fetchParticipants = async () => {
     setLoading(true);
-    const res = await api.patungan.getParticipants(patunganId);
+    const res = await api.patungan.getParticipants({ id: patunganId });
     if (res.success) {
       setParticipants(res.payload);
     } else {
@@ -29,7 +29,7 @@ export default function ManageParticipantsModal({ patunganId, hostId, onClose, o
   }, [patunganId]);
 
   const handleUpdateStatus = async (participantId, newStatus) => {
-    const res = await api.patungan.updateParticipantStatus(patunganId, participantId, newStatus);
+    const res = await api.patungan.updateParticipantStatus({ id: patunganId, participantId, status: newStatus });
     if (res.success || !res.message) {
       toast.success(data.statusSuccess);
       fetchParticipants();
@@ -45,7 +45,7 @@ export default function ManageParticipantsModal({ patunganId, hostId, onClose, o
 
   const executeDelete = async () => {
     if (!participantToDelete) return;
-    const res = await api.patungan.deleteParticipant(patunganId, participantToDelete);
+    const res = await api.patungan.deleteParticipant({ id: patunganId, participantId: participantToDelete });
     if (res.success || !res.message) {
       toast.success(data.deleteSuccess);
       fetchParticipants();
