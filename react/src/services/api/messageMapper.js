@@ -48,6 +48,7 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/auth/login-manual": {
       POST: {
+        200: "Login manual berhasil.",
         400: "Data email atau password tidak valid.",
         401: "Email atau password salah.",
         403: "Akun ini belum memiliki password. Silakan login via Google terlebih dahulu."
@@ -60,11 +61,13 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/auth/refresh": {
       POST: {
+        200: "Sesi berhasil diperbarui.",
         401: "Sesi masuk telah kedaluwarsa, silakan login kembali."
       }
     },
     "/users/profile": {
       GET: {
+        200: "Data profil berhasil dimuat.",
         401: "Anda harus masuk untuk melihat profil Anda.",
         404: "Data profil pengguna tidak ditemukan."
       },
@@ -81,22 +84,32 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/users/reviews": {
       GET: {
+        200: "Ulasan berhasil dimuat.",
         401: "Anda belum masuk."
       }
     },
     "/users/activity": {
       GET: {
+        200: "Aktivitas berhasil dimuat.",
         401: "Anda belum masuk."
       }
     },
     "/patungan": {
+      GET: {
+        200: "Daftar patungan berhasil dimuat."
+      },
       POST: {
+        201: "Patungan berhasil dibuat!",
         400: "Data form patungan tidak lengkap, mohon periksa kembali.",
         401: "Anda harus login terlebih dahulu.",
         409: "Anda sudah memiliki patungan aktif. Harap selesaikan dulu patungan sebelumnya."
       }
     },
     "/patungan/:id": {
+      GET: {
+        200: "Detail patungan berhasil dimuat.",
+        404: "Patungan tidak ditemukan."
+      },
       DELETE: {
         403: "Anda tidak memiliki hak untuk menghapus patungan ini."
       },
@@ -109,7 +122,7 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/patungan/:id/log": {
       POST: {
-        200: "Pembaruan status (log) berhasil ditambahkan.",
+        201: "Pembaruan status (log) berhasil ditambahkan.",
         400: "Teks pembaruan tidak boleh kosong.",
         403: "Hanya host yang dapat menambahkan pembaruan status.",
         404: "Patungan tidak ditemukan."
@@ -117,6 +130,7 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/patungan/:id/join": {
       POST: {
+        201: "Berhasil mendaftar patungan!",
         400: "Jumlah porsi tidak valid atau melebihi sisa kuota.",
         403: "Anda adalah host dari patungan ini.",
         404: "Patungan tidak ditemukan.",
@@ -125,17 +139,20 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/patungan/:id/participants": {
       GET: {
+        200: "Daftar partisipan berhasil dimuat.",
         403: "Hanya host yang bisa melihat partisipan.",
         404: "Patungan tidak ditemukan."
       }
     },
     "/patungan/:id/participants/:participantId": {
       PATCH: {
+        200: "Status partisipan berhasil diubah.",
         400: "Host tidak dapat mengubah status dirinya sendiri.",
         403: "Hanya host yang bisa mengubah status partisipan.",
         404: "Patungan tidak ditemukan."
       },
       DELETE: {
+        200: "Partisipan berhasil dihapus.",
         400: "Host tidak dapat dihapus dari patungan.",
         403: "Hanya host yang bisa menghapus partisipan.",
         404: "Patungan tidak ditemukan."
@@ -149,8 +166,10 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/patungan/:id/status": {
       PATCH: {
+        200: "Status patungan berhasil diubah.",
         400: "Status yang diminta tidak valid atau alur salah.",
-        403: "Hanya pembuat patungan yang dapat mengubah status."
+        403: "Hanya pembuat patungan yang dapat mengubah status.",
+        404: "Patungan tidak ditemukan."
       }
     },
     "/patungan/:id/finish": {
@@ -171,28 +190,38 @@ export const getApiMessage = (path, code, method = "GET") => {
       }
     },
     "/community": {
+      GET: {
+        200: "Daftar komunitas berhasil dimuat."
+      },
       POST: {
         201: "Informasi berhasil ditambahkan!",
         400: "Data pengajuan komunitas tidak valid.",
-        409: "Nama komunitas tersebut sudah pernah diajukan atau sudah ada.",
+        401: "Anda harus login untuk membuat komunitas.",
+        409: "Nama komunitas tersebut sudah pernah diajukan atau sudah ada."
+      }
+    },
+    "/community/:id": {
+      GET: {
+        200: "Detail komunitas berhasil dimuat.",
+        404: "Komunitas tidak ditemukan."
+      },
+      DELETE: {
+        403: "Anda tidak memiliki hak untuk menghapus komunitas ini."
       }
     },
     "/community/:id/comments": {
       POST: {
         201: "Komentar berhasil ditambahkan!",
         400: "Komentar tidak valid. (Minimal 2 karakter, Maksimal 500 karakter).",
+        401: "Anda harus login untuk menambahkan komentar.",
         404: "Komunitas tidak ditemukan."
       }
     },
     "/community/:id/like": {
       POST: {
         200: "Berhasil mengubah like komunitas.",
+        401: "Anda harus login untuk menyukai komunitas.",
         404: "Komunitas tidak ditemukan."
-      }
-    },
-    "/community/:id": {
-      DELETE: {
-        403: "Anda tidak memiliki hak untuk menghapus komunitas ini."
       }
     },
     "/community/:id/leave": {
@@ -202,14 +231,21 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/history": {
       GET: {
+        200: "Riwayat aktivitas berhasil dimuat.",
         401: "Anda harus login untuk melihat riwayat aktivitas.",
         500: "Gagal memuat riwayat aktivitas."
       }
     },
     "/history/summary": {
       GET: {
+        200: "Rangkuman aktivitas berhasil dimuat.",
         401: "Anda harus login untuk melihat rangkuman aktivitas.",
         500: "Gagal memuat rangkuman aktivitas."
+      }
+    },
+    "/public/stats": {
+      GET: {
+        200: "Statistik publik berhasil dimuat."
       }
     }
   };
