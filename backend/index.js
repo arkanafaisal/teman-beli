@@ -60,7 +60,7 @@ app.use('/api/history', historyRouter);
 app.use('/api/community', communityRouter);
 
 // Route awal (health check)
-app.get('/api/health', rateLimiter('api.get'), (req, res) => {
+app.get('/api/health', rateLimiter('health.check'), (req, res) => {
   res.sendStatus(200)
 });
 
