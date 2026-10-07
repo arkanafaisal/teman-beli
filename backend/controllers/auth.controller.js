@@ -71,49 +71,44 @@ AuthController.login = async (req, res) => {
 };
 
 AuthController.loginManual = async (req, res) => {
-  try {
-    const validatedData = loginManualSchema.safeParse(req.body);
-    
-    if (!validatedData.success) {
-      return res.sendStatus(400);
-    }
-
-    const { email, password } = validatedData.data;
-
-    const user = await UserModel.getUserWithPassword(email);
-    if (!user) {
-      return res.sendStatus(401);
-    }
-
-    if (!user.password) {
-      return res.sendStatus(403);
-    }
-
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!isValid) {
-      return res.sendStatus(401);
-    }
-
-    const accessToken = jwt.sign(
-      { id: user.id, email: user.email, name: user.name },
-      process.env.JWT_SECRET,
-      { expiresIn: '15m' }
-    );
-    
-    const refreshToken = jwt.sign(
-      { id: user.id },
-      process.env.JWT_REFRESH_SECRET,
-      { expiresIn: '7d' }
-    );
-
-    setHttpCookie(res, 'access_token', accessToken, 15 * 60 * 1000); 
-    setHttpCookie(res, 'refresh_token', refreshToken, 7 * 24 * 60 * 60 * 1000); 
-
-    res.sendStatus(200);
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(500);
+  const validatedData = loginManualSchema.safeParse(req.body);
+  
+  if (!validatedData.success) {
+    return res.sendStatus(400);
   }
+
+  const { email, password } = validatedData.data;
+
+  const user = await UserModel.getUserWithPassword(email);
+  if (!user) {
+    return res.sendStatus(401);
+  }
+
+  if (!user.password) {
+    return res.sendStatus(403);
+  }
+
+  const isValid = await bcrypt.compare(password, user.password);
+  if (!isValid) {
+    return res.sendStatus(401);
+  }
+
+  const accessToken = jwt.sign(
+    { id: user.id, email: user.email, name: user.name },
+    process.env.JWT_SECRET,
+    { expiresIn: '15m' }
+  );
+  
+  const refreshToken = jwt.sign(
+    { id: user.id },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: '7d' }
+  );
+
+  setHttpCookie(res, 'access_token', accessToken, 15 * 60 * 1000); 
+  setHttpCookie(res, 'refresh_token', refreshToken, 7 * 24 * 60 * 60 * 1000); 
+
+  res.sendStatus(200);
 };
 
 AuthController.logout = async (req, res) => {
@@ -154,9 +149,11 @@ AuthController.refresh = async (req, res) => {
     res.sendStatus(200);
 
   } catch (error) {
-    // Jika JWT expired atau tidak valid (pemalsuan)
-    res.clearCookie('access_token');
-    res.clearCookie('refresh_token');
-    res.sendStatus(401);
+    if (error.name === 'TokenExpiredError' || error.name === 'JsonWebTokenError') {
+      res.clearCookie('access_token');
+      res.clearCookie('refresh_token');
+      return res.sendStatus(401);
+    }
+    throw error;
   }
 };

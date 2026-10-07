@@ -16,24 +16,18 @@ PatunganController.create = async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.sendStatus(400); 
     }
-    console.error(error);
-    res.sendStatus(500);
+    throw error;
   }
 };
 
 PatunganController.getAll = async (req, res) => {
-  try {
-    const filters = {
-      search: req.query.q,
-      category: req.query.category,
-      hostId: req.query.hostId
-    };
-    const patungans = await PatunganModel.getAllPatungan(filters);
-    res.status(200).json(patungans);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
+  const filters = {
+    search: req.query.q,
+    category: req.query.category,
+    hostId: req.query.hostId
+  };
+  const patungans = await PatunganModel.getAllPatungan(filters);
+  res.status(200).json(patungans);
 };
 
 PatunganController.update = async (req, res) => {
@@ -51,20 +45,14 @@ PatunganController.update = async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.sendStatus(400); 
     }
-    console.error(error);
-    res.sendStatus(500);
+    throw error;
   }
 };
 
 PatunganController.getDetail = async (req, res) => {
-  try {
-    const patungan = await PatunganModel.getPatunganDetail(req.params.id);
-    if (!patungan) return res.sendStatus(404);
-    res.status(200).json(patungan);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
+  const patungan = await PatunganModel.getPatunganDetail(req.params.id);
+  if (!patungan) return res.sendStatus(404);
+  res.status(200).json(patungan);
 };
 
 PatunganController.finishPatungan = async (req, res) => {
@@ -85,153 +73,122 @@ PatunganController.finishPatungan = async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.sendStatus(400); 
     }
-    console.error(error);
-    res.sendStatus(500);
+    throw error;
   }
 };
 
 PatunganController.updateStatus = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-    const existing = await PatunganModel.getPatunganById(id);
-    
-    if (!existing) return res.sendStatus(404);
-    if (existing.hostId !== req.user.id) return res.sendStatus(403);
-    
-    const validStatuses = ['OPEN', 'FULL', 'FINISHED', 'CANCELLED'];
-    if (!validStatuses.includes(status)) return res.sendStatus(400);
+  const { id } = req.params;
+  const { status } = req.body;
+  const existing = await PatunganModel.getPatunganById(id);
+  
+  if (!existing) return res.sendStatus(404);
+  if (existing.hostId !== req.user.id) return res.sendStatus(403);
+  
+  const validStatuses = ['OPEN', 'FULL', 'FINISHED', 'CANCELLED'];
+  if (!validStatuses.includes(status)) return res.sendStatus(400);
 
-    await PatunganModel.updateStatus(id, status);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
-  }
+  await PatunganModel.updateStatus(id, status);
+  res.sendStatus(200);
 };
 
 
 PatunganController.addLog = async (req, res) => {
-  try {
-    const existing = await PatunganModel.getPatunganById(req.params.id);
-    if (!existing) return res.sendStatus(404);
-    if (existing.hostId !== req.user.id) return res.sendStatus(403);
+  const existing = await PatunganModel.getPatunganById(req.params.id);
+  if (!existing) return res.sendStatus(404);
+  if (existing.hostId !== req.user.id) return res.sendStatus(403);
 
-    if (!req.body.text || req.body.text.trim().length < 1) {
-      return res.sendStatus(400); 
-    }
-
-    await PatunganModel.addLog(req.params.id, req.body.text);
-    res.sendStatus(201);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+  if (!req.body.text || req.body.text.trim().length < 1) {
+    return res.sendStatus(400); 
   }
+
+  await PatunganModel.addLog(req.params.id, req.body.text);
+  res.sendStatus(201);
 };
 
 PatunganController.join = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const quota = parseInt(req.body.quota);
-    
-    if (isNaN(quota) || quota < 1) {
-      return res.sendStatus(400);
-    }
-
-    const existing = await PatunganModel.getPatunganById(id);
-    if (!existing) return res.sendStatus(404);
-    if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
-    if (existing.hostId === req.user.id) return res.sendStatus(403);
-
-    // Check if already requested or joined
-    const alreadyParticipated = await PatunganModel.checkParticipation(id, req.user.id);
-    if (alreadyParticipated) {
-      return res.sendStatus(409);
-    }
-
-    if (existing.currentQuota + quota > existing.targetQuota) {
-      return res.sendStatus(400); // 400 for bad request (quota exceeded)
-    }
-
-    await PatunganModel.joinPatungan(id, req.user.id, quota);
-    res.sendStatus(201);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+  const { id } = req.params;
+  const quota = parseInt(req.body.quota);
+  
+  if (isNaN(quota) || quota < 1) {
+    return res.sendStatus(400);
   }
+
+  const existing = await PatunganModel.getPatunganById(id);
+  if (!existing) return res.sendStatus(404);
+  if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
+  if (existing.hostId === req.user.id) return res.sendStatus(403);
+
+  // Check if already requested or joined
+  const alreadyParticipated = await PatunganModel.checkParticipation(id, req.user.id);
+  if (alreadyParticipated) {
+    return res.sendStatus(409);
+  }
+
+  if (existing.currentQuota + quota > existing.targetQuota) {
+    return res.sendStatus(400); // 400 for bad request (quota exceeded)
+  }
+
+  await PatunganModel.joinPatungan(id, req.user.id, quota);
+  res.sendStatus(201);
 };
 
 PatunganController.getParticipants = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const existing = await PatunganModel.getPatunganById(id);
-    
-    if (!existing) return res.sendStatus(404);
-    if (existing.hostId !== req.user.id) {
-      return res.sendStatus(403);
-    }
-
-    const participants = await PatunganModel.getParticipants(id);
-    res.json({ success: true, payload: participants });
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+  const { id } = req.params;
+  const existing = await PatunganModel.getPatunganById(id);
+  
+  if (!existing) return res.sendStatus(404);
+  if (existing.hostId !== req.user.id) {
+    return res.sendStatus(403);
   }
+
+  const participants = await PatunganModel.getParticipants(id);
+  res.json({ success: true, payload: participants });
 };
 
 PatunganController.updateParticipantStatus = async (req, res) => {
-  try {
-    const { id, participantId } = req.params;
-    const { status } = req.body; // 'ACCEPTED' or 'REJECTED'
-    
-    if (!['ACCEPTED', 'REJECTED'].includes(status)) {
-      return res.sendStatus(400);
-    }
-
-    const existing = await PatunganModel.getPatunganById(id);
-    if (!existing) return res.sendStatus(404);
-    if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
-    if (existing.hostId !== req.user.id) {
-      return res.sendStatus(403);
-    }
-
-    const participant = await PatunganModel.getParticipantById(participantId);
-    if (!participant) return res.sendStatus(404);
-    if (participant.userId === existing.hostId) {
-      return res.sendStatus(400); // Host tidak dapat diubah statusnya
-    }
-
-    await PatunganModel.updateParticipantStatus(participantId, status);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+  const { id, participantId } = req.params;
+  const { status } = req.body; // 'ACCEPTED' or 'REJECTED'
+  
+  if (!['ACCEPTED', 'REJECTED'].includes(status)) {
+    return res.sendStatus(400);
   }
+
+  const existing = await PatunganModel.getPatunganById(id);
+  if (!existing) return res.sendStatus(404);
+  if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
+  if (existing.hostId !== req.user.id) {
+    return res.sendStatus(403);
+  }
+
+  const participant = await PatunganModel.getParticipantById(participantId);
+  if (!participant) return res.sendStatus(404);
+  if (participant.userId === existing.hostId) {
+    return res.sendStatus(400); // Host tidak dapat diubah statusnya
+  }
+
+  await PatunganModel.updateParticipantStatus(participantId, status);
+  res.sendStatus(200);
 };
 
 PatunganController.deleteParticipant = async (req, res) => {
-  try {
-    const { id, participantId } = req.params;
+  const { id, participantId } = req.params;
 
-    const existing = await PatunganModel.getPatunganById(id);
-    if (!existing) return res.sendStatus(404);
-    if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
-    if (existing.hostId !== req.user.id) {
-      return res.sendStatus(403);
-    }
-
-    const participant = await PatunganModel.getParticipantById(participantId);
-    if (!participant) return res.sendStatus(404);
-    if (participant.userId === existing.hostId) {
-      return res.sendStatus(400); // Host tidak dapat dihapus
-    }
-
-    await PatunganModel.deleteParticipant(participantId);
-    res.sendStatus(200);
-  } catch (error) {
-    console.error(error);
-    res.sendStatus(500);
+  const existing = await PatunganModel.getPatunganById(id);
+  if (!existing) return res.sendStatus(404);
+  if (existing.status === 'FINISHED' || existing.status === 'CANCELLED') return res.sendStatus(400);
+  if (existing.hostId !== req.user.id) {
+    return res.sendStatus(403);
   }
+
+  const participant = await PatunganModel.getParticipantById(participantId);
+  if (!participant) return res.sendStatus(404);
+  if (participant.userId === existing.hostId) {
+    return res.sendStatus(400); // Host tidak dapat dihapus
+  }
+
+  await PatunganModel.deleteParticipant(participantId);
+  res.sendStatus(200);
 };
 
 PatunganController.addReview = async (req, res) => {
@@ -264,7 +221,6 @@ PatunganController.addReview = async (req, res) => {
     if (error instanceof z.ZodError) {
       return res.sendStatus(400);
     }
-    console.error(error);
-    res.sendStatus(500);
+    throw error;
   }
 };
