@@ -59,6 +59,7 @@ export const PatunganModel = {
 
     const results = await prisma.patungan.findMany({
       where: whereClause,
+      take: 30,
       orderBy: { deadline: 'asc' },
       include: {
         host: {
