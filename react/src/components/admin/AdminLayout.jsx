@@ -64,11 +64,6 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
 
           <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mt-5 mb-2">{adminData.layout.sidebar.menuSection2}</p>
 
-          <Link to="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
-            <i className="ph ph-handshake text-lg"></i>
-            {adminData.layout.sidebar.patungan}
-          </Link>
-
           <Link to="/admin/pengguna" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/pengguna') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users text-lg"></i>
             {adminData.layout.sidebar.pengguna}
@@ -77,6 +72,11 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
           <Link to="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-star text-lg"></i>
             {adminData.layout.sidebar.ulasan}
+          </Link>
+
+          <Link to="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+            <i className="ph ph-handshake text-lg"></i>
+            {adminData.layout.sidebar.patungan}
           </Link>
 
           <Link to="/admin/komunitas" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/komunitas') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
