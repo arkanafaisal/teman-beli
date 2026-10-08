@@ -15,7 +15,8 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminPatungan from "./pages/admin/Patungan";
 import AdminKomunitas from "./pages/admin/Komunitas";
 import AdminPengguna from "./pages/admin/Pengguna";
-import AdminUlasan from "./pages/admin/Ulasan";
+// import AdminUlasan from "./pages/admin/Ulasan";
+import NotFound from "./pages/NotFound";
 
 import { useAuth } from "./context/AuthContext";
 import ActionModal from "./components/common/ActionModal";
@@ -124,6 +125,9 @@ function App() {
               <Route path="/admin/pengguna" element={<AdminPengguna />} />
               {/* <Route path="/admin/ulasan" element={<AdminUlasan />} /> */}
             </Route>
+
+            {/* --- FALLBACK 404 ROUTE --- */}
+            <Route path="*" element={<NotFound />} />
 
           </Routes>
         </LayoutWrapper>
