@@ -41,19 +41,54 @@ export const adminData = {
     }
   },
   komunitas: {
-    title: "Rekomendasi & Komunitas",
-    featured: {
-      title: "Rekomendasi Utama (Banner Depan)",
-      subtitle: "Patungan yang di-pin untuk tampil di halaman utama customer",
-      addBtn: "+ Pin Patungan Baru",
-      unpinAction: "Lepas dari Pin Header",
-      featuredLabel: "Featured"
+    title: "Kelola Komunitas & Rekomendasi",
+    filters: {
+      all: "Semua (18)",
+      active: "Aktif (15)",
+      inactive: "Nonaktif (3)"
     },
-    groups: {
-      title: "Grup Diskusi & Komunitas Kampus",
-      subtitle: "Grup yang dibentuk pengguna untuk berkoordinasi",
-      addBtn: "+ Buat Grup Baru",
-      manageAction: "Kelola Grup"
+    addBtn: "Buat Info Komunitas Baru",
+    tableHeaders: {
+      title: "Judul Info / Postingan",
+      category: "Kategori",
+      location: "Lokasi",
+      author: "Penulis",
+      interaction: "Interaksi",
+      status: "Status",
+      action: "Aksi"
+    },
+    status: {
+      active: "Aktif",
+      inactive: "Nonaktif"
+    },
+    actions: {
+      hide: "Sembunyikan / Nonaktifkan",
+      show: "Tampilkan / Aktifkan Kembali"
+    },
+    modalForm: {
+      title: "Buat Info Komunitas Baru",
+      fields: {
+        title: { label: "Judul Postingan / Info", placeholder: "Contoh: Info Tempat Makan Murah Nasi Sambal Belut" },
+        category: { label: "Kategori", options: ["Tempat Makan", "Kebutuhan Kampus", "Kos & Fasilitas"] },
+        location: { label: "Lokasi", placeholder: "Contoh: Jalan Margonda Raya" },
+        description: { label: "Deskripsi Lengkap", placeholder: "Jelaskan detail rekomendasi, harga promo, atau kontak terkait..." }
+      },
+      buttons: {
+        cancel: "Batal",
+        submit: "Publikasikan Info"
+      }
+    },
+    modalConfirm: {
+      title: "Konfirmasi Perubahan Status",
+      subtitle: "Verifikasi tindakan admin",
+      bodyPrefix: "Apakah Baginda Ratu yakin ingin",
+      bodyHighlightHide: "menonaktifkan (menyembunyikan)",
+      bodyHighlightShow: "mengaktifkan kembali",
+      bodySuffix: "postingan info",
+      buttons: {
+        cancel: "Batal",
+        submit: "Ya, Ubah Status"
+      }
     }
   },
   patungan: {

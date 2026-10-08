@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
+import { adminData } from '../../data/admin';
 
 export default function Komunitas() {
   const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
@@ -25,18 +26,20 @@ export default function Komunitas() {
     closeStatusConfirmModal();
   };
 
+  const data = adminData.komunitas;
+
   return (
-    <AdminLayout title="Kelola Komunitas & Rekomendasi">
+    <AdminLayout title={data.title}>
       {/* KONTEN UTAMA */}
       <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-6">
         <div className="flex flex-wrap items-center gap-2">
-          <button className="px-3.5 py-1.5 bg-primary-base text-text-inverted rounded-xl text-xs font-semibold">Semua (18)</button>
-          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">Aktif (15)</button>
-          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">Nonaktif (3)</button>
+          <button className="px-3.5 py-1.5 bg-primary-base text-text-inverted rounded-xl text-xs font-semibold">{data.filters.all}</button>
+          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.active}</button>
+          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.inactive}</button>
         </div>
 
         <button onClick={() => setIsCommunityModalOpen(true)} className="px-4 py-2.5 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20 transition flex items-center justify-center gap-2">
-          <i className="ph ph-plus-circle text-base"></i> Buat Info Komunitas Baru
+          <i className="ph ph-plus-circle text-base"></i> {data.addBtn}
         </button>
       </div>
 
@@ -46,13 +49,13 @@ export default function Komunitas() {
           <table className="w-full text-left text-xs sm:text-sm">
             <thead className="bg-bg-subtle text-text-muted text-[11px] sm:text-xs uppercase font-semibold">
               <tr>
-                <th className="px-4 sm:px-6 py-4">Judul Info / Postingan</th>
-                <th className="px-3 sm:px-4 py-4">Kategori</th>
-                <th className="px-3 sm:px-4 py-4">Lokasi</th>
-                <th className="px-3 sm:px-4 py-4">Penulis</th>
-                <th className="px-3 sm:px-4 py-4">Interaksi</th>
-                <th className="px-3 sm:px-4 py-4">Status</th>
-                <th className="px-3 sm:px-4 py-4 text-center">Aksi</th>
+                <th className="px-4 sm:px-6 py-4">{data.tableHeaders.title}</th>
+                <th className="px-3 sm:px-4 py-4">{data.tableHeaders.category}</th>
+                <th className="px-3 sm:px-4 py-4">{data.tableHeaders.location}</th>
+                <th className="px-3 sm:px-4 py-4">{data.tableHeaders.author}</th>
+                <th className="px-3 sm:px-4 py-4">{data.tableHeaders.interaction}</th>
+                <th className="px-3 sm:px-4 py-4">{data.tableHeaders.status}</th>
+                <th className="px-3 sm:px-4 py-4 text-center">{data.tableHeaders.action}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border-subtle text-text-base">
@@ -77,10 +80,10 @@ export default function Komunitas() {
                   <span className="inline-flex items-center gap-1"><i className="ph ph-chat-teardrop-dots text-primary-base"></i> 0</span>
                 </td>
                 <td className="px-3 sm:px-4 py-4 whitespace-nowrap">
-                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-success-soft text-success-text border border-success-base/30">Aktif</span>
+                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-success-soft text-success-text border border-success-base/30">{data.status.active}</span>
                 </td>
                 <td className="px-3 sm:px-4 py-4 text-center whitespace-nowrap">
-                  <button onClick={() => confirmToggleStatus('Sewa Kamera Murah buat Tugas - Mock 10', true, 'status-badge-1')} className="p-1.5 sm:p-2 rounded-lg text-text-base hover:text-primary-text hover:bg-bg-subtle transition" title="Sembunyikan / Nonaktifkan">
+                  <button onClick={() => confirmToggleStatus('Sewa Kamera Murah buat Tugas - Mock 10', true, 'status-badge-1')} className="p-1.5 sm:p-2 rounded-lg text-text-base hover:text-primary-text hover:bg-bg-subtle transition" title={data.actions.hide}>
                     <i className="ph ph-eye text-lg sm:text-xl"></i>
                   </button>
                 </td>
@@ -106,10 +109,10 @@ export default function Komunitas() {
                   <span className="inline-flex items-center gap-1"><i className="ph ph-chat-teardrop-dots text-primary-base"></i> 0</span>
                 </td>
                 <td className="px-3 sm:px-4 py-4 whitespace-nowrap">
-                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-bg-subtle text-text-muted border border-border-base">Nonaktif</span>
+                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-bg-subtle text-text-muted border border-border-base">{data.status.inactive}</span>
                 </td>
                 <td className="px-3 sm:px-4 py-4 text-center whitespace-nowrap">
-                  <button onClick={() => confirmToggleStatus('Buku Bekas Jurusan Teknik Harga Miring - Mock 8', false, 'status-badge-3')} className="p-1.5 sm:p-2 rounded-lg text-text-muted hover:text-primary-text hover:bg-bg-subtle transition" title="Tampilkan / Aktifkan Kembali">
+                  <button onClick={() => confirmToggleStatus('Buku Bekas Jurusan Teknik Harga Miring - Mock 8', false, 'status-badge-3')} className="p-1.5 sm:p-2 rounded-lg text-text-muted hover:text-primary-text hover:bg-bg-subtle transition" title={data.actions.show}>
                     <i className="ph ph-eye-slash text-lg sm:text-xl"></i>
                   </button>
                 </td>
@@ -125,39 +128,39 @@ export default function Komunitas() {
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-bg-surface w-full max-w-lg rounded-2xl border border-border-base p-6 space-y-5 shadow-xl max-h-[90vh] overflow-y-auto no-scrollbar">
             <div className="flex justify-between items-center border-b border-border-subtle pb-3">
-              <h3 className="font-bold text-text-heading text-base">Buat Info Komunitas Baru</h3>
+              <h3 className="font-bold text-text-heading text-base">{data.modalForm.title}</h3>
               <button onClick={() => setIsCommunityModalOpen(false)} className="text-text-muted hover:text-text-heading"><i className="ph ph-x text-xl"></i></button>
             </div>
 
             <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsCommunityModalOpen(false); }}>
               <div>
-                <label className="text-xs font-semibold text-text-base block mb-1">Judul Postingan / Info</label>
-                <input type="text" placeholder="Contoh: Info Tempat Makan Murah Nasi Sambal Belut" className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required />
+                <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.title.label}</label>
+                <input type="text" placeholder={data.modalForm.fields.title.placeholder} className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-xs font-semibold text-text-base block mb-1">Kategori</label>
+                  <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.category.label}</label>
                   <select className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none">
-                    <option value="Tempat Makan">Tempat Makan</option>
-                    <option value="Kebutuhan Kampus">Kebutuhan Kampus</option>
-                    <option value="Kos & Fasilitas">Kos & Fasilitas</option>
+                    {data.modalForm.fields.category.options.map((opt, i) => (
+                      <option key={i} value={opt}>{opt}</option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs font-semibold text-text-base block mb-1">Lokasi</label>
-                  <input type="text" placeholder="Contoh: Jalan Margonda Raya" className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required />
+                  <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.location.label}</label>
+                  <input type="text" placeholder={data.modalForm.fields.location.placeholder} className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required />
                 </div>
               </div>
 
               <div>
-                <label className="text-xs font-semibold text-text-base block mb-1">Deskripsi Lengkap</label>
-                <textarea rows="3" placeholder="Jelaskan detail rekomendasi, harga promo, atau kontak terkait..." className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required></textarea>
+                <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.description.label}</label>
+                <textarea rows="3" placeholder={data.modalForm.fields.description.placeholder} className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required></textarea>
               </div>
 
               <div className="pt-2 flex justify-end gap-2">
-                <button type="button" onClick={() => setIsCommunityModalOpen(false)} className="px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">Batal</button>
-                <button type="submit" className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">Publikasikan Info</button>
+                <button type="button" onClick={() => setIsCommunityModalOpen(false)} className="px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalForm.buttons.cancel}</button>
+                <button type="submit" className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalForm.buttons.submit}</button>
               </div>
             </form>
           </div>
@@ -173,18 +176,18 @@ export default function Komunitas() {
                 <i className="ph ph-warning-circle text-2xl"></i>
               </div>
               <div>
-                <h3 className="font-bold text-text-heading text-base">Konfirmasi Perubahan Status</h3>
-                <p className="text-xs text-text-muted">Verifikasi tindakan admin</p>
+                <h3 className="font-bold text-text-heading text-base">{data.modalConfirm.title}</h3>
+                <p className="text-xs text-text-muted">{data.modalConfirm.subtitle}</p>
               </div>
             </div>
 
             <p className="text-xs text-text-base leading-relaxed">
-              Apakah Baginda Ratu yakin ingin <strong className="text-text-heading">{statusConfirmData.isActive ? "menonaktifkan (menyembunyikan)" : "mengaktifkan kembali"}</strong> postingan info "<strong className="text-text-heading">{statusConfirmData.title}</strong>"?
+              {data.modalConfirm.bodyPrefix} <strong className="text-text-heading">{statusConfirmData.isActive ? data.modalConfirm.bodyHighlightHide : data.modalConfirm.bodyHighlightShow}</strong> {data.modalConfirm.bodySuffix} "<strong className="text-text-heading">{statusConfirmData.title}</strong>"?
             </p>
 
             <div className="pt-2 flex justify-end gap-2">
-              <button type="button" onClick={closeStatusConfirmModal} className="px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">Batal</button>
-              <button type="button" onClick={executeStatusToggle} className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">Ya, Ubah Status</button>
+              <button type="button" onClick={closeStatusConfirmModal} className="px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalConfirm.buttons.cancel}</button>
+              <button type="button" onClick={executeStatusToggle} className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalConfirm.buttons.submit}</button>
             </div>
           </div>
         </div>
