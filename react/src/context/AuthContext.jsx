@@ -20,6 +20,7 @@ export function AuthProvider({ children }) {
           email: res.payload.email,
           rating: res.payload.rating,
           department: res.payload.department,
+          role: res.payload.role || 'USER',
         });
         
         const lastGreeting = localStorage.getItem("last_greeting");
@@ -43,6 +44,7 @@ export function AuthProvider({ children }) {
       email: userData.email,
       rating: userData.rating,
       department: userData.department,
+      role: userData.role || 'USER',
     });
   };
 

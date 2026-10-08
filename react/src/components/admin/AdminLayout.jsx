@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { adminData } from '../../data/admin';
 
 export default function AdminLayout({ children, title = adminData.dashboard.title }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const currentPath = window.location.pathname;
+  const location = useLocation();
+  const currentPath = location.pathname;
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -18,9 +20,6 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
       htmlClass.add('dark');
       localStorage.setItem('theme', 'dark');
     }
-    // Note: Theme toggle icon update will be handled by CSS or state if needed, 
-    // but here we can just force a re-render or let it be handled globally if possible.
-    // For simplicity, we'll just let the class change.
   };
 
   return (
@@ -55,44 +54,44 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
           <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mb-2">{adminData.layout.sidebar.menuSection1}</p>
           
-          <a href="/admin" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath === '/admin' || currentPath === '/admin/' ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+          <Link to="/admin" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath === '/admin' || currentPath === '/admin/' ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-squares-four text-lg"></i>
             {adminData.layout.sidebar.dashboard}
-          </a>
+          </Link>
 
           <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mt-5 mb-2">{adminData.layout.sidebar.menuSection2}</p>
 
-          <a href="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+          <Link to="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-handshake text-lg"></i>
             {adminData.layout.sidebar.patungan}
-          </a>
+          </Link>
 
-          <a href="/admin/pengguna" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/pengguna') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+          <Link to="/admin/pengguna" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/pengguna') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users text-lg"></i>
             {adminData.layout.sidebar.pengguna}
-          </a>
+          </Link>
 
-          <a href="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+          <Link to="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-star text-lg"></i>
             {adminData.layout.sidebar.ulasan}
-          </a>
+          </Link>
 
-          <a href="/admin/komunitas" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/komunitas') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+          <Link to="/admin/komunitas" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/komunitas') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users-three text-lg"></i>
             {adminData.layout.sidebar.komunitas}
-          </a>
+          </Link>
         </nav>
 
         {/* Bottom Actions */}
         <div className="p-4 border-t border-border-subtle space-y-1">
-          <a href="/" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-text-muted hover:text-text-heading dark:text-text-muted dark:hover:text-white transition">
+          <Link to="/" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-text-muted hover:text-text-heading dark:text-text-muted dark:hover:text-white transition">
             <i className="ph ph-arrow-square-out text-base"></i>
             {adminData.layout.sidebar.backToApp}
-          </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-danger-base hover:bg-danger-soft transition">
+          </Link>
+          <button className="w-full flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-danger-base hover:bg-danger-soft transition">
             <i className="ph ph-sign-out text-base"></i>
             {adminData.layout.sidebar.logout}
-          </a>
+          </button>
         </div>
       </aside>
 
