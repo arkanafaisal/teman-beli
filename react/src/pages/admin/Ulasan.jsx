@@ -1,6 +1,8 @@
 import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { adminData } from '../../data/admin';
+import UlasanCard from '../../components/admin/UlasanCard';
+import { mockUlasan } from '../../data/mockUlasan';
 
 export default function Ulasan() {
   return (
@@ -25,41 +27,9 @@ export default function Ulasan() {
 
       {/*  LIST ULASAN  */}
       <div className="space-y-4">
-        <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm space-y-3">
-          <div className="flex justify-between items-start">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-primary-soft text-primary-text font-bold flex items-center justify-center text-xs">SN</div>
-              <div>
-                <p className="font-bold text-text-heading text-xs">Siti Nurhaliza</p>
-                <p className="text-[10px] text-text-muted">Patungan: Spotify Family 1 Bulan • 04 Okt 2026</p>
-              </div>
-            </div>
-            <span className="text-warning-base font-bold text-xs">★ ★ ★ ★ ★ (5.0)</span>
-          </div>
-          <p className="text-xs text-text-base">"Patungan Canva Pro lancar banget, prosesnya cepat dan admin fast respon! Rekomended banget buat temen-temen mahasiswa."</p>
-          <div className="pt-2 border-t border-border-subtle flex justify-end gap-3 text-xs">
-            <button className="text-primary-base font-semibold hover:underline"><i className="ph ph-check mr-1"></i> {adminData.ulasan.actions.show}</button>
-            <button className="text-danger-base font-semibold hover:underline"><i className="ph ph-trash mr-1"></i> {adminData.ulasan.actions.hide}</button>
-          </div>
-        </div>
-
-        <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm space-y-3">
-          <div className="flex justify-between items-start">
-            <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-full bg-primary-soft text-primary-text font-bold flex items-center justify-center text-xs">BS</div>
-              <div>
-                <p className="font-bold text-text-heading text-xs">Budi Santoso</p>
-                <p className="text-[10px] text-text-muted">Patungan: Buku Cetak Kalkulus Vol 2 • 03 Okt 2026</p>
-              </div>
-            </div>
-            <span className="text-warning-base font-bold text-xs">★ ★ ★ ★ ☆ (4.0)</span>
-          </div>
-          <p className="text-xs text-text-base">"Bagus, buku fotokopian kalkulusnya rapi dan murah meriah untuk kantong mahasiswa."</p>
-          <div className="pt-2 border-t border-border-subtle flex justify-end gap-3 text-xs">
-            <button className="text-primary-base font-semibold hover:underline"><i className="ph ph-check mr-1"></i> {adminData.ulasan.actions.show}</button>
-            <button className="text-danger-base font-semibold hover:underline"><i className="ph ph-trash mr-1"></i> {adminData.ulasan.actions.hide}</button>
-          </div>
-        </div>
+        {mockUlasan.map(item => (
+          <UlasanCard key={item.id} item={item} />
+        ))}
       </div>
 
     </AdminLayout>

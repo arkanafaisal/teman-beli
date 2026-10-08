@@ -1,6 +1,8 @@
 import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { adminData } from '../../data/admin';
+import PenggunaRow from '../../components/admin/PenggunaRow';
+import { mockPengguna } from '../../data/mockPengguna';
 
 export default function Pengguna() {
   return (
@@ -36,40 +38,9 @@ export default function Pengguna() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border-subtle text-text-base">
-              <tr className="hover:bg-bg-subtle transition">
-                <td className="px-6 py-4 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-bg-subtle font-bold text-text-base flex items-center justify-center text-xs">AP</div>
-                  <div>
-                    <p className="font-bold text-text-heading">Aditya Pratama</p>
-                    <p className="text-[11px] text-text-muted">aditya@student.uns.ac.id</p>
-                  </div>
-                </td>
-                <td className="px-6 py-4 font-medium text-xs">Informatika • UNS</td>
-                <td className="px-6 py-4 font-semibold">8 Ikut</td>
-                <td className="px-6 py-4"><span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-soft text-primary-text border border-primary-soft">{adminData.pengguna.status.verified}</span></td>
-                <td className="px-6 py-4 text-right space-x-2">
-                  <button className="text-xs text-primary-text font-semibold hover:underline">{adminData.pengguna.actions.detail}</button>
-                  <button className="text-xs text-danger-base font-semibold hover:underline">{adminData.pengguna.actions.suspend}</button>
-                </td>
-              </tr>
-              <tr className="hover:bg-bg-subtle transition">
-                <td className="px-6 py-4 flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-bg-subtle font-bold text-text-base flex items-center justify-center text-xs">TR</div>
-                  <div>
-                    <p className="font-bold text-text-heading">Tazkia Ramadhani</p>
-                    <p className="text-[11px] text-text-muted">tazkia@student.uns.ac.id</p>
-                  </div>
-                </td>
-                <td className="px-6 py-4 font-medium text-xs">Teknik Industri • UNS</td>
-                <td className="px-6 py-4 font-semibold">5 Ikut</td>
-                <td className="px-6 py-4">
-                  <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-warning-soft text-warning-text border border-warning-subtle">{adminData.pengguna.status.pending}</span>
-                </td>
-                <td className="px-6 py-4 text-right space-x-2">
-                  <button className="text-xs text-primary-base font-semibold hover:underline">{adminData.pengguna.actions.verify}</button>
-                  <button className="text-xs text-text-muted font-semibold hover:underline">{adminData.pengguna.actions.detail}</button>
-                </td>
-              </tr>
+              {mockPengguna.map(item => (
+                <PenggunaRow key={item.id} item={item} />
+              ))}
             </tbody>
           </table>
         </div>

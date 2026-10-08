@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { adminData } from '../../data/admin';
+import KomunitasRow from '../../components/admin/KomunitasRow';
+import { mockKomunitas } from '../../data/mockKomunitas';
 
 export default function Komunitas() {
   const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
@@ -60,63 +62,13 @@ export default function Komunitas() {
             </thead>
             <tbody className="divide-y divide-border-subtle text-text-base">
               
-              {/* ROW 1 */}
-              <tr className="hover:bg-bg-subtle transition">
-                <td className="px-4 sm:px-6 py-4">
-                  <p className="font-bold text-text-heading line-clamp-1">Sewa Kamera Murah buat Tugas - Mock 10</p>
-                  <p className="text-[10px] sm:text-[11px] text-text-muted">ID: c-10293847</p>
-                </td>
-                <td className="px-3 sm:px-4 py-4">
-                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-primary-soft text-primary-text border border-primary-ring/30 whitespace-nowrap">Kebutuhan Kampus</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 font-medium text-text-base">
-                  <span className="inline-flex items-center gap-1"><i className="ph ph-map-pin text-text-muted"></i> Jalan Margonda</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 font-medium text-text-heading whitespace-nowrap">
-                  Testing Lima
-                </td>
-                <td className="px-3 sm:px-4 py-4 text-xs text-text-muted whitespace-nowrap">
-                  <span className="inline-flex items-center gap-1 mr-2"><i className="ph ph-heart text-danger-base"></i> 3</span>
-                  <span className="inline-flex items-center gap-1"><i className="ph ph-chat-teardrop-dots text-primary-base"></i> 0</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 whitespace-nowrap">
-                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-success-soft text-success-text border border-success-base/30">{data.status.active}</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 text-center whitespace-nowrap">
-                  <button onClick={() => confirmToggleStatus('Sewa Kamera Murah buat Tugas - Mock 10', true, 'status-badge-1')} className="p-1.5 sm:p-2 rounded-lg text-text-base hover:text-primary-text hover:bg-bg-subtle transition" title={data.actions.hide}>
-                    <i className="ph ph-eye text-lg sm:text-xl"></i>
-                  </button>
-                </td>
-              </tr>
-
-              {/* ROW 2 (NONAKTIF) */}
-              <tr className="hover:bg-bg-subtle transition opacity-75">
-                <td className="px-4 sm:px-6 py-4">
-                  <p className="font-bold text-text-heading line-clamp-1">Buku Bekas Jurusan Teknik Harga Miring - Mock 8</p>
-                  <p className="text-[10px] sm:text-[11px] text-text-muted">ID: c-10293849</p>
-                </td>
-                <td className="px-3 sm:px-4 py-4">
-                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium bg-warning-soft text-warning-text border border-warning-base/30 whitespace-nowrap">Buku & Catatan</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 font-medium text-text-base">
-                  <span className="inline-flex items-center gap-1"><i className="ph ph-map-pin text-text-muted"></i> Pondok Cina</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 font-medium text-text-heading whitespace-nowrap">
-                  Testing Lima
-                </td>
-                <td className="px-3 sm:px-4 py-4 text-xs text-text-muted whitespace-nowrap">
-                  <span className="inline-flex items-center gap-1 mr-2"><i className="ph ph-heart text-danger-base"></i> 2</span>
-                  <span className="inline-flex items-center gap-1"><i className="ph ph-chat-teardrop-dots text-primary-base"></i> 0</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 whitespace-nowrap">
-                  <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-bg-subtle text-text-muted border border-border-base">{data.status.inactive}</span>
-                </td>
-                <td className="px-3 sm:px-4 py-4 text-center whitespace-nowrap">
-                  <button onClick={() => confirmToggleStatus('Buku Bekas Jurusan Teknik Harga Miring - Mock 8', false, 'status-badge-3')} className="p-1.5 sm:p-2 rounded-lg text-text-muted hover:text-primary-text hover:bg-bg-subtle transition" title={data.actions.show}>
-                    <i className="ph ph-eye-slash text-lg sm:text-xl"></i>
-                  </button>
-                </td>
-              </tr>
+              {mockKomunitas.map((item) => (
+                <KomunitasRow 
+                  key={item.id} 
+                  item={item} 
+                  onConfirmToggle={confirmToggleStatus} 
+                />
+              ))}
 
             </tbody>
           </table>
