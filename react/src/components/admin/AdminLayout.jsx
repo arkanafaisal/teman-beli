@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { adminData } from '../../data/admin';
 
-export default function AdminLayout({ children, title = "Panel Administrasi" }) {
+export default function AdminLayout({ children, title = adminData.dashboard.title }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const currentPath = window.location.pathname;
 
@@ -41,8 +42,8 @@ export default function AdminLayout({ children, title = "Panel Administrasi" }) 
               T
             </div>
             <div>
-              <h1 className="font-bold text-text-heading text-base leading-none">Teman Beli</h1>
-              <span className="text-xs text-primary-text font-medium">Admin Workspace</span>
+              <h1 className="font-bold text-text-heading text-base leading-none">{adminData.layout.sidebar.brand}</h1>
+              <span className="text-xs text-primary-text font-medium">{adminData.layout.sidebar.workspace}</span>
             </div>
           </div>
           <button onClick={toggleSidebar} className="lg:hidden p-1.5 rounded-lg text-text-muted hover:text-text-heading hover:bg-bg-subtle">
@@ -52,33 +53,33 @@ export default function AdminLayout({ children, title = "Panel Administrasi" }) 
 
         {/* Menu Navigasi Admin */}
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-          <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mb-2">Utama</p>
+          <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mb-2">{adminData.layout.sidebar.menuSection1}</p>
           
           <a href="/admin" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath === '/admin' || currentPath === '/admin/' ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-squares-four text-lg"></i>
-            Dashboard
+            {adminData.layout.sidebar.dashboard}
           </a>
 
-          <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mt-5 mb-2">Kelola Konten</p>
+          <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mt-5 mb-2">{adminData.layout.sidebar.menuSection2}</p>
 
           <a href="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-handshake text-lg"></i>
-            Patungan
+            {adminData.layout.sidebar.patungan}
           </a>
 
           <a href="/admin/pengguna" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/pengguna') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users text-lg"></i>
-            Pengguna
+            {adminData.layout.sidebar.pengguna}
           </a>
 
           <a href="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-star text-lg"></i>
-            Ulasan & Rating
+            {adminData.layout.sidebar.ulasan}
           </a>
 
           <a href="/admin/komunitas" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/komunitas') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users-three text-lg"></i>
-            Rekomendasi & Komunitas
+            {adminData.layout.sidebar.komunitas}
           </a>
         </nav>
 
@@ -86,11 +87,11 @@ export default function AdminLayout({ children, title = "Panel Administrasi" }) 
         <div className="p-4 border-t border-border-subtle space-y-1">
           <a href="/" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-text-muted hover:text-text-heading dark:text-text-muted dark:hover:text-white transition">
             <i className="ph ph-arrow-square-out text-base"></i>
-            Lihat Tampilan User
+            {adminData.layout.sidebar.backToApp}
           </a>
           <a href="#" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-danger-base hover:bg-danger-soft transition">
             <i className="ph ph-sign-out text-base"></i>
-            Keluar
+            {adminData.layout.sidebar.logout}
           </a>
         </div>
       </aside>

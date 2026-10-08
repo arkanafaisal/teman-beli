@@ -1,33 +1,34 @@
 import React from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
+import { adminData } from '../../data/admin';
 
 export default function Komunitas() {
   return (
-    <AdminLayout title="Rekomendasi & Komunitas">
+    <AdminLayout title={adminData.komunitas.title}>
 
       {/*  SECTION 1: REKOMENDASI TERPILIH (FEATURED ADMIN)  */}
       <section className="bg-bg-surface rounded-2xl border border-border-base shadow-sm p-6 space-y-4">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="font-bold text-text-heading text-base">Rekomendasi Utama (Banner Depan)</h3>
-            <p className="text-xs text-text-muted">Patungan yang di-pin untuk tampil di halaman utama customer</p>
+            <h3 className="font-bold text-text-heading text-base">{adminData.komunitas.featured.title}</h3>
+            <p className="text-xs text-text-muted">{adminData.komunitas.featured.subtitle}</p>
           </div>
-          <button className="px-3.5 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">+ Pin Patungan Baru</button>
+          <button className="px-3.5 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">{adminData.komunitas.featured.addBtn}</button>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="p-4 rounded-xl border border-primary-ring/30 bg-primary-soft flex flex-col justify-between">
             <div>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-base text-white uppercase">Featured #1</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-primary-base text-white uppercase">{adminData.komunitas.featured.featuredLabel} #1</span>
               <h4 className="font-bold text-text-heading text-sm mt-2">Spotify Family 1 Bulan</h4>
               <p className="text-xs text-text-muted mt-1">Rp 15.000 / orang • Slot 5/6</p>
             </div>
-            <button className="mt-4 text-xs font-semibold text-danger-base hover:underline text-left">Lepas dari Pin Header</button>
+            <button className="mt-4 text-xs font-semibold text-danger-base hover:underline text-left">{adminData.komunitas.featured.unpinAction}</button>
           </div>
 
           <div className="p-4 rounded-xl border border-border-base bg-bg-subtle flex flex-col justify-between">
             <div>
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-bg-subtle text-text-base uppercase">Featured #2</span>
+              <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-bg-subtle text-text-base uppercase">{adminData.komunitas.featured.featuredLabel} #2</span>
               <h4 className="font-bold text-text-heading text-sm mt-2">Patungan Printer Bersama Kos</h4>
               <p className="text-xs text-text-muted mt-1">Rp 75.000 / orang • Slot 3/4</p>
             </div>
@@ -40,10 +41,10 @@ export default function Komunitas() {
       <section className="bg-bg-surface rounded-2xl border border-border-base shadow-sm p-6 space-y-4">
         <div className="flex justify-between items-center">
           <div>
-            <h3 className="font-bold text-text-heading text-base">Grup Diskusi & Komunitas Kampus</h3>
-            <p className="text-xs text-text-muted">Grup yang dibentuk pengguna untuk berkoordinasi</p>
+            <h3 className="font-bold text-text-heading text-base">{adminData.komunitas.groups.title}</h3>
+            <p className="text-xs text-text-muted">{adminData.komunitas.groups.subtitle}</p>
           </div>
-          <button className="px-3.5 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">+ Buat Grup Baru</button>
+          <button className="px-3.5 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">{adminData.komunitas.groups.addBtn}</button>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -55,7 +56,7 @@ export default function Komunitas() {
                 <p className="text-[11px] text-text-muted">128 Anggota • 12 Patungan Sukses</p>
               </div>
             </div>
-            <button className="text-xs text-primary-base font-semibold hover:underline">Kelola Grup</button>
+            <button className="text-xs text-primary-base font-semibold hover:underline">{adminData.komunitas.groups.manageAction}</button>
           </div>
 
           <div className="p-4 rounded-xl border border-border-base flex justify-between items-center">
