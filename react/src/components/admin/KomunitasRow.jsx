@@ -34,7 +34,7 @@ export default function KomunitasRow({ item, onCancel, onRestore }) {
         )}
       </td>
       <td className="px-3 sm:px-4 py-4 text-center whitespace-nowrap space-x-2">
-        {!item.isActive && (
+        {!item.isActive ? (
           <button 
             onClick={() => {
               if (onRestore) onRestore();
@@ -43,15 +43,16 @@ export default function KomunitasRow({ item, onCancel, onRestore }) {
             className="cursor-pointer p-2 text-text-muted hover:text-success-base transition">
             <i className="ph ph-arrow-counter-clockwise text-lg"></i>
           </button>
+        ) : (
+          <button 
+            onClick={() => {
+              if (onCancel) onCancel();
+            }}
+            title="Nonaktifkan Komunitas"
+            className="cursor-pointer p-2 text-text-muted hover:text-danger-base transition">
+            <i className="ph ph-trash text-lg"></i>
+          </button>
         )}
-        <button 
-          onClick={() => {
-            if (onCancel) onCancel();
-          }}
-          title="Nonaktifkan Komunitas"
-          className="cursor-pointer p-2 text-text-muted hover:text-danger-base transition">
-          <i className="ph ph-trash text-lg"></i>
-        </button>
       </td>
     </tr>
   );

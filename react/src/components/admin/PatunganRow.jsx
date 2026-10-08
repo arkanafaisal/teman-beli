@@ -55,7 +55,7 @@ export default function PatunganRow({ item, onCancel, onRestore }) {
         </span>
       </td>
       <td className="px-6 py-4 text-right space-x-2">
-        {item.status === 'CANCELLED' && (
+        {item.status === 'CANCELLED' ? (
           <button 
             onClick={() => {
               if (onRestore) onRestore();
@@ -64,15 +64,16 @@ export default function PatunganRow({ item, onCancel, onRestore }) {
             className="cursor-pointer p-2 text-text-muted hover:text-success-base transition">
             <i className="ph ph-arrow-counter-clockwise text-lg"></i>
           </button>
+        ) : (
+          <button 
+            onClick={() => {
+              if (onCancel) onCancel();
+            }}
+            title="Batalkan Patungan"
+            className="cursor-pointer p-2 text-text-muted hover:text-danger-base transition">
+            <i className="ph ph-trash text-lg"></i>
+          </button>
         )}
-        <button 
-          onClick={() => {
-            if (onCancel) onCancel();
-          }}
-          title="Batalkan Patungan"
-          className="cursor-pointer p-2 text-text-muted hover:text-danger-base transition">
-          <i className="ph ph-trash text-lg"></i>
-        </button>
       </td>
     </tr>
   );
