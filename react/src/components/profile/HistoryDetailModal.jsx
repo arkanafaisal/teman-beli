@@ -28,7 +28,7 @@ export default function HistoryDetailModal({ isOpen, onClose, activity, onReview
 
   const handleSubmit = async () => {
     if (rating === 0) {
-      toast.error("Silakan berikan bintang terlebih dahulu.");
+      toast.error(profileData.alerts.needStars);
       return;
     }
 

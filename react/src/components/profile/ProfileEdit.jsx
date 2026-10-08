@@ -27,21 +27,16 @@ export default function ProfileEdit() {
 
   const handleDeleteAccount = async (confirmName) => {
     setIsDeleting(true);
-    try {
-      const res = await api.user.deleteProfile({ name: confirmName });
-      if (res.success) {
-        toast.success(res.message);
-        setShowDeleteModal(false);
-        logout(); // hapus state
-        window.location.href = "/";
-      } else {
-        toast.error(res.message);
-      }
-    } catch (error) {
-      toast.error("Terjadi kesalahan sistem");
-    } finally {
-      setIsDeleting(false);
+    const res = await api.user.deleteProfile({ name: confirmName });
+    if (res.success) {
+      toast.success(res.message);
+      setShowDeleteModal(false);
+      logout(); // hapus state
+      window.location.href = "/";
+    } else {
+      toast.error(res.message);
     }
+    setIsDeleting(false);
   };
 
   const handleSubmit = async (e) => {
@@ -57,22 +52,17 @@ export default function ProfileEdit() {
     }
 
     setLoading(true);
-    try {
-      const res = await api.user.updateProfile(payload);
-      if (res.success) {
-        // Also update AuthContext manually without fully reloading session if possible
-        login({ ...user, department });
-        toast.success(res.message);
-        setPassword(""); // Clear password field
-        setIsExpanded(false); // Auto collapse on success
-      } else {
-        toast.error(res.message);
-      }
-    } catch (err) {
-      toast.error("Terjadi kesalahan server");
-    } finally {
-      setLoading(false);
+    const res = await api.user.updateProfile(payload);
+    if (res.success) {
+      // Also update AuthContext manually without fully reloading session if possible
+      login({ ...user, department });
+      toast.success(res.message);
+      setPassword(""); // Clear password field
+      setIsExpanded(false); // Auto collapse on success
+    } else {
+      toast.error(res.message);
     }
+    setLoading(false);
   };
 
   const data = profileData.editProfileCard;

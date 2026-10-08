@@ -138,7 +138,15 @@ export const patunganData = {
   },
   alerts: {
     loginRequired: "Anda harus login terlebih dahulu!",
-    successMessage: "Pengumuman patungan berhasil diposting!"
+    successMessage: "Pengumuman patungan berhasil diposting!",
+    updateSuccess: "Pembaruan berhasil disimpan!",
+    cancelSuccess: "Patungan berhasil dibatalkan",
+    deleteSuccess: "Partisipan berhasil dihapus",
+    statusSuccess: "Status partisipan berhasil diubah",
+    finishSuccess: "Patungan berhasil diselesaikan!",
+    replySuccess: "Update status berhasil ditambahkan",
+    joinSuccess: "Berhasil mendaftar! Menunggu persetujuan host.",
+    invalidQuota: "Masukkan nominal yang valid"
   },
   manageParticipants: {
     modalTitle: "Kelola Partisipan",

@@ -11,7 +11,8 @@ export const adminData = {
       ulasan: "Ulasan",
       komunitas: "Komunitas",
       backToApp: "Lihat Tampilan User",
-      logout: "Keluar"
+      logout: "Keluar",
+      logoutToast: "Anda telah keluar dari sesi admin."
     },
     header: {
       searchPlaceholder: "Cari data, patungan, atau pengguna...",
@@ -49,7 +50,7 @@ export const adminData = {
     },
     addBtn: "Buat Info Komunitas Baru",
     tableHeaders: {
-      title: "Judul Info / Postingan",
+      title: "Judul",
       category: "Kategori",
       location: "Lokasi",
       author: "Penulis",

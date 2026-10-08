@@ -106,5 +106,8 @@ export const profileData = {
     deleteModalPlaceholder: "Ketik nama Anda di sini",
     deleteModalConfirmBtn: "Hapus Akun",
     deleteModalLoadingBtn: "Menghapus..."
+  },
+  alerts: {
+    needStars: "Silakan berikan bintang terlebih dahulu."
   }
 };

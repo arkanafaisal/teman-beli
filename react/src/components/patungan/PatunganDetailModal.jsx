@@ -71,7 +71,7 @@ export default function PatunganDetailModal({ item, onClose }) {
     const res = await api.patungan.addLog({ id: localItem.id, text });
     if (res.success) {
       setRefreshTrigger(prev => prev + 1);
-      toast.success("Update status berhasil ditambahkan");
+      toast.success(res.message);
       if (onSuccess) onSuccess();
     } else {
       toast.error(res.message);
@@ -87,7 +87,7 @@ export default function PatunganDetailModal({ item, onClose }) {
     setFinishError("");
     const res = await api.patungan.finish({ id: localItem.id, proofLink });
     if (res.success || !res.message) {
-      toast.success("Patungan berhasil diselesaikan!");
+      toast.success(res.message);
       setIsFinishModalOpen(false);
       setRefreshTrigger(prev => prev + 1);
     } else {
@@ -103,7 +103,7 @@ export default function PatunganDetailModal({ item, onClose }) {
   const handleJoin = async (quota) => {
     const numQuota = parseInt(quota);
     if (!quota || isNaN(numQuota) || numQuota < 1) {
-      toast.error("Masukkan nominal yang valid");
+      toast.error(patunganData.alerts.invalidQuota);
       return;
     }
     const remainingQuota = localItem.targetQuota - localItem.currentQuota;
@@ -114,7 +114,7 @@ export default function PatunganDetailModal({ item, onClose }) {
 
     const res = await api.patungan.join({ id: localItem.id, quota: numQuota });
     if (res.success) {
-      toast.success("Berhasil mendaftar! Menunggu persetujuan host.");
+      toast.success(res.message);
       setRefreshTrigger(prev => prev + 1);
     } else {
       toast.error(res.message);

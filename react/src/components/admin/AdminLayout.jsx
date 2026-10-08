@@ -17,9 +17,9 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
   };
 
   const handleLogout = async () => {
-    await api.auth.logout();
+    const res = await api.auth.logout();
     logout();
-    toast.info("Anda telah keluar dari sesi admin.");
+    toast.info(res.message);
   };
 
   const toggleDarkMode = () => {

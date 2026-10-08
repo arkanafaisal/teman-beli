@@ -86,7 +86,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
     }
 
     if (res.success) {
-      toast.success(isEditMode ? "Pembaruan berhasil disimpan!" : patunganData.alerts.successMessage);
+      toast.success(res.message);
       if (onSuccess) {
         onSuccess();
       } else {
@@ -103,7 +103,7 @@ export default function PatunganForm({ onSuccess, initialData }) {
     setShowCancelModal(false);
     const res = await api.patungan.updateStatus({ id: initialData?.id, status: "CANCELLED" });
     if (res.success || !res.message) {
-      toast.success("Patungan berhasil dibatalkan");
+      toast.success(res.message);
       if (onSuccess) onSuccess();
     } else {
       toast.error(res.message);
