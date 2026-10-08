@@ -19,8 +19,8 @@ export default function Pengguna() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <button className="px-3 py-1.5 bg-primary-base text-white rounded-xl text-xs font-semibold">{adminData.pengguna.filters.all}</button>
-          <button className="px-3 py-1.5 bg-bg-surface border border-border-base text-text-base rounded-xl text-xs font-medium">{adminData.pengguna.filters.pending}</button>
+          <button className="cursor-pointer px-3 py-1.5 bg-primary-base text-white rounded-xl text-xs font-semibold">{adminData.pengguna.filters.all}</button>
+          <button className="cursor-pointer px-3 py-1.5 bg-bg-surface border border-border-base text-text-base rounded-xl text-xs font-medium">{adminData.pengguna.filters.pending}</button>
         </div>
       </div>
 

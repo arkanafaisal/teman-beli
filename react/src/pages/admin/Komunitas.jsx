@@ -35,12 +35,12 @@ export default function Komunitas() {
       {/* KONTEN UTAMA */}
       <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-6">
         <div className="flex flex-wrap items-center gap-2">
-          <button className="px-3.5 py-1.5 bg-primary-base text-text-inverted rounded-xl text-xs font-semibold">{data.filters.all}</button>
-          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.active}</button>
-          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.inactive}</button>
+          <button className="cursor-pointer px-3.5 py-1.5 bg-primary-base text-text-inverted rounded-xl text-xs font-semibold">{data.filters.all}</button>
+          <button className="cursor-pointer px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.active}</button>
+          <button className="cursor-pointer px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.inactive}</button>
         </div>
 
-        <button onClick={() => setIsCommunityModalOpen(true)} className="px-4 py-2.5 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20 transition flex items-center justify-center gap-2">
+        <button onClick={() => setIsCommunityModalOpen(true)} className="cursor-pointer px-4 py-2.5 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20 transition flex items-center justify-center gap-2">
           <i className="ph ph-plus-circle text-base"></i> {data.addBtn}
         </button>
       </div>
@@ -81,7 +81,7 @@ export default function Komunitas() {
           <div className="bg-bg-surface w-full max-w-lg rounded-2xl border border-border-base p-6 space-y-5 shadow-xl max-h-[90vh] overflow-y-auto no-scrollbar">
             <div className="flex justify-between items-center border-b border-border-subtle pb-3">
               <h3 className="font-bold text-text-heading text-base">{data.modalForm.title}</h3>
-              <button onClick={() => setIsCommunityModalOpen(false)} className="text-text-muted hover:text-text-heading"><i className="ph ph-x text-xl"></i></button>
+              <button onClick={() => setIsCommunityModalOpen(false)} className="cursor-pointer text-text-muted hover:text-text-heading"><i className="ph ph-x text-xl"></i></button>
             </div>
 
             <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsCommunityModalOpen(false); }}>
@@ -111,8 +111,8 @@ export default function Komunitas() {
               </div>
 
               <div className="pt-2 flex justify-end gap-2">
-                <button type="button" onClick={() => setIsCommunityModalOpen(false)} className="px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalForm.buttons.cancel}</button>
-                <button type="submit" className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalForm.buttons.submit}</button>
+                <button type="button" onClick={() => setIsCommunityModalOpen(false)} className="cursor-pointer px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalForm.buttons.cancel}</button>
+                <button type="submit" className="cursor-pointer px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalForm.buttons.submit}</button>
               </div>
             </form>
           </div>
@@ -138,8 +138,8 @@ export default function Komunitas() {
             </p>
 
             <div className="pt-2 flex justify-end gap-2">
-              <button type="button" onClick={closeStatusConfirmModal} className="px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalConfirm.buttons.cancel}</button>
-              <button type="button" onClick={executeStatusToggle} className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalConfirm.buttons.submit}</button>
+              <button type="button" onClick={closeStatusConfirmModal} className="cursor-pointer px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalConfirm.buttons.cancel}</button>
+              <button type="button" onClick={executeStatusToggle} className="cursor-pointer px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalConfirm.buttons.submit}</button>
             </div>
           </div>
         </div>

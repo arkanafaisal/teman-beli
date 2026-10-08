@@ -30,8 +30,8 @@ export default function PatunganRow({ item }) {
         }`}>{item.status}</span>
       </td>
       <td className="px-6 py-4 text-right space-x-2">
-        <button className="p-2 text-text-muted hover:text-primary-base transition"><i className="ph ph-pencil text-lg"></i></button>
-        <button className="p-2 text-text-muted hover:text-danger-base transition"><i className="ph ph-trash text-lg"></i></button>
+        <button className="cursor-pointer p-2 text-text-muted hover:text-primary-base transition"><i className="ph ph-pencil text-lg"></i></button>
+        <button className="cursor-pointer p-2 text-text-muted hover:text-danger-base transition"><i className="ph ph-trash text-lg"></i></button>
       </td>
     </tr>
   );

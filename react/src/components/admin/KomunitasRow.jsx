@@ -36,7 +36,7 @@ export default function KomunitasRow({ item, onConfirmToggle }) {
       <td className="px-3 sm:px-4 py-4 text-center whitespace-nowrap">
         <button 
           onClick={() => onConfirmToggle(item.title, item.isActive, item.id)} 
-          className={`p-1.5 sm:p-2 rounded-lg transition ${
+          className={`cursor-pointer p-1.5 sm:p-2 rounded-lg transition ${
             item.isActive 
               ? 'text-text-base hover:text-primary-text hover:bg-bg-subtle' 
               : 'text-text-muted hover:text-primary-text hover:bg-bg-subtle'

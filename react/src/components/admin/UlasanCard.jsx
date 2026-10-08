@@ -16,8 +16,8 @@ export default function UlasanCard({ item }) {
       </div>
       <p className="text-xs text-text-base">{item.review}</p>
       <div className="pt-2 border-t border-border-subtle flex justify-end gap-3 text-xs">
-        <button className="text-primary-base font-semibold hover:underline"><i className="ph ph-check mr-1"></i> {adminData.ulasan.actions.show}</button>
-        <button className="text-danger-base font-semibold hover:underline"><i className="ph ph-trash mr-1"></i> {adminData.ulasan.actions.hide}</button>
+        <button className="cursor-pointer text-primary-base font-semibold hover:underline"><i className="ph ph-check mr-1"></i> {adminData.ulasan.actions.show}</button>
+        <button className="cursor-pointer text-danger-base font-semibold hover:underline"><i className="ph ph-trash mr-1"></i> {adminData.ulasan.actions.hide}</button>
       </div>
     </div>
   );

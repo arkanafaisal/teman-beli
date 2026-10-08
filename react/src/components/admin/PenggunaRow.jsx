@@ -23,13 +23,13 @@ export default function PenggunaRow({ item }) {
       <td className="px-6 py-4 text-right space-x-2">
         {isVerified ? (
           <>
-            <button className="text-xs text-primary-text font-semibold hover:underline">{adminData.pengguna.actions.detail}</button>
-            <button className="text-xs text-danger-base font-semibold hover:underline">{adminData.pengguna.actions.suspend}</button>
+            <button className="cursor-pointer text-xs text-primary-text font-semibold hover:underline">{adminData.pengguna.actions.detail}</button>
+            <button className="cursor-pointer text-xs text-danger-base font-semibold hover:underline">{adminData.pengguna.actions.suspend}</button>
           </>
         ) : (
           <>
-            <button className="text-xs text-primary-base font-semibold hover:underline">{adminData.pengguna.actions.verify}</button>
-            <button className="text-xs text-text-muted font-semibold hover:underline">{adminData.pengguna.actions.detail}</button>
+            <button className="cursor-pointer text-xs text-primary-base font-semibold hover:underline">{adminData.pengguna.actions.verify}</button>
+            <button className="cursor-pointer text-xs text-text-muted font-semibold hover:underline">{adminData.pengguna.actions.detail}</button>
           </>
         )}
       </td>

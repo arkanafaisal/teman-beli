@@ -22,7 +22,7 @@ export default function Ulasan() {
             <p><span className="font-bold text-text-heading">98%</span> {adminData.ulasan.overview.stats2}</p>
           </div>
         </div>
-        <button className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">{adminData.ulasan.overview.exportBtn}</button>
+        <button className="cursor-pointer px-4 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">{adminData.ulasan.overview.exportBtn}</button>
       </div>
 
       {/*  LIST ULASAN  */}

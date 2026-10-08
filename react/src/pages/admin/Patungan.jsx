@@ -11,12 +11,12 @@ export default function Patungan() {
       {/*  CONTROLS & FILTER  */}
       <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4">
         <div className="flex flex-wrap items-center gap-2">
-          <button className="px-3.5 py-1.5 bg-primary-base text-white rounded-xl text-xs font-semibold">{adminData.patungan.filters.all}</button>
-          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{adminData.patungan.filters.active}</button>
-          <button className="px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{adminData.patungan.filters.completed}</button>
+          <button className="cursor-pointer px-3.5 py-1.5 bg-primary-base text-white rounded-xl text-xs font-semibold">{adminData.patungan.filters.all}</button>
+          <button className="cursor-pointer px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{adminData.patungan.filters.active}</button>
+          <button className="cursor-pointer px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{adminData.patungan.filters.completed}</button>
         </div>
 
-        <button className="px-4 py-2.5 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20 transition flex items-center justify-center gap-2">
+        <button className="cursor-pointer px-4 py-2.5 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20 transition flex items-center justify-center gap-2">
           <i className="ph ph-plus-circle text-base"></i> {adminData.patungan.addBtn}
         </button>
       </div>
@@ -87,8 +87,8 @@ export default function Patungan() {
             </div>
 
             <div className="pt-2 flex justify-end gap-2">
-              <button type="button" className="px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base">{adminData.patungan.modal.buttons.cancel}</button>
-              <button type="submit" className="px-4 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">{adminData.patungan.modal.buttons.submit}</button>
+              <button type="button" className="cursor-pointer px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base">{adminData.patungan.modal.buttons.cancel}</button>
+              <button type="submit" className="cursor-pointer px-4 py-2 bg-primary-base hover:bg-primary-hover text-white rounded-xl text-xs font-semibold shadow-lg shadow-primary-ring/20">{adminData.patungan.modal.buttons.submit}</button>
             </div>
           </form>
         </div>
