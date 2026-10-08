@@ -16,6 +16,7 @@ model User {
   rating       Float    @default(0.0)  // Nilai ulasan (Misal: 4.9)
   reviewCount  Int      @default(0)    // Jumlah ulasan
   isDeleted    Boolean  @default(false)
+  role         Role     @default(USER)
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
@@ -27,6 +28,11 @@ model User {
   communities     Community[] @relation("UserCommunities")
   communityComments CommunityComment[] @relation("UserCommunityComments")
   communityLikes  CommunityLike[]
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 enum PatunganStatus {
