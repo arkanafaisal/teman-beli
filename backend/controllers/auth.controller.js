@@ -48,7 +48,7 @@ AuthController.login = async (req, res) => {
 
   // 4. Generate JWT (Access Token 15 menit, Refresh Token 7 hari)
   const accessToken = jwt.sign(
-    { id: user.id, email: user.email, name: user.name },
+    { id: user.id, email: user.email, name: user.name, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: '15m' }
   );
@@ -84,7 +84,7 @@ AuthController.loginManual = async (req, res) => {
   }
 
   const accessToken = jwt.sign(
-    { id: user.id, email: user.email, name: user.name },
+    { id: user.id, email: user.email, name: user.name, role: user.role },
     process.env.JWT_SECRET,
     { expiresIn: '15m' }
   );
@@ -130,7 +130,7 @@ AuthController.refresh = async (req, res) => {
 
     // Terbitkan Access Token yang baru
     const newAccessToken = jwt.sign(
-      { id: user.id, email: user.email, name: user.name },
+      { id: user.id, email: user.email, name: user.name, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '15m' }
     );

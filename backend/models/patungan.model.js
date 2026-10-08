@@ -57,7 +57,7 @@ export const PatunganModel = {
       ];
     }
 
-    return await prisma.patungan.findMany({
+    const results = await prisma.patungan.findMany({
       where: whereClause,
       orderBy: { deadline: 'asc' },
       include: {
@@ -65,6 +65,15 @@ export const PatunganModel = {
           select: { name: true, department: true, rating: true, reviewCount: true }
         }
       }
+    });
+
+    // Pindahkan status FINISHED dan CANCELLED ke paling bawah
+    return results.sort((a, b) => {
+      const aDone = a.status === 'FINISHED' || a.status === 'CANCELLED';
+      const bDone = b.status === 'FINISHED' || b.status === 'CANCELLED';
+      if (aDone && !bDone) return 1;
+      if (!aDone && bDone) return -1;
+      return 0;
     });
   },
   getPatunganDetail: async (id) => {

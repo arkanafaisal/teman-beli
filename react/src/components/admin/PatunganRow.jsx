@@ -1,12 +1,12 @@
 import React from 'react';
 
-export default function PatunganRow({ item, onCancel }) {
+export default function PatunganRow({ item, onCancel, onRestore }) {
   const percent = Math.min(100, Math.round((item.currentQuota / item.targetQuota) * 100));
 
   const getStatusColor = (status) => {
     switch(status) {
       case 'OPEN': return 'bg-success-soft text-success-text border border-success-subtle';
-      case 'FULL': return 'bg-warning-soft text-warning-text border border-warning-subtle';
+      case 'FULL': return 'bg-success-soft text-success-text border border-success-subtle';
       case 'CANCELLED': return 'bg-danger-soft text-danger-text border border-danger-subtle';
       case 'FINISHED': return 'bg-bg-subtle text-text-muted border border-border-hover';
       default: return 'bg-bg-subtle text-text-base border border-border-hover';
@@ -46,14 +46,30 @@ export default function PatunganRow({ item, onCancel }) {
       </td>
       <td className="px-6 py-4">
         <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${getStatusColor(item.status)}`}>
-          {item.status}
+          {{
+            'OPEN': 'Berjalan',
+            'FULL': 'Berjalan',
+            'FINISHED': 'Selesai',
+            'CANCELLED': 'Dihapus'
+          }[item.status] || item.status}
         </span>
       </td>
       <td className="px-6 py-4 text-right space-x-2">
+        {item.status === 'CANCELLED' && (
+          <button 
+            onClick={() => {
+              if (onRestore) onRestore();
+            }}
+            title="Pulihkan Patungan"
+            className="cursor-pointer p-2 text-text-muted hover:text-success-base transition">
+            <i className="ph ph-arrow-counter-clockwise text-lg"></i>
+          </button>
+        )}
         <button 
           onClick={() => {
             if (onCancel) onCancel();
           }}
+          title="Batalkan Patungan"
           className="cursor-pointer p-2 text-text-muted hover:text-danger-base transition">
           <i className="ph ph-trash text-lg"></i>
         </button>

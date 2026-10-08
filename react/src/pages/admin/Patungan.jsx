@@ -18,6 +18,7 @@ export default function Patungan() {
   const [activeTab, setActiveTab] = useState("all");
 
   const [itemToCancel, setItemToCancel] = useState(null);
+  const [itemToRestore, setItemToRestore] = useState(null);
 
   const fetchPatungans = async () => {
     setLoading(true);
@@ -26,9 +27,10 @@ export default function Patungan() {
     if (activeCategories.length > 0) params.category = activeCategories.join(",");
     
     // Status filter
-    if (activeTab === "active") params.status = "OPEN";
-    else if (activeTab === "completed") params.status = "FINISHED,FULL,CANCELLED";
-    else if (activeTab === "all") params.status = "OPEN,FINISHED,FULL,CANCELLED";
+    if (activeTab === "active") params.status = "OPEN,FULL";
+    else if (activeTab === "completed") params.status = "FINISHED";
+    else if (activeTab === "deleted") params.status = "CANCELLED";
+    else if (activeTab === "all") params.status = "OPEN,FULL,FINISHED,CANCELLED";
 
     const res = await api.patungan.getAll(params);
     if (res.success) {
@@ -59,14 +61,31 @@ export default function Patungan() {
     setItemToCancel(null);
   };
 
+  const handleRestore = async () => {
+    if (!itemToRestore) return;
+    const res = await api.patungan.updateStatus({ id: itemToRestore.id, status: 'OPEN' });
+    if (res.success) {
+      toast.success("Patungan berhasil dipulihkan menjadi aktif");
+      fetchPatungans();
+    } else {
+      toast.error(res.message);
+    }
+    setItemToRestore(null);
+  };
+
   const triggerCancelModal = (item) => {
     setItemToCancel(item);
   };
 
+  const triggerRestoreModal = (item) => {
+    setItemToRestore(item);
+  };
+
   const filterTabs = [
-    { id: "all", label: adminData.patungan.filters.all },
-    { id: "active", label: adminData.patungan.filters.active },
-    { id: "completed", label: adminData.patungan.filters.completed }
+    { id: "all", label: "Semua" },
+    { id: "active", label: "Berjalan" },
+    { id: "completed", label: "Selesai" },
+    { id: "deleted", label: "Dihapus" }
   ];
 
   return (
@@ -111,7 +130,12 @@ export default function Patungan() {
                 </tr>
               ) : (
                 patungans.map((item) => (
-                  <PatunganRow key={item.id} item={item} onCancel={() => triggerCancelModal(item)} />
+                  <PatunganRow 
+                    key={item.id} 
+                    item={item} 
+                    onCancel={() => triggerCancelModal(item)} 
+                    onRestore={() => triggerRestoreModal(item)} 
+                  />
                 ))
               )}
             </tbody>
@@ -130,6 +154,18 @@ export default function Patungan() {
         icon="warning"
         onConfirm={handleCancel}
         onCancel={() => setItemToCancel(null)}
+      />
+
+      <ActionModal 
+        isOpen={!!itemToRestore}
+        type="confirm"
+        title="Konfirmasi Pemulihan"
+        description={`Apakah Anda yakin ingin mengaktifkan kembali patungan "${itemToRestore?.title}"? Patungan akan kembali terbuka untuk partisipan.`}
+        confirmText="Ya, Pulihkan"
+        cancelText="Batal"
+        icon="info"
+        onConfirm={handleRestore}
+        onCancel={() => setItemToRestore(null)}
       />
 
     </AdminLayout>
