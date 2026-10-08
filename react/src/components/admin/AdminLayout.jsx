@@ -69,10 +69,10 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
             {adminData.layout.sidebar.pengguna}
           </Link>
 
-          <Link to="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+          {/* <Link to="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-star text-lg"></i>
             {adminData.layout.sidebar.ulasan}
-          </Link>
+          </Link> */}
 
           <Link to="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-handshake text-lg"></i>

@@ -61,8 +61,8 @@ function LayoutWrapper({ children }) {
       {!isPlainLayout && <Header />}
       {children}
       {!isPlainLayout && <Footer />}
-      
-      <ActionModal 
+
+      <ActionModal
         isOpen={showAdminPrompt}
         type="confirm"
         title="Mode Admin Terdeteksi"
@@ -89,8 +89,8 @@ function App() {
 
   return (
     <div className="bg-bg-base text-text-base min-h-screen font-sans transition-colors duration-300 selection:bg-primary-base selection:text-text-inverted">
-      <Toaster 
-        position="top-right" 
+      <Toaster
+        position="top-right"
         closeButton
         toastOptions={{
           classNames: {
@@ -122,9 +122,9 @@ function App() {
               <Route path="/admin/patungan" element={<AdminPatungan />} />
               <Route path="/admin/komunitas" element={<AdminKomunitas />} />
               <Route path="/admin/pengguna" element={<AdminPengguna />} />
-              <Route path="/admin/ulasan" element={<AdminUlasan />} />
+              {/* <Route path="/admin/ulasan" element={<AdminUlasan />} /> */}
             </Route>
-            
+
           </Routes>
         </LayoutWrapper>
       </BrowserRouter>
