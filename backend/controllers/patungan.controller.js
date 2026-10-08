@@ -12,9 +12,9 @@ PatunganController.create = async (req, res) => {
 };
 
 PatunganController.getAll = async (req, res) => {
-  const { q, category, hostId } = req.validatedQuery;
+  const { q, category, hostId, status } = req.validatedQuery;
 
-  const patungans = await PatunganModel.getAllPatungan({ search: q, category, hostId });
+  const patungans = await PatunganModel.getAllPatungan({ search: q, category, hostId, status });
   res.status(200).json(patungans);
 };
 
@@ -57,12 +57,11 @@ PatunganController.updateStatus = async (req, res) => {
   const existing = await PatunganModel.getPatunganById(id);
 
   if (!existing) return res.sendStatus(404);
-  if (existing.hostId !== req.user.id) return res.sendStatus(403);
+  if (existing.hostId !== req.user.id && req.user.role !== 'ADMIN') return res.sendStatus(403);
 
   await PatunganModel.updateStatus(id, status);
   res.sendStatus(200);
 };
-
 
 PatunganController.addLog = async (req, res) => {
   const existing = await PatunganModel.getPatunganById(req.validatedParams.id);

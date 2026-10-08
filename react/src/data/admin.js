@@ -44,9 +44,9 @@ export const adminData = {
   komunitas: {
     title: "Kelola Komunitas",
     filters: {
-      all: "Semua (18)",
-      active: "Aktif (15)",
-      inactive: "Nonaktif (3)"
+      all: "Semua",
+      active: "Aktif",
+      inactive: "Nonaktif"
     },
     addBtn: "Buat Info Komunitas Baru",
     tableHeaders: {
@@ -95,16 +95,16 @@ export const adminData = {
   patungan: {
     title: "Kelola Patungan",
     filters: {
-      all: "Semua (32)",
-      active: "Berjalan (24)",
-      completed: "Selesai/Penuh (8)"
+      all: "Semua",
+      active: "Berjalan",
+      completed: "Selesai / Penuh"
     },
     addBtn: "Buat Patungan Baru",
     tableHeaders: {
       name: "Nama Project Patungan",
       category: "Kategori",
-      price: "Harga / Orang",
-      progress: "Progres Slot",
+      price: "Harga Total",
+      progress: "Progress Kuota",
       status: "Status",
       action: "Aksi"
     },
@@ -127,8 +127,8 @@ export const adminData = {
     title: "Kelola Pengguna",
     searchPlaceholder: "Cari nama, email, atau jurusan...",
     filters: {
-      all: "Semua (1,240)",
-      pending: "Pending Verification (12)"
+      all: "Semua",
+      pending: "Pending Verification"
     },
     tableHeaders: {
       user: "Pengguna",

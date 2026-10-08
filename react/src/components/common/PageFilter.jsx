@@ -41,7 +41,7 @@ export default function PageFilter({
   }
 
   return (
-    <div data-aos="fade-up" data-aos-delay="100" className="bg-bg-surface p-4 rounded-2xl border border-border-subtle shadow-sm mb-8 flex flex-col md:flex-row gap-4 justify-between items-center relative z-30">
+    <div className="bg-bg-surface p-4 rounded-2xl border border-border-subtle shadow-sm mb-8 flex flex-col md:flex-row gap-4 justify-between items-center relative z-30 animate-fade-in">
       {/* Input Search Bar */}
       <div className="relative w-full md:w-96">
         <span className="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-text-muted">

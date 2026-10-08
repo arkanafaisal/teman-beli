@@ -38,12 +38,13 @@ export const api = {
     getCommunities: () => callApi("/users/communities", "GET"),
   },
   patungan: {
-    getAll: ({ q, category, hostId } = {}) => {
+    getAll: ({ q, category, hostId, status } = {}) => {
       let query = "";
       const queryParams = new URLSearchParams();
       if (q) queryParams.append("q", q);
       if (category) queryParams.append("category", category);
       if (hostId) queryParams.append("hostId", hostId);
+      if (status) queryParams.append("status", status);
       if (queryParams.toString()) {
         query = `?${queryParams.toString()}`;
       }
@@ -56,8 +57,8 @@ export const api = {
       callApi(`/patungan/${id}`, "PUT", { title, category, unit, targetQuota, totalPrice, currentQuota, area, deadline, whatsapp, notes, refLink, updateComment }),
     addLog: ({ id, text }) => callApi(`/patungan/${id}/log`, "POST", { text }),
     join: ({ id, quota }) => callApi(`/patungan/${id}/join`, "POST", { quota }),
-    //leave: ({ id }) => callApi(`/patungan/${id}/leave`, "POST"),
     finish: ({ id, proofLink }) => callApi(`/patungan/${id}/finish`, "POST", { proofLink }),
+    delete: ({ id }) => callApi(`/patungan/${id}`, "DELETE"),
     //delete: ({ id }) => callApi(`/patungan/${id}`, "DELETE"),
     updateStatus: ({ id, status }) => callApi(`/patungan/${id}/status`, "PATCH", { status }),
     getParticipants: ({ id }) => callApi(`/patungan/${id}/participants`, "GET"),

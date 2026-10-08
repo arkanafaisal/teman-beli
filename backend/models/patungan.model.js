@@ -29,7 +29,7 @@ export const PatunganModel = {
       }
     });
   },
-  getAllPatungan: async ({ search, category, hostId }) => {
+  getAllPatungan: async ({ search, category, hostId, status }) => {
     let whereClause = {};
 
     if (category) {
@@ -41,7 +41,12 @@ export const PatunganModel = {
 
     if (hostId) {
       whereClause.hostId = hostId;
-    } else {
+    }
+
+    if (status) {
+      const statusArray = status.split(',');
+      whereClause.status = { in: statusArray };
+    } else if (!hostId) {
       whereClause.status = { notIn: ['FINISHED', 'CANCELLED'] };
     }
 

@@ -89,7 +89,8 @@ export const updateParticipantStatusSchema = z.object({
 export const patunganQuerySchema = z.object({
   q: z.string().min(1, "Kata kunci tidak boleh kosong").max(100, "Kata kunci terlalu panjang").optional(),
   category: z.string().regex(/^(PANGAN|KOS|KAMPUS|DIGITAL)(,(PANGAN|KOS|KAMPUS|DIGITAL))*$/, "Format kategori tidak valid").optional(),
-  hostId: z.string().uuid("Host ID tidak valid").optional()
+  hostId: z.string().uuid("Host ID tidak valid").optional(),
+  status: z.string().regex(/^(OPEN|FULL|FINISHED|CANCELLED)(,(OPEN|FULL|FINISHED|CANCELLED))*$/, "Format status tidak valid").optional()
 });
 
 export const participantParamSchema = z.object({
