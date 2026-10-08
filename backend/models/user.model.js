@@ -12,7 +12,8 @@ UserModel.getUserById = async (userId) => {
       email: true,
       name: true,
       department: true,
-      rating: true
+      rating: true,
+      role: true
     }
   });
 };

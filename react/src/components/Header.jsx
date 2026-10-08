@@ -63,7 +63,8 @@ export default function Header() {
       if (profileRes.success && profileRes.payload) {
         login(profileRes.payload);
         localStorage.setItem("last_greeting", new Date().getTime().toString());
-        toast.success(`Selamat datang kembali, ${profileRes.payload.name}!`);
+        const roleLabel = profileRes.payload.role === 'ADMIN' ? 'Admin ' : '';
+        toast.success(`Selamat datang kembali, ${roleLabel}${profileRes.payload.name}!`);
         setIsLoginModalOpen(false);
       }
     } else {
@@ -174,7 +175,14 @@ export default function Header() {
                     </span>
                     <Badge className="text-[8px] mt-0.5 shadow-sm">{appData.header.auth.verifiedBadge}</Badge>
                   </div>
-                  <button onClick={executeLogout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
+                  <div className="flex flex-col gap-1 items-end">
+                    {user.role === 'ADMIN' && (
+                      <a href="/admin" className="text-xs lg:text-sm text-primary-base font-bold hover:underline">
+                        Buka Panel Admin
+                      </a>
+                    )}
+                    <button onClick={executeLogout} className="cursor-pointer text-xs lg:text-sm text-danger-text hover:underline" title="Keluar dari sesi saat ini">{appData.header.auth.logoutButton}</button>
+                  </div>
                 </div>
               ) : (
                 <button

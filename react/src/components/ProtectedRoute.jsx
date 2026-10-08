@@ -1,6 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'sonner';
+
+function RedirectWithToast({ to, message }) {
+  useEffect(() => {
+    if (message) {
+      toast.error(message);
+    }
+  }, [message]);
+
+  return <Navigate to={to} replace />;
+}
 
 export function ProtectedAdminRoute() {
   const { user, isInitializing } = useAuth();
@@ -16,8 +27,8 @@ export function ProtectedAdminRoute() {
 
   // Cek apakah belum login, ATAU role-nya BUKAN ADMIN
   if (!user.isLoggedIn || user.role !== 'ADMIN') {
-    // Redirect ke halaman depan jika bukan admin
-    return <Navigate to="/" replace />;
+    // Redirect ke halaman depan jika bukan admin dengan notifikasi
+    return <RedirectWithToast to="/" message="Akses Ditolak: Halaman khusus Admin." />;
   }
 
   // Jika ya ADMIN, izinkan akses rute-rute anak (children) di bawahnya
@@ -25,7 +36,7 @@ export function ProtectedAdminRoute() {
 }
 
 export function ProtectedUserRoute() {
-  const { user, isInitializing } = useAuth();
+  const { isInitializing } = useAuth();
 
   if (isInitializing) {
     return (
@@ -35,11 +46,7 @@ export function ProtectedUserRoute() {
     );
   }
 
-  // Jika ADMIN yang mencoba mengakses rute non-admin (halaman utama dll),
-  // Maka paksa redirect ke /admin agar tidak tersesat
-  if (user.isLoggedIn && user.role === 'ADMIN') {
-    return <Navigate to="/admin" replace />;
-  }
-
+  // Admin DIIZINKAN mengakses tampilan user biasa
+  // Jadi komponen ini akan selalu merender isinya.
   return <Outlet />;
 }

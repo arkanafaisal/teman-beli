@@ -27,7 +27,8 @@ export function AuthProvider({ children }) {
         const now = new Date().getTime();
         // Cek jika sudah lebih dari 4 jam (4 * 60 * 60 * 1000)
         if (!lastGreeting || now - parseInt(lastGreeting) > 4 * 60 * 60 * 1000) {
-          toast.success(`Selamat datang, ${res.payload.name}!`);
+          const roleLabel = res.payload.role === 'ADMIN' ? 'Admin ' : '';
+          toast.success(`Selamat datang kembali, ${roleLabel}${res.payload.name}!`);
           localStorage.setItem("last_greeting", now.toString());
         }
       }
