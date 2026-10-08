@@ -1,32 +1,109 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { adminData } from '../../data/admin';
+import { api } from '../../services/api';
+import { toast } from 'sonner';
+import { 
+  BarChart, Bar, PieChart, Pie, Cell, 
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+} from 'recharts';
 
 export default function AdminDashboard() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchMetrics = async () => {
+      const res = await api.admin.getDashboard();
+      if (res.success && res.payload) {
+        setData(res.payload);
+      } else {
+        toast.error("Gagal memuat data metrik dashboard.");
+      }
+      setLoading(false);
+    };
+    fetchMetrics();
+  }, []);
+
+  if (loading || !data) {
+    return (
+      <AdminLayout title={adminData.dashboard.title}>
+        <div className="flex justify-center items-center h-64 text-text-muted">
+          <i className="ph ph-spinner animate-spin text-3xl mr-3"></i>
+          <p>Memuat data analitik...</p>
+        </div>
+      </AdminLayout>
+    );
+  }
+
+  // --- CHART DATA FORMATTING ---
+
+  // User Pie Chart
+  const userPieData = [
+    { name: 'Aktif', value: data.users.active, color: '#22c55e' }, // green
+    { name: 'Dihapus', value: data.users.deleted, color: '#ef4444' } // red
+  ];
+
+  // Patungan Status Pie
+  const patunganStatusPieData = [
+    { name: 'Berjalan', value: data.patungan.status.berjalan, color: '#3b82f6' }, // blue
+    { name: 'Selesai', value: data.patungan.status.selesai, color: '#22c55e' },
+    { name: 'Dihapus', value: data.patungan.status.dihapus, color: '#ef4444' }
+  ];
+
+  // Community Pie Chart
+  const communityPieData = [
+    { name: 'Aktif', value: data.community.active, color: '#22c55e' },
+    { name: 'Dihapus', value: data.community.deleted, color: '#ef4444' }
+  ];
+
+  // Helper colors for categories
+  const categoryColors = ['#f59e0b', '#3b82f6', '#10b981', '#8b5cf6', '#ec4899', '#14b8a6', '#f43f5e', '#84cc16'];
+  const patunganCategoryPieData = data.patungan.byCategory.map((cat, index) => ({
+    name: cat.category,
+    value: cat.count,
+    color: categoryColors[index % categoryColors.length]
+  }));
+
+  // Custom Tooltip for Recharts to look modern
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-bg-surface border border-border-base p-3 rounded-xl shadow-lg text-sm">
+          <p className="font-bold text-text-heading mb-1">{`Tanggal ${label}`}</p>
+          {payload.map((entry, index) => (
+            <p key={index} style={{ color: entry.color }} className="font-semibold">
+              {`${entry.name}: ${entry.value}`}
+            </p>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  const PieTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-bg-surface border border-border-base p-2 px-3 rounded-lg shadow-lg text-sm font-semibold" style={{ color: payload[0].payload.color }}>
+          {`${payload[0].name}: ${payload[0].value}`}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <AdminLayout title={adminData.dashboard.title}>
-
       {/*  RINGKASAN STATISTIK  */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
+        {/* User Card */}
         <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">{adminData.dashboard.stats.activePatunganLabel}</p>
-            <h3 className="text-2xl font-bold text-text-heading mt-1">32 Projek</h3>
+            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">Total Pengguna</p>
+            <h3 className="text-2xl font-bold text-text-heading mt-1">{data.users.total}</h3>
             <span className="inline-flex items-center text-xs font-medium text-primary-text mt-1">
-              8 Kategori
-            </span>
-          </div>
-          <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary-text flex items-center justify-center text-2xl">
-            <i className="ph ph-handshake"></i>
-          </div>
-        </div>
-
-        <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">{adminData.dashboard.stats.totalUsersLabel}</p>
-            <h3 className="text-2xl font-bold text-text-heading mt-1">1,240</h3>
-            <span className="inline-flex items-center text-xs font-medium text-primary-text mt-1">
-              +12 Mahasiswa/hari
+              +{data.users.totalThisMonth} bulan ini
             </span>
           </div>
           <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary-text flex items-center justify-center text-2xl">
@@ -34,25 +111,27 @@ export default function AdminDashboard() {
           </div>
         </div>
 
+        {/* Patungan Card */}
         <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">{adminData.dashboard.stats.totalReviewsLabel}</p>
-            <h3 className="text-2xl font-bold text-text-heading mt-1">458</h3>
-            <span className="inline-flex items-center text-xs font-medium text-warning-base mt-1">
-              ★ 4.8 / 5.0 Rata-rata
+            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">Total Patungan</p>
+            <h3 className="text-2xl font-bold text-text-heading mt-1">{data.patungan.total}</h3>
+            <span className="inline-flex items-center text-xs font-medium text-primary-text mt-1">
+              +{data.patungan.totalThisMonth} bulan ini
             </span>
           </div>
-          <div className="w-11 h-11 rounded-xl bg-warning-soft text-warning-text flex items-center justify-center text-2xl">
-            <i className="ph ph-star"></i>
+          <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary-text flex items-center justify-center text-2xl">
+            <i className="ph ph-handshake"></i>
           </div>
         </div>
 
+        {/* Community Card */}
         <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm flex items-center justify-between">
           <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">{adminData.dashboard.stats.communityLabel}</p>
-            <h3 className="text-2xl font-bold text-text-heading mt-1">14 Grup</h3>
+            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">Total Komunitas</p>
+            <h3 className="text-2xl font-bold text-text-heading mt-1">{data.community.total}</h3>
             <span className="inline-flex items-center text-xs font-medium text-primary-text mt-1">
-              Aktif Diskusi
+              +{data.community.totalThisMonth} bulan ini
             </span>
           </div>
           <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary-text flex items-center justify-center text-2xl">
@@ -61,7 +140,128 @@ export default function AdminDashboard() {
         </div>
       </div>
 
+      {/* --- PENGGUNA SECTION --- */}
+      <h2 className="text-lg font-bold text-text-heading mb-4"><i className="ph ph-users text-primary-base mr-2"></i>Analitik Pengguna</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
+        <div className="lg:col-span-2 bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm">
+          <h3 className="text-sm font-semibold text-text-muted mb-4">Pendaftaran Bulan Ini</h3>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.users.growthChart}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af' }} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="count" name="Pengguna Baru" fill="#3b82f6" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        <div className="bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm flex flex-col items-center">
+          <h3 className="text-sm font-semibold text-text-muted mb-4 w-full text-left">Status Pengguna</h3>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={userPieData} cx="50%" cy="50%" innerRadius={50} outerRadius={70} paddingAngle={5} dataKey="value">
+                  {userPieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip content={<PieTooltip />} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
 
+      {/* --- PATUNGAN SECTION --- */}
+      <h2 className="text-lg font-bold text-text-heading mb-4"><i className="ph ph-handshake text-primary-base mr-2"></i>Analitik Patungan</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
+        <div className="lg:col-span-3 bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm">
+          <h3 className="text-sm font-semibold text-text-muted mb-4">Patungan Dibuat Bulan Ini</h3>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.patungan.growthChart}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af' }} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="count" name="Patungan Dibuat" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        
+        <div className="bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm flex flex-col items-center lg:col-span-1">
+          <h3 className="text-sm font-semibold text-text-muted mb-4 w-full text-left">Status Patungan</h3>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={patunganStatusPieData} cx="50%" cy="50%" innerRadius={50} outerRadius={70} paddingAngle={5} dataKey="value">
+                  {patunganStatusPieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip content={<PieTooltip />} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm flex flex-col items-center lg:col-span-2">
+          <h3 className="text-sm font-semibold text-text-muted mb-4 w-full text-left">Distribusi Kategori Patungan</h3>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={patunganCategoryPieData} cx="50%" cy="50%" innerRadius={50} outerRadius={70} paddingAngle={5} dataKey="value">
+                  {patunganCategoryPieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip content={<PieTooltip />} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} layout="vertical" verticalAlign="middle" align="right" />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      {/* --- KOMUNITAS SECTION --- */}
+      <h2 className="text-lg font-bold text-text-heading mb-4"><i className="ph ph-users-three text-primary-base mr-2"></i>Analitik Komunitas</h2>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
+        <div className="lg:col-span-2 bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm">
+          <h3 className="text-sm font-semibold text-text-muted mb-4">Komunitas Dibuat Bulan Ini</h3>
+          <div className="h-64 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={data.community.growthChart}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af' }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: '#9ca3af' }} />
+                <Tooltip content={<CustomTooltip />} />
+                <Bar dataKey="count" name="Komunitas Baru" fill="#10b981" radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+        <div className="bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm flex flex-col items-center">
+          <h3 className="text-sm font-semibold text-text-muted mb-4 w-full text-left">Status Komunitas</h3>
+          <div className="h-48 w-full">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie data={communityPieData} cx="50%" cy="50%" innerRadius={50} outerRadius={70} paddingAngle={5} dataKey="value">
+                  {communityPieData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
+                  ))}
+                </Pie>
+                <Tooltip content={<PieTooltip />} />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
 
     </AdminLayout>
   );

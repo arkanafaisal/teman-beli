@@ -46,7 +46,10 @@ const limitsConfig = {
   'community.update': { windowMs: 60 * 60 * 1000, limit: 15 },
   'community.delete': { windowMs: 60 * 60 * 1000, limit: 5 },
   'community.addComment': { windowMs: 15 * 60 * 1000, limit: 15 },
-  'community.toggleLike': { windowMs: 5 * 60 * 1000, limit: 50 }
+  'community.toggleLike': { windowMs: 5 * 60 * 1000, limit: 50 },
+
+  // === ADMIN ROUTER ===
+  'admin.getDashboard': { windowMs: 60 * 1000, limit: 30 }
 };
 
 // Cache instance limiter agar tidak dibuat berulang kali per request

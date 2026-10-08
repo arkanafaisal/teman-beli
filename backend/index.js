@@ -10,6 +10,7 @@ import userRouter from './routes/user.route.js';
 import patunganRouter from './routes/patungan.route.js';
 import historyRouter from './routes/history.route.js';
 import communityRouter from './routes/community.route.js';
+import adminRouter from './routes/admin.route.js';
 import { rateLimiter } from './middlewares/rateLimiter.js';
 
 const app = express();
@@ -61,6 +62,7 @@ app.use('/api/patungan', patunganRouter);
 app.use('/api/history', historyRouter);
 app.use('/api/community', communityRouter);
 app.use('/api/seed', seedRouter);
+app.use('/api/admin', adminRouter);
 // Route awal (health check)
 app.get('/api/health', rateLimiter('health.check'), (req, res) => {
   res.sendStatus(200)

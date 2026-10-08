@@ -107,5 +107,8 @@ export const api = {
     postForPatungan: ({ patunganId, text }) => callApi(`/patungan/${patunganId}/comments`, "POST", { text }),
     getForCommunity: ({ communityId }) => callApi(`/community/${communityId}/comments`, "GET"),
     postForCommunity: ({ communityId, text }) => callApi(`/community/${communityId}/comments`, "POST", { text }),
+  },
+  admin: {
+    getDashboard: () => callApi("/admin/dashboard", "GET"),
   }
 };

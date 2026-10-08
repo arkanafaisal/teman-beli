@@ -212,6 +212,13 @@ export const getApiMessage = (path, code, method = "GET") => {
         409: "Anda sudah pernah memberikan ulasan untuk patungan ini."
       }
     },
+    "/admin/dashboard": {
+      GET: {
+        200: "Data metrik dashboard berhasil dimuat.",
+        401: "Sesi telah berakhir, silakan login kembali.",
+        403: "Akses ditolak. Hanya Admin yang dapat mengakses rute ini."
+      }
+    },
     "/community": {
       GET: {
         200: "Daftar komunitas berhasil dimuat."
