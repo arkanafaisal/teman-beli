@@ -2,14 +2,14 @@ export const adminData = {
   layout: {
     sidebar: {
       brand: "Teman Beli",
-      workspace: "Admin Workspace",
+      workspace: "Mode Admin",
       menuSection1: "Utama",
       dashboard: "Dashboard",
       menuSection2: "Kelola Konten",
       patungan: "Patungan",
       pengguna: "Pengguna",
-      ulasan: "Ulasan & Rating",
-      komunitas: "Rekomendasi & Komunitas",
+      ulasan: "Ulasan",
+      komunitas: "Komunitas",
       backToApp: "Lihat Tampilan User",
       logout: "Keluar"
     },
@@ -21,9 +21,9 @@ export const adminData = {
   dashboard: {
     title: "Panel Administrasi",
     stats: {
-      activePatunganLabel: "Patungan Aktif",
-      totalUsersLabel: "Total Pengguna",
-      totalReviewsLabel: "Total Ulasan",
+      activePatunganLabel: "Patungan",
+      totalUsersLabel: "Pengguna",
+      totalReviewsLabel: "Ulasan",
       communityLabel: "Komunitas"
     },
     activeProjects: {
@@ -57,7 +57,7 @@ export const adminData = {
     }
   },
   patungan: {
-    title: "Kelola Project Patungan",
+    title: "Kelola Patungan",
     filters: {
       all: "Semua (32)",
       active: "Berjalan (24)",
@@ -88,8 +88,8 @@ export const adminData = {
     }
   },
   pengguna: {
-    title: "Manajemen Pengguna",
-    searchPlaceholder: "Cari nama, NIM, email, atau jurusan...",
+    title: "Kelola Pengguna",
+    searchPlaceholder: "Cari nama, email, atau jurusan...",
     filters: {
       all: "Semua (1,240)",
       pending: "Pending Verification (12)"
@@ -107,12 +107,12 @@ export const adminData = {
     },
     actions: {
       detail: "Detail",
-      suspend: "Suspend",
+      suspend: "Hapus",
       verify: "Verifikasi KTM"
     }
   },
   ulasan: {
-    title: "Ulasan & Rating",
+    title: "Kelola Ulasan",
     overview: {
       totalReviews: "Dari 458 Ulasan",
       stats1: "Pengguna puas dengan kecepatan tim patungan",
@@ -120,7 +120,7 @@ export const adminData = {
       exportBtn: "Export Laporan Ulasan"
     },
     actions: {
-      show: "Tampilkan di Homepage",
+      show: "Tampilkan di Beranda",
       hide: "Sembunyikan"
     }
   }
