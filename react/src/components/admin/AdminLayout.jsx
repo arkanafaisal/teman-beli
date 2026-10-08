@@ -23,72 +23,72 @@ export default function AdminLayout({ children, title = "Panel Administrasi" }) 
   };
 
   return (
-    <div className="flex min-h-screen relative overflow-x-hidden bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 font-sans antialiased transition-colors duration-200">
+    <div className="flex min-h-screen relative overflow-x-hidden bg-bg-base text-text-base font-sans antialiased transition-colors duration-200">
       {/* BACKDROP OVERLAY */}
       <div 
         onClick={toggleSidebar} 
-        className={`fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${isSidebarOpen ? 'block' : 'hidden'}`}
+        className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${isSidebarOpen ? 'block' : 'hidden'}`}
       ></div>
 
       {/* SIDEBAR RESPONSIVE */}
       <aside 
-        className={`fixed lg:static top-0 bottom-0 left-0 w-64 bg-white dark:bg-slate-800 border-r border-slate-200 dark:border-slate-700/60 flex flex-col shrink-0 z-50 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out`}
+        className={`fixed lg:static top-0 bottom-0 left-0 w-64 bg-bg-surface border-r border-border-base flex flex-col shrink-0 z-50 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out`}
       >
         {/* Brand Admin & Tombol Close Mobile */}
-        <div className="p-6 border-b border-slate-100 dark:border-slate-700/60 flex items-center justify-between">
+        <div className="p-6 border-b border-border-subtle flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-600/20">
+            <div className="w-9 h-9 rounded-xl bg-primary-base flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-primary-ring/20">
               T
             </div>
             <div>
-              <h1 className="font-bold text-slate-900 dark:text-white text-base leading-none">Teman Beli</h1>
-              <span className="text-xs text-blue-600 dark:text-blue-400 font-medium">Admin Workspace</span>
+              <h1 className="font-bold text-text-heading text-base leading-none">Teman Beli</h1>
+              <span className="text-xs text-primary-text font-medium">Admin Workspace</span>
             </div>
           </div>
-          <button onClick={toggleSidebar} className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-700">
+          <button onClick={toggleSidebar} className="lg:hidden p-1.5 rounded-lg text-text-muted hover:text-text-heading hover:bg-bg-subtle">
             <i className="ph ph-x text-xl"></i>
           </button>
         </div>
 
         {/* Menu Navigasi Admin */}
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
-          <p className="px-4 text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-2">Utama</p>
+          <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mb-2">Utama</p>
           
-          <a href="/admin" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath === '/admin' || currentPath === '/admin/' ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}>
+          <a href="/admin" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath === '/admin' || currentPath === '/admin/' ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-squares-four text-lg"></i>
             Dashboard
           </a>
 
-          <p className="px-4 text-[10px] font-semibold text-slate-400 uppercase tracking-wider mt-5 mb-2">Kelola Konten</p>
+          <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mt-5 mb-2">Kelola Konten</p>
 
-          <a href="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}>
+          <a href="/admin/patungan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/patungan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-handshake text-lg"></i>
             Patungan
           </a>
 
-          <a href="/admin/pengguna" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/pengguna') ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}>
+          <a href="/admin/pengguna" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/pengguna') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users text-lg"></i>
             Pengguna
           </a>
 
-          <a href="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}>
+          <a href="/admin/ulasan" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/ulasan') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-star text-lg"></i>
             Ulasan & Rating
           </a>
 
-          <a href="/admin/komunitas" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/komunitas') ? 'bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 font-semibold' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50'}`}>
+          <a href="/admin/komunitas" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/komunitas') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users-three text-lg"></i>
             Rekomendasi & Komunitas
           </a>
         </nav>
 
         {/* Bottom Actions */}
-        <div className="p-4 border-t border-slate-100 dark:border-slate-700/60 space-y-1">
-          <a href="/" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition">
+        <div className="p-4 border-t border-border-subtle space-y-1">
+          <a href="/" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-text-muted hover:text-text-heading dark:text-text-muted dark:hover:text-white transition">
             <i className="ph ph-arrow-square-out text-base"></i>
             Lihat Tampilan User
           </a>
-          <a href="#" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition">
+          <a href="#" className="flex items-center gap-3 px-4 py-2 rounded-lg text-xs font-medium text-danger-base hover:bg-danger-soft transition">
             <i className="ph ph-sign-out text-base"></i>
             Keluar
           </a>
@@ -99,27 +99,27 @@ export default function AdminLayout({ children, title = "Panel Administrasi" }) 
       <div className="flex-1 flex flex-col min-w-0">
         
         {/* TOP HEADER */}
-        <header className="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700/60 px-4 sm:px-8 py-4 flex justify-between items-center transition-colors duration-200">
+        <header className="bg-bg-surface border-b border-border-base px-4 sm:px-8 py-4 flex justify-between items-center transition-colors duration-200">
           <div className="flex items-center gap-3">
-            <button onClick={toggleSidebar} className="lg:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:ring-2 hover:ring-blue-500/50 transition">
+            <button onClick={toggleSidebar} className="lg:hidden p-2 rounded-xl bg-bg-subtle text-text-base hover:ring-2 hover:ring-primary-ring/50 transition">
               <i className="ph ph-list text-xl"></i>
             </button>
-            <h2 className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">{title}</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-text-heading">{title}</h2>
           </div>
           
           <div className="flex items-center gap-3 sm:gap-5">
-            <button onClick={toggleDarkMode} className="p-2 sm:p-2.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-200 hover:ring-2 hover:ring-blue-500/50 transition group">
+            <button onClick={toggleDarkMode} className="p-2 sm:p-2.5 rounded-xl bg-bg-subtle text-text-base hover:ring-2 hover:ring-primary-ring/50 transition group">
               <i className="ph ph-moon text-lg sm:text-xl dark:hidden block"></i>
               <i className="ph ph-sun text-lg sm:text-xl hidden dark:block"></i>
             </button>
 
-            <div className="flex items-center gap-3 pl-3 sm:pl-4 border-l border-slate-200 dark:border-slate-700">
-              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center text-xs sm:text-sm">
+            <div className="flex items-center gap-3 pl-3 sm:pl-4 border-l border-border-base">
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-primary-soft text-primary-text font-bold flex items-center justify-center text-xs sm:text-sm">
                 BR
               </div>
               <div className="text-xs hidden sm:block">
-                <p className="font-semibold text-slate-800 dark:text-slate-200">Baginda Ratu</p>
-                <p className="text-slate-400">Super Admin</p>
+                <p className="font-semibold text-text-base">Baginda Ratu</p>
+                <p className="text-text-muted">Super Admin</p>
               </div>
             </div>
           </div>
