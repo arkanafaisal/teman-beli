@@ -95,53 +95,20 @@ export default function AdminDashboard() {
 
   return (
     <AdminLayout title={adminData.dashboard.title}>
-      {/*  RINGKASAN STATISTIK  */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-8">
-        {/* User Card */}
-        <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">Total Pengguna</p>
-            <h3 className="text-2xl font-bold text-text-heading mt-1">{data.users.total}</h3>
-            <span className="inline-flex items-center text-xs font-medium text-primary-text mt-1">
-              +{data.users.totalThisMonth} bulan ini
-            </span>
-          </div>
-          <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary-text flex items-center justify-center text-2xl">
-            <i className="ph ph-users font-bold"></i>
-          </div>
-        </div>
-
-        {/* Patungan Card */}
-        <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">Total Patungan</p>
-            <h3 className="text-2xl font-bold text-text-heading mt-1">{data.patungan.total}</h3>
-            <span className="inline-flex items-center text-xs font-medium text-primary-text mt-1">
-              +{data.patungan.totalThisMonth} bulan ini
-            </span>
-          </div>
-          <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary-text flex items-center justify-center text-2xl">
-            <i className="ph ph-handshake"></i>
-          </div>
-        </div>
-
-        {/* Community Card */}
-        <div className="bg-bg-surface p-5 rounded-2xl border border-border-base shadow-sm flex items-center justify-between">
-          <div>
-            <p className="text-xs font-medium text-text-muted uppercase tracking-wider">Total Komunitas</p>
-            <h3 className="text-2xl font-bold text-text-heading mt-1">{data.community.total}</h3>
-            <span className="inline-flex items-center text-xs font-medium text-primary-text mt-1">
-              +{data.community.totalThisMonth} bulan ini
-            </span>
-          </div>
-          <div className="w-11 h-11 rounded-xl bg-primary-soft text-primary-text flex items-center justify-center text-2xl">
-            <i className="ph ph-users-three"></i>
-          </div>
+      {/* --- PENGGUNA SECTION --- */}
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
+        <h2 className="text-lg font-bold text-text-heading flex items-center">
+          <i className="ph ph-users text-primary-base mr-2"></i>Analitik Pengguna
+        </h2>
+        <div className="flex gap-2 text-xs font-semibold">
+          <span className="px-2.5 py-1 bg-bg-surface border border-border-base rounded-full shadow-sm">
+            Total: {data.users.total}
+          </span>
+          <span className="px-2.5 py-1 bg-success-soft text-success-text border border-success-subtle rounded-full shadow-sm">
+            +{data.users.totalThisMonth} bulan ini
+          </span>
         </div>
       </div>
-
-      {/* --- PENGGUNA SECTION --- */}
-      <h2 className="text-lg font-bold text-text-heading mb-4"><i className="ph ph-users text-primary-base mr-2"></i>Analitik Pengguna</h2>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
         <div className="lg:col-span-2 bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm">
           <h3 className="text-sm font-semibold text-text-muted mb-4">Pendaftaran Bulan Ini</h3>
@@ -176,7 +143,19 @@ export default function AdminDashboard() {
       </div>
 
       {/* --- PATUNGAN SECTION --- */}
-      <h2 className="text-lg font-bold text-text-heading mb-4"><i className="ph ph-handshake text-primary-base mr-2"></i>Analitik Patungan</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4 mt-8">
+        <h2 className="text-lg font-bold text-text-heading flex items-center">
+          <i className="ph ph-handshake text-primary-base mr-2"></i>Analitik Patungan
+        </h2>
+        <div className="flex gap-2 text-xs font-semibold">
+          <span className="px-2.5 py-1 bg-bg-surface border border-border-base rounded-full shadow-sm">
+            Total: {data.patungan.total}
+          </span>
+          <span className="px-2.5 py-1 bg-success-soft text-success-text border border-success-subtle rounded-full shadow-sm">
+            +{data.patungan.totalThisMonth} bulan ini
+          </span>
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
         <div className="lg:col-span-3 bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm">
           <h3 className="text-sm font-semibold text-text-muted mb-4">Patungan Dibuat Bulan Ini</h3>
@@ -229,7 +208,19 @@ export default function AdminDashboard() {
       </div>
 
       {/* --- KOMUNITAS SECTION --- */}
-      <h2 className="text-lg font-bold text-text-heading mb-4"><i className="ph ph-users-three text-primary-base mr-2"></i>Analitik Komunitas</h2>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4 mt-8">
+        <h2 className="text-lg font-bold text-text-heading flex items-center">
+          <i className="ph ph-users-three text-primary-base mr-2"></i>Analitik Komunitas
+        </h2>
+        <div className="flex gap-2 text-xs font-semibold">
+          <span className="px-2.5 py-1 bg-bg-surface border border-border-base rounded-full shadow-sm">
+            Total: {data.community.total}
+          </span>
+          <span className="px-2.5 py-1 bg-success-soft text-success-text border border-success-subtle rounded-full shadow-sm">
+            +{data.community.totalThisMonth} bulan ini
+          </span>
+        </div>
+      </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
         <div className="lg:col-span-2 bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm">
           <h3 className="text-sm font-semibold text-text-muted mb-4">Komunitas Dibuat Bulan Ini</h3>
