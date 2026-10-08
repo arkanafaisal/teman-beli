@@ -27,7 +27,7 @@ export default function ProfileEdit() {
 
   const handleDeleteAccount = async (confirmName) => {
     setIsDeleting(true);
-    const res = await api.user.deleteProfile({ name: confirmName });
+    const res = await api.user.delete({ id: user.id, name: confirmName });
     if (res.success) {
       toast.success(res.message);
       setShowDeleteModal(false);

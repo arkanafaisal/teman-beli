@@ -48,24 +48,6 @@ UserController.getReviews = async (req, res) => {
   res.status(200).json({ success: true, payload: reviews });
 };
 
-UserController.deleteProfile = async (req, res) => {
-  const userId = req.user.id;
-  const { name } = req.validated;
-
-  const user = await UserModel.getUserById(userId);
-  if (!user || user.name !== name) {
-    return res.sendStatus(403);
-  }
-  
-  await UserModel.deleteProfile(userId);
-  
-  // Clear the auth tokens
-  res.clearCookie('accessToken');
-  res.clearCookie('refreshToken');
-  
-  res.sendStatus(200);
-};
-
 UserController.getUserCommunities = async (req, res) => {
   const userId = req.user.id;
   const { getUserCommunitiesModel } = await import('../models/community.model.js');
@@ -88,4 +70,47 @@ UserController.getUserCommunities = async (req, res) => {
   }));
 
   res.status(200).json({ payload: formatted });
+};
+
+UserController.getAllUsers = async (req, res) => {
+  if (req.user.role !== 'ADMIN') return res.sendStatus(403);
+  const { q, status } = req.validatedQuery;
+  const users = await UserModel.getAllUsers({ search: q, status });
+  res.status(200).json({ payload: users });
+};
+
+UserController.deleteUser = async (req, res) => {
+  const { id } = req.validatedParams;
+  const { action } = req.query;
+  const { name } = req.validated;
+  const isSelf = req.user.id === id;
+  const isAdmin = req.user.role === 'ADMIN';
+
+  if (!isSelf && !isAdmin) {
+    return res.sendStatus(403);
+  }
+
+  const target = await UserModel.getUserById(id);
+  if (!target) return res.sendStatus(404);
+  
+  if (isAdmin) {
+    // Protect admin from being deleted by another admin
+    if (target.role === 'ADMIN') return res.sendStatus(403);
+  } else {
+    // Normal user deleting their own account must provide the correct name
+    if (target.name !== name) {
+      return res.sendStatus(403);
+    }
+  }
+
+  const isDeleted = action !== 'restore';
+  await UserModel.setUserStatus(id, isDeleted);
+
+  // If a user deletes their own account, clear their cookies
+  if (isSelf && isDeleted) {
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+  }
+
+  res.sendStatus(200);
 };

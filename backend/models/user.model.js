@@ -13,7 +13,8 @@ UserModel.getUserById = async (userId) => {
       name: true,
       department: true,
       rating: true,
-      role: true
+      role: true,
+      isDeleted: true
     }
   });
 };
@@ -68,5 +69,52 @@ UserModel.deleteProfile = async (userId) => {
   return await prisma.user.update({
     where: { id: userId },
     data: { isDeleted: true }
+  });
+};
+
+UserModel.getAllUsers = async ({ search, status }) => {
+  let where = {};
+  
+  if (search) {
+    where.OR = [
+      { name: { contains: search, mode: 'insensitive' } },
+      { email: { contains: search, mode: 'insensitive' } }
+    ];
+  }
+
+  if (status === 'deleted') {
+    where.isDeleted = true;
+  } else if (status === 'active') {
+    where.isDeleted = false;
+  }
+
+  const results = await prisma.user.findMany({
+    where,
+    take: 30,
+    orderBy: { createdAt: 'desc' },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      department: true,
+      rating: true,
+      reviewCount: true,
+      isDeleted: true,
+      role: true,
+      createdAt: true
+    }
+  });
+
+  return results.sort((a, b) => {
+    if (a.isDeleted && !b.isDeleted) return 1;
+    if (!a.isDeleted && b.isDeleted) return -1;
+    return 0;
+  });
+};
+
+UserModel.setUserStatus = async (userId, isDeleted) => {
+  return await prisma.user.update({
+    where: { id: userId },
+    data: { isDeleted }
   });
 };

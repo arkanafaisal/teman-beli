@@ -42,6 +42,12 @@ AuthController.login = async (req, res) => {
   // 3. Find or Create User di Database
   let user = await UserModel.getUserByEmail(email);
 
+  if (user && user.isDeleted) {
+    let err = new Error("Akun dinonaktifkan");
+    err.status = 403;
+    throw err;
+  }
+
   if (!user) {
     user = await UserModel.createUser(email, name);
   }
@@ -72,6 +78,10 @@ AuthController.loginManual = async (req, res) => {
   const user = await UserModel.getUserWithPassword(email);
   if (!user) {
     return res.sendStatus(401);
+  }
+
+  if (user.isDeleted) {
+    return res.sendStatus(403);
   }
 
   if (!user.password) {
@@ -122,7 +132,7 @@ AuthController.refresh = async (req, res) => {
     // Cari user di Database menggunakan decoded.id untuk memastikan akun belum dihapus/di-banned
     const user = await UserModel.getUserById(decoded.id);
 
-    if (!user) {
+    if (!user || user.isDeleted) {
       res.clearCookie('access_token');
       res.clearCookie('refresh_token');
       return res.sendStatus(401);

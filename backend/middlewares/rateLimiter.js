@@ -18,6 +18,8 @@ const limitsConfig = {
   'user.deleteProfile': { windowMs: 15 * 60 * 1000, limit: 5 },
   'user.getReviews': { windowMs: 15 * 60 * 1000, limit: 100 },
   'user.getCommunities': { windowMs: 15 * 60 * 1000, limit: 100 },
+  'user.getAll': { windowMs: 15 * 60 * 1000, limit: 100 },
+  'user.delete': { windowMs: 15 * 60 * 1000, limit: 100 },
 
   // === PATUNGAN ROUTER ===
   'patungan.getAll': { windowMs: 15 * 60 * 1000, limit: 300 },

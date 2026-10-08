@@ -34,6 +34,10 @@ export const getApiMessage = (path, code, method = "GET") => {
     } else if (path.match(/^\/community\/[a-f0-9\-]+\/comments$/)) {
       normalizedPath = "/community/:id/comments";
     }
+  } else if (path.startsWith("/users/")) {
+    if (path.match(/^\/users\/[a-f0-9\-]+$/)) {
+      normalizedPath = "/users/:id";
+    }
   }
 
   // Kamus mapping pesan berdasarkan path (endpoint) dan method
@@ -97,6 +101,20 @@ export const getApiMessage = (path, code, method = "GET") => {
       GET: {
         200: "Komunitas berhasil dimuat.",
         401: "Anda belum masuk."
+      }
+    },
+    "/users": {
+      GET: {
+        200: "Daftar pengguna berhasil dimuat.",
+        400: "Kriteria pencarian pengguna tidak valid.",
+        403: "Anda tidak memiliki akses admin."
+      }
+    },
+    "/users/:id": {
+      DELETE: {
+        200: "Status pengguna berhasil diperbarui.",
+        403: "Aksi tidak diizinkan.",
+        404: "Pengguna tidak ditemukan."
       }
     },
     "/patungan": {

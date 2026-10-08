@@ -20,5 +20,5 @@ export const updateProfileSchema = z.object({
 });
 
 export const deleteProfileSchema = z.object({
-  name: z.string().min(1)
+  name: z.string().optional()
 });

@@ -32,10 +32,20 @@ export const api = {
   user: {
     getProfile: () => callApi("/users/profile", "GET"),
     updateProfile: ({ department, password }) => callApi("/users/profile", "PUT", { department, password }),
-    deleteProfile: ({ name }) => callApi("/users/profile", "DELETE", { name }),
     getReviews: () => callApi("/users/reviews", "GET"),
     getActivity: () => callApi("/users/activity", "GET"),
     getCommunities: () => callApi("/users/communities", "GET"),
+    getAll: ({ q, status } = {}) => {
+      const queryParams = new URLSearchParams();
+      if (q) queryParams.append("q", q);
+      if (status) queryParams.append("status", status);
+      const queryString = queryParams.toString() ? `?${queryParams.toString()}` : "";
+      return callApi(`/users${queryString}`, "GET");
+    },
+    delete: ({ id, action, name } = {}) => {
+      const qs = action === 'restore' ? '?action=restore' : '';
+      return callApi(`/users/${id}${qs}`, "DELETE", { name });
+    }
   },
   patungan: {
     getAll: ({ q, category, hostId, status } = {}) => {
