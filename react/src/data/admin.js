@@ -41,7 +41,7 @@ export const adminData = {
     }
   },
   komunitas: {
-    title: "Kelola Komunitas & Rekomendasi",
+    title: "Kelola Komunitas",
     filters: {
       all: "Semua (18)",
       active: "Aktif (15)",
