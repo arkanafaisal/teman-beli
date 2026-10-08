@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,15 +17,62 @@ import AdminKomunitas from "./pages/admin/Komunitas";
 import AdminPengguna from "./pages/admin/Pengguna";
 import AdminUlasan from "./pages/admin/Ulasan";
 
+import { useAuth } from "./context/AuthContext";
+import ActionModal from "./components/common/ActionModal";
+import { useState } from "react";
+
 function LayoutWrapper({ children }) {
   const location = useLocation();
+  const { user } = useAuth();
   const isPlainLayout = location.pathname.startsWith("/admin");
+  const [showAdminPrompt, setShowAdminPrompt] = useState(false);
+
+  const [hasPromptedSession, setHasPromptedSession] = useState(false);
+
+  useEffect(() => {
+    if (user?.role === "ADMIN" && !isPlainLayout && !hasPromptedSession) {
+      const lastShown = localStorage.getItem("adminPromptLastShown");
+      const now = Date.now();
+      const tenMinutes = 10 * 60 * 1000;
+
+      if (!lastShown || now - parseInt(lastShown, 10) > tenMinutes) {
+        setShowAdminPrompt(true);
+      }
+      // Set session variable so it doesn't trigger again just by internal routing
+      setHasPromptedSession(true);
+    }
+  }, [user, isPlainLayout, hasPromptedSession]);
+
+  const closePrompt = () => {
+    localStorage.setItem("adminPromptLastShown", Date.now().toString());
+    setShowAdminPrompt(false);
+  };
+
+  const navigate = useNavigate();
+
+  const handleYes = () => {
+    // Only close modal and navigate, do NOT set the 10-minute cooldown
+    setShowAdminPrompt(false);
+    navigate("/admin");
+  };
 
   return (
     <>
       {!isPlainLayout && <Header />}
       {children}
       {!isPlainLayout && <Footer />}
+      
+      <ActionModal 
+        isOpen={showAdminPrompt}
+        type="confirm"
+        title="Mode Admin Terdeteksi"
+        description="Anda masuk sebagai Admin. Apakah Anda ingin diarahkan ke Halaman Admin untuk mengelola sistem?"
+        confirmText="Ke Halaman Admin"
+        cancelText="Tetap di Sini"
+        icon="info"
+        onConfirm={handleYes}
+        onCancel={closePrompt}
+      />
     </>
   );
 }
