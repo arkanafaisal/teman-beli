@@ -28,9 +28,9 @@ export const createCommunity = async (req, res) => {
 };
 
 export const getAllCommunities = async (req, res) => {
-  const { category, q } = req.validatedQuery;
+  const { category, q, status } = req.validatedQuery;
   const userId = req.user?.id;
-  const communities = await getAllCommunitiesModel(category, q, userId);
+  const communities = await getAllCommunitiesModel(category, q, status, userId);
   
   const formatted = communities.map(c => ({
     id: c.id,
@@ -45,6 +45,7 @@ export const getAllCommunities = async (req, res) => {
     authorReviewCount: c.author.reviewCount,
     likes: c._count?.likes || 0,
     isLiked: c.likes && c.likes.length > 0,
+    isActive: !c.isDeleted,
     comments: c.comments ? c.comments.map(comment => ({
       author: comment.author.name,
       text: comment.text,
@@ -161,12 +162,19 @@ export const deleteCommunity = async (req, res) => {
   if (!user) return res.sendStatus(401);
 
   const { id } = req.validatedParams;
+  const { action } = req.query; // e.g. ?action=restore
+
   const c = await getCommunityByIdModel(id, user.id);
   if (!c) return res.sendStatus(404);
-  if (c.authorId !== user.id) return res.sendStatus(403);
+  if (c.authorId !== user.id && user.role !== 'ADMIN') return res.sendStatus(403);
 
   const { deleteCommunityModel } = await import('../models/community.model.js');
-  await deleteCommunityModel(id);
+  
+  if (action === 'restore') {
+    await deleteCommunityModel(id, false);
+  } else {
+    await deleteCommunityModel(id, true);
+  }
 
   return res.sendStatus(200);
 };

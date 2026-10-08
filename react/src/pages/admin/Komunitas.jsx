@@ -1,53 +1,122 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLayout from '../../components/admin/AdminLayout';
 import { adminData } from '../../data/admin';
 import KomunitasRow from '../../components/admin/KomunitasRow';
-import { mockKomunitas } from '../../data/mockKomunitas';
+import { api } from '../../services/api';
+import { toast } from 'sonner';
+import PageFilter from '../../components/common/PageFilter';
+import ActionModal from '../../components/common/ActionModal';
 
 export default function Komunitas() {
-  const [isCommunityModalOpen, setIsCommunityModalOpen] = useState(false);
-  const [isStatusConfirmModalOpen, setIsStatusConfirmModalOpen] = useState(false);
-  const [statusConfirmData, setStatusConfirmData] = useState({
-    title: '',
-    isActive: true,
-    badgeId: '',
-  });
+  const [communities, setCommunities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const confirmToggleStatus = (title, isActive, badgeId) => {
-    setStatusConfirmData({ title, isActive, badgeId });
-    setIsStatusConfirmModalOpen(true);
+  // Search & Filter state
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activeCategories, setActiveCategories] = useState([]);
+  const [activeTab, setActiveTab] = useState("all");
+
+  const [itemToCancel, setItemToCancel] = useState(null);
+  const [itemToRestore, setItemToRestore] = useState(null);
+
+  const fetchCommunities = async () => {
+    setLoading(true);
+    let params = {};
+    if (searchQuery) params.q = searchQuery;
+    if (activeCategories.length > 0) params.category = activeCategories.join(',');
+    
+    // activeTab map ke status API
+    if (activeTab === "active") {
+      params.status = "active";
+    } else if (activeTab === "inactive") {
+      params.status = "inactive";
+    } else {
+      params.status = "all";
+    }
+
+    const res = await api.community.getAll(params);
+    if (res.success) {
+      setCommunities(res.payload);
+    } else {
+      toast.error(res.message);
+    }
+    setLoading(false);
   };
 
-  const closeStatusConfirmModal = () => {
-    setIsStatusConfirmModalOpen(false);
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      fetchCommunities();
+    }, 500);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [searchQuery, activeCategories, activeTab]);
+
+  const handleCancel = async () => {
+    if (!itemToCancel) return;
+    const res = await api.community.delete({ id: itemToCancel.id });
+    if (res.success) {
+      toast.success("Komunitas berhasil dinonaktifkan");
+      fetchCommunities();
+    } else {
+      toast.error(res.message);
+    }
+    setItemToCancel(null);
   };
 
-  const executeStatusToggle = () => {
-    // Di sini logika state perubahan aslinya nanti
-    console.log("Status changed for", statusConfirmData.title);
-    closeStatusConfirmModal();
+  const handleRestore = async () => {
+    if (!itemToRestore) return;
+    const res = await api.community.delete({ id: itemToRestore.id, action: 'restore' });
+    if (res.success) {
+      toast.success("Komunitas berhasil dipulihkan menjadi aktif");
+      fetchCommunities();
+    } else {
+      toast.error(res.message);
+    }
+    setItemToRestore(null);
+  };
+
+  const triggerCancelModal = (item) => {
+    setItemToCancel(item);
+  };
+
+  const triggerRestoreModal = (item) => {
+    setItemToRestore(item);
   };
 
   const data = adminData.komunitas;
 
+  const filterTabs = [
+    { id: "all", label: data.filters.all },
+    { id: "active", label: data.filters.active },
+    { id: "inactive", label: data.filters.inactive }
+  ];
+
+  const categoryOptions = [
+    { value: "MAKAN", label: "Makan & Minum" },
+    { value: "KAMPUS", label: "Kebutuhan Kampus" },
+    { value: "KOS", label: "Kebutuhan Kos" }
+  ];
+
   return (
     <AdminLayout title={data.title}>
-      {/* KONTEN UTAMA */}
-      <div className="flex flex-col md:flex-row justify-between items-stretch md:items-center gap-4 mb-6">
-        <div className="flex flex-wrap items-center gap-2">
-          <button className="cursor-pointer px-3.5 py-1.5 bg-primary-base text-text-inverted rounded-xl text-xs font-semibold">{data.filters.all}</button>
-          <button className="cursor-pointer px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.active}</button>
-          <button className="cursor-pointer px-3.5 py-1.5 bg-bg-surface border border-border-base text-text-base hover:bg-bg-subtle rounded-xl text-xs font-medium">{data.filters.inactive}</button>
-        </div>
-
-        <button onClick={() => setIsCommunityModalOpen(true)} className="cursor-pointer px-4 py-2.5 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20 transition flex items-center justify-center gap-2">
-          <i className="ph ph-plus-circle text-base"></i> {data.addBtn}
-        </button>
+      {/* FILTER & PENCARIAN */}
+      <div className="mb-6">
+        <PageFilter 
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          activeCategory={activeCategories}
+          setActiveCategory={setActiveCategories}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabs={filterTabs}
+          filters={categoryOptions}
+          searchPlaceholder="Cari info komunitas..."
+        />
       </div>
 
       {/* TABEL KOMUNITAS */}
       <div className="bg-bg-surface rounded-2xl border border-border-base shadow-sm overflow-hidden">
-        <div className="w-full">
+        <div className="w-full overflow-x-auto no-scrollbar">
           <table className="w-full text-left text-xs sm:text-sm">
             <thead className="bg-bg-subtle text-text-muted text-[11px] sm:text-xs uppercase font-semibold">
               <tr>
@@ -61,89 +130,53 @@ export default function Komunitas() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border-subtle text-text-base">
-              
-              {mockKomunitas.map((item) => (
-                <KomunitasRow 
-                  key={item.id} 
-                  item={item} 
-                  onConfirmToggle={confirmToggleStatus} 
-                />
-              ))}
-
+              {loading ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-8 text-center text-text-muted">Memuat data...</td>
+                </tr>
+              ) : communities.length === 0 ? (
+                <tr>
+                  <td colSpan="7" className="px-6 py-8 text-center text-text-muted">Belum ada komunitas.</td>
+                </tr>
+              ) : (
+                communities.map((item) => (
+                  <KomunitasRow 
+                    key={item.id} 
+                    item={item} 
+                    onCancel={() => triggerCancelModal(item)} 
+                    onRestore={() => triggerRestoreModal(item)} 
+                  />
+                ))
+              )}
             </tbody>
           </table>
         </div>
       </div>
 
-      {/* MODAL FORM TAMBAH INFO KOMUNITAS */}
-      {isCommunityModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-bg-surface w-full max-w-lg rounded-2xl border border-border-base p-6 space-y-5 shadow-xl max-h-[90vh] overflow-y-auto no-scrollbar">
-            <div className="flex justify-between items-center border-b border-border-subtle pb-3">
-              <h3 className="font-bold text-text-heading text-base">{data.modalForm.title}</h3>
-              <button onClick={() => setIsCommunityModalOpen(false)} className="cursor-pointer text-text-muted hover:text-text-heading"><i className="ph ph-x text-xl"></i></button>
-            </div>
+      {/* MODAL KONFIRMASI */}
+      <ActionModal 
+        isOpen={!!itemToCancel}
+        type="confirm"
+        title="Konfirmasi Penonaktifan"
+        description={`Apakah Anda yakin ingin menonaktifkan info komunitas "${itemToCancel?.judul}"?`}
+        confirmText="Ya, Nonaktifkan"
+        cancelText="Batal"
+        icon="warning"
+        onConfirm={handleCancel}
+        onCancel={() => setItemToCancel(null)}
+      />
 
-            <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); setIsCommunityModalOpen(false); }}>
-              <div>
-                <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.title.label}</label>
-                <input type="text" placeholder={data.modalForm.fields.title.placeholder} className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.category.label}</label>
-                  <select className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none">
-                    {data.modalForm.fields.category.options.map((opt, i) => (
-                      <option key={i} value={opt}>{opt}</option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.location.label}</label>
-                  <input type="text" placeholder={data.modalForm.fields.location.placeholder} className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required />
-                </div>
-              </div>
-
-              <div>
-                <label className="text-xs font-semibold text-text-base block mb-1">{data.modalForm.fields.description.label}</label>
-                <textarea rows="3" placeholder={data.modalForm.fields.description.placeholder} className="w-full px-3.5 py-2 bg-bg-subtle border border-border-base rounded-xl text-xs focus:ring-2 focus:ring-primary-base focus:outline-none" required></textarea>
-              </div>
-
-              <div className="pt-2 flex justify-end gap-2">
-                <button type="button" onClick={() => setIsCommunityModalOpen(false)} className="cursor-pointer px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalForm.buttons.cancel}</button>
-                <button type="submit" className="cursor-pointer px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalForm.buttons.submit}</button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
-
-      {/* MODAL KONFIRMASI NONAKTIFKAN / AKTIFKAN STATUS */}
-      {isStatusConfirmModalOpen && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-bg-surface w-full max-w-md rounded-2xl border border-border-base p-6 space-y-4 shadow-xl">
-            <div className="flex items-center gap-3 text-warning-text">
-              <div className="p-2.5 bg-warning-soft rounded-xl">
-                <i className="ph ph-warning-circle text-2xl"></i>
-              </div>
-              <div>
-                <h3 className="font-bold text-text-heading text-base">{data.modalConfirm.title}</h3>
-                <p className="text-xs text-text-muted">{data.modalConfirm.subtitle}</p>
-              </div>
-            </div>
-
-            <p className="text-xs text-text-base leading-relaxed">
-              {data.modalConfirm.bodyPrefix} <strong className="text-text-heading">{statusConfirmData.isActive ? data.modalConfirm.bodyHighlightHide : data.modalConfirm.bodyHighlightShow}</strong> {data.modalConfirm.bodySuffix} "<strong className="text-text-heading">{statusConfirmData.title}</strong>"?
-            </p>
-
-            <div className="pt-2 flex justify-end gap-2">
-              <button type="button" onClick={closeStatusConfirmModal} className="cursor-pointer px-4 py-2 rounded-xl border border-border-base text-xs font-semibold text-text-base hover:bg-bg-subtle">{data.modalConfirm.buttons.cancel}</button>
-              <button type="button" onClick={executeStatusToggle} className="cursor-pointer px-4 py-2 bg-primary-base hover:bg-primary-hover text-text-inverted rounded-xl text-xs font-semibold shadow-lg shadow-primary-base/20">{data.modalConfirm.buttons.submit}</button>
-            </div>
-          </div>
-        </div>
-      )}
+      <ActionModal 
+        isOpen={!!itemToRestore}
+        type="confirm"
+        title="Konfirmasi Pemulihan"
+        description={`Apakah Anda yakin ingin mengaktifkan kembali info komunitas "${itemToRestore?.judul}"?`}
+        confirmText="Ya, Pulihkan"
+        cancelText="Batal"
+        icon="info"
+        onConfirm={handleRestore}
+        onCancel={() => setItemToRestore(null)}
+      />
 
     </AdminLayout>
   );

@@ -14,5 +14,6 @@ export const createCommunityCommentSchema = z.object({
 
 export const communityQuerySchema = z.object({
   q: z.string().min(1, "Kata kunci tidak boleh kosong").max(100, "Kata kunci terlalu panjang").optional(),
-  category: z.string().regex(/^(MAKAN|KAMPUS|KOS)(,(MAKAN|KAMPUS|KOS))*$/, "Format kategori tidak valid").optional()
+  category: z.string().regex(/^(MAKAN|KAMPUS|KOS)(,(MAKAN|KAMPUS|KOS))*$/, "Format kategori tidak valid").optional(),
+  status: z.enum(['active', 'inactive', 'all']).optional()
 });

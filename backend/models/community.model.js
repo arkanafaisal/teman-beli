@@ -7,7 +7,7 @@ export const createCommunityModel = async (data) => {
   });
 };
 
-export const getAllCommunitiesModel = async (category, q, userId) => {
+export const getAllCommunitiesModel = async (category, q, status, userId) => {
   const where = {};
   
   if (category && category !== 'all') {
@@ -19,8 +19,18 @@ export const getAllCommunitiesModel = async (category, q, userId) => {
     where.title = { contains: q, mode: 'insensitive' };
   }
 
+  if (status === 'inactive') {
+    where.isDeleted = true;
+  } else if (status === 'active') {
+    where.isDeleted = false;
+  } else if (!status) {
+    // Default for public users
+    where.isDeleted = false;
+  }
+
   return await prisma.community.findMany({
     where,
+    take: 30,
     orderBy: { createdAt: 'desc' },
     include: { 
       author: { select: { name: true, department: true, rating: true, reviewCount: true } },
@@ -88,13 +98,11 @@ export const updateCommunityModel = async (id, data) => {
   });
 };
 
-export const deleteCommunityModel = async (id) => {
-  // Hard delete with manual cascade
-  return await prisma.$transaction([
-    prisma.communityLike.deleteMany({ where: { communityId: id } }),
-    prisma.communityComment.deleteMany({ where: { communityId: id } }),
-    prisma.community.delete({ where: { id } })
-  ]);
+export const deleteCommunityModel = async (id, isDeleted = true) => {
+  return await prisma.community.update({
+    where: { id },
+    data: { isDeleted }
+  });
 };
 
 export const getUserCommunitiesModel = async (userId) => {

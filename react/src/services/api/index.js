@@ -67,11 +67,12 @@ export const api = {
     addReview: ({ id, rating, comment }) => callApi(`/patungan/${id}/reviews`, "POST", { rating, comment }),
   },
   community: {
-    getAll: ({ q, category } = {}) => {
+    getAll: ({ q, category, status } = {}) => {
       let query = "";
       const queryParams = new URLSearchParams();
       if (q) queryParams.append("q", q);
       if (category) queryParams.append("category", category);
+      if (status) queryParams.append("status", status);
       if (queryParams.toString()) {
         query = `?${queryParams.toString()}`;
       }
@@ -80,7 +81,7 @@ export const api = {
     getDetail: ({ id }) => callApi(`/community/${id}`, "GET"),
     create: ({ judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }) => callApi("/community", "POST", { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }),
     update: ({ id, judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }) => callApi(`/community/${id}`, "PUT", { judul, kategoriKey, lokasi, ringkasan, deskripsiLengkap }),
-    delete: ({ id }) => callApi(`/community/${id}`, "DELETE"),
+    delete: ({ id, action }) => callApi(`/community/${id}${action ? `?action=${action}` : ''}`, "DELETE"),
     addComment: ({ id, text }) => callApi(`/community/${id}/comments`, "POST", { text }),
     toggleLike: ({ id }) => callApi(`/community/${id}/like`, "POST"),
   },

@@ -140,6 +140,7 @@ model Community {
 
   authorId    String
   author      User     @relation("UserCommunities", fields: [authorId], references: [id])
+  isDeleted   Boolean  @default(false)
 
   comments    CommunityComment[]
   likes       CommunityLike[]
