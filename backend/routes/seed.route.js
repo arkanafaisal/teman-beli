@@ -69,8 +69,8 @@ router.get('/', rateLimiter('seed.database'), async (req, res) => {
       // 2. Buat 5 User Testing
       const hashedPassword = await bcrypt.hash("password123", 10);
       const usersData = [
-        { name: "Testing Satu", email: "testing1@student.uns.ac.id", password: hashedPassword, department: "Informatika UI", rating: 4.9, reviewCount: 12 },
-        { name: "Testing Dua", email: "testing2@student.uns.ac.id", password: hashedPassword, department: "Sistem Informasi UI", rating: 5.0, reviewCount: 8 },
+        { name: "Testing Satu", email: "testing1@student.uns.ac.id", password: hashedPassword, department: "Informatika UI", rating: 4.9, reviewCount: 12, role: "ADMIN" },
+        { name: "Testing Dua", email: "testing2@student.uns.ac.id", password: hashedPassword, department: "Sistem Informasi UI", rating: 5.0, reviewCount: 8, role: "ADMIN" },
         { name: "Testing Tiga", email: "testing3@student.uns.ac.id", password: hashedPassword, department: "Teknik Komputer UI", rating: 4.8, reviewCount: 24 },
         { name: "Testing Empat", email: "testing4@student.uns.ac.id", password: hashedPassword, department: "Ilmu Komputer UI", rating: 4.9, reviewCount: 5 },
         { name: "Testing Lima", email: "testing5@student.uns.ac.id", password: hashedPassword, department: "Teknik Elektro UI", rating: 4.7, reviewCount: 19 }
