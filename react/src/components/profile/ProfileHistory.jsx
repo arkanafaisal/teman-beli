@@ -8,6 +8,7 @@ import CommunityDetailModal from "../community/CommunityDetailModal";
 import CommunityForm from "../community/CommunityForm";
 import CenterModalWrapper from "../common/CenterModalWrapper";
 import ActionModal from "../common/ActionModal";
+import PatunganDetailModal from "../patungan/PatunganDetailModal";
 
 export default function ProfileHistory() {
   const [activeTab, setActiveTab] = useState("patungan");
@@ -177,12 +178,21 @@ export default function ProfileHistory() {
         )}
       </div>
 
-      <HistoryDetailModal
-        isOpen={!!selectedActivity}
-        onClose={() => setSelectedActivity(null)}
-        activity={selectedActivity}
-        onReviewed={handleReviewed}
-      />
+      {selectedActivity && (
+        ['OPEN', 'FULL', 'PENDING', 'ACCEPTED'].includes(selectedActivity.status) ? (
+          <PatunganDetailModal
+            item={{ ...selectedActivity, id: selectedActivity.patunganId }}
+            onClose={() => setSelectedActivity(null)}
+          />
+        ) : (
+          <HistoryDetailModal
+            isOpen={!!selectedActivity}
+            onClose={() => setSelectedActivity(null)}
+            activity={selectedActivity}
+            onReviewed={handleReviewed}
+          />
+        )
+      )}
 
       <CommunityDetailModal
         item={selectedCommunity}
