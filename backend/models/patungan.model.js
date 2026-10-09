@@ -39,22 +39,22 @@ export const PatunganModel = {
       }
     }
 
-    if (hostId) {
-      whereClause.hostId = hostId;
-    }
-
     if (status) {
       const statusArray = status.split(',');
       whereClause.status = { in: statusArray };
-    } else if (!hostId) {
+    } else {
       whereClause.status = { notIn: ['FINISHED', 'CANCELLED'] };
     }
 
-    if (search) {
-      whereClause.OR = [
-        { title: { contains: search, mode: 'insensitive' } },
-        { host: { name: { contains: search, mode: 'insensitive' } } }
+    if (hostId && search) {
+      whereClause.AND = [
+        { OR: [{ hostId: hostId }, { participants: { some: { userId: hostId } } }] },
+        { OR: [{ title: { contains: search, mode: 'insensitive' } }, { host: { name: { contains: search, mode: 'insensitive' } } }] }
       ];
+    } else if (hostId) {
+      whereClause.OR = [{ hostId: hostId }, { participants: { some: { userId: hostId } } }];
+    } else if (search) {
+      whereClause.OR = [{ title: { contains: search, mode: 'insensitive' } }, { host: { name: { contains: search, mode: 'insensitive' } } }];
     }
 
     const results = await prisma.patungan.findMany({
@@ -67,6 +67,12 @@ export const PatunganModel = {
         }
       }
     });
+
+    if (!hostId) {
+      results.forEach(r => {
+        delete r.hostId;
+      });
+    }
 
     // Pindahkan status FINISHED dan CANCELLED ke paling bawah
     return results.sort((a, b) => {

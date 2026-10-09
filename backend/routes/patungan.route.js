@@ -1,5 +1,5 @@
 import express from 'express';
-import { requireAuth } from '../middlewares/auth.middleware.js';
+import { requireAuth, optionalAuth } from '../middlewares/auth.middleware.js';
 import { rateLimiter } from '../middlewares/rateLimiter.js';
 import { PatunganController } from '../controllers/patungan.controller.js';
 import { validate } from '../middlewares/validation.middleware.js';
@@ -10,7 +10,7 @@ import { idParamSchema } from '../schemas/common.schema.js';
 const router = express.Router();
 
 router.get('/', rateLimiter('patungan.getAll'), validate({ query: patunganQuerySchema }), PatunganController.getAll); // Public route
-router.get('/:id', rateLimiter('patungan.getDetail'), validate({ params: idParamSchema }), PatunganController.getDetail); // Public route
+router.get('/:id', optionalAuth, rateLimiter('patungan.getDetail'), validate({ params: idParamSchema }), PatunganController.getDetail); // Public route
 router.post('/', requireAuth, rateLimiter('patungan.create'), validate({ body: patunganSchema }), PatunganController.create);
 router.put('/:id', requireAuth, rateLimiter('patungan.update'), validate({ params: idParamSchema, body: updatePatunganSchema }), PatunganController.update);
 router.post('/:id/log', requireAuth, rateLimiter('patungan.addLog'), validate({ params: idParamSchema, body: addPatunganLogSchema }), PatunganController.addLog);

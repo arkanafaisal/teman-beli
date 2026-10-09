@@ -24,7 +24,8 @@ PatunganController.update = async (req, res) => {
 
   const existing = await PatunganModel.getPatunganById(req.validatedParams.id);
   if (!existing) return res.sendStatus(404);
-  if (existing.hostId !== userId) return res.sendStatus(403); // Hanya host yang boleh update
+  if (existing.hostId !== userId && req.user.role !== 'ADMIN') return res.sendStatus(403);
+  if ((existing.status === 'FINISHED' || existing.status === 'CANCELLED') && req.user.role !== 'ADMIN') return res.sendStatus(400);
 
   await PatunganModel.updatePatungan(req.validatedParams.id, validatedData);
   res.sendStatus(200);
@@ -33,6 +34,13 @@ PatunganController.update = async (req, res) => {
 PatunganController.getDetail = async (req, res) => {
   const patungan = await PatunganModel.getPatunganDetail(req.validatedParams.id);
   if (!patungan) return res.sendStatus(404);
+
+  if (!req.user) {
+    delete patungan.whatsapp;
+    delete patungan.refLink;
+    delete patungan.proofLink;
+  }
+
   res.status(200).json(patungan);
 };
 
@@ -66,7 +74,8 @@ PatunganController.updateStatus = async (req, res) => {
 PatunganController.addLog = async (req, res) => {
   const existing = await PatunganModel.getPatunganById(req.validatedParams.id);
   if (!existing) return res.sendStatus(404);
-  if (existing.hostId !== req.user.id) return res.sendStatus(403);
+  if (existing.hostId !== req.user.id && req.user.role !== 'ADMIN') return res.sendStatus(403);
+  if ((existing.status === 'FINISHED' || existing.status === 'CANCELLED') && req.user.role !== 'ADMIN') return res.sendStatus(400);
 
   await PatunganModel.addLog(req.validatedParams.id, req.validated.text);
   res.sendStatus(201);
