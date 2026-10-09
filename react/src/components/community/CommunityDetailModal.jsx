@@ -17,10 +17,10 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
 
   useEffect(() => {
     if (!item?.id) return;
-    
+
     const fetchDetail = async () => {
       if (!localItem) setIsLoading(true);
-      
+
       const res = await api.community.getDetail({ id: item.id });
       if (res.success && res.payload) {
         const fullData = res.payload;
@@ -59,7 +59,7 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
     return (
       <BottomModalWrapper onClose={onClose}>
         <div className="flex justify-center items-center h-64 text-text-muted font-medium text-sm">
-          Memuat detail komunitas...
+          Memuat detail rekomendasi...
         </div>
       </BottomModalWrapper>
     );
@@ -159,9 +159,8 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
                   if (error) setError("");
                 }}
                 placeholder={communityData.modal.commentInputPlaceholder}
-                className={`flex-grow text-xs px-3.5 py-2.5 rounded-xl border dark:bg-bg-subtle text-text-base outline-none focus:ring-2 transition-colors ${
-                  error ? "border-danger-base focus:ring-danger-base" : "border-border-base focus:ring-primary-base"
-                }`}
+                className={`flex-grow text-xs px-3.5 py-2.5 rounded-xl border dark:bg-bg-subtle text-text-base outline-none focus:ring-2 transition-colors ${error ? "border-danger-base focus:ring-danger-base" : "border-border-base focus:ring-primary-base"
+                  }`}
               />
               <button onClick={handleCommentSubmit} className="bg-primary-base hover:bg-primary-hover text-text-inverted font-semibold text-xs px-4 py-2.5 rounded-xl transition active:scale-95">
                 {communityData.modal.commentSubmitButton}

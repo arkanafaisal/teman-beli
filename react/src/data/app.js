@@ -8,7 +8,7 @@ export const appData = {
     navLinks: [
       { label: "Beranda", path: "/" },
       { label: "Patungan", path: "/patungan" },
-      { label: "Komunitas", path: "/komunitas" },
+      { label: "Rekomendasi", path: "/rekomendasi" },
       { label: "Profil", path: "/profil" }
     ],
     auth: {

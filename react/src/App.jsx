@@ -112,7 +112,7 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/patungan" element={<Patungan />} />
               <Route path="/eksplor" element={<Patungan />} />
-              <Route path="/komunitas" element={<Community />} />
+              <Route path="/rekomendasi" element={<Community />} />
               <Route path="/profil" element={<Profile />} />
               <Route path="/riwayat" element={<History />} />
             </Route>
@@ -121,7 +121,7 @@ function App() {
             <Route element={<ProtectedAdminRoute />}>
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/patungan" element={<AdminPatungan />} />
-              <Route path="/admin/komunitas" element={<AdminKomunitas />} />
+              <Route path="/admin/rekomendasi" element={<AdminKomunitas />} />
               <Route path="/admin/pengguna" element={<AdminPengguna />} />
               {/* <Route path="/admin/ulasan" element={<AdminUlasan />} /> */}
             </Route>

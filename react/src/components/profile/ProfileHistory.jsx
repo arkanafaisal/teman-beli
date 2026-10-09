@@ -20,7 +20,7 @@ export default function ProfileHistory() {
   const [selectedCommunity, setSelectedCommunity] = useState(null);
   const [isEditCommunityOpen, setIsEditCommunityOpen] = useState(false);
   const [isDeleteCommunityOpen, setIsDeleteCommunityOpen] = useState(false);
-  
+
   // Comment state for CommunityDetailModal
   const [communityComment, setCommunityComment] = useState("");
 
@@ -41,7 +41,7 @@ export default function ProfileHistory() {
   }, [activeTab]);
 
   const handleReviewed = (activityId, reviewData) => {
-    setActivities(prev => prev.map(act => 
+    setActivities(prev => prev.map(act =>
       act.id === activityId ? { ...act, isReviewed: true, myReview: reviewData } : act
     ));
   };
@@ -94,20 +94,20 @@ export default function ProfileHistory() {
       <div className="mb-6">
         <h3 className="font-bold text-base text-text-heading">{profileData.historyCard.title}</h3>
         <p className="text-xs text-text-muted">{profileData.historyCard.subtitle}</p>
-        
+
         {/* Tabs */}
         <div className="flex gap-4 mt-4 border-b border-border-subtle">
-          <button 
+          <button
             className={`pb-2 text-sm font-bold transition ${activeTab === 'patungan' ? 'text-primary-base border-b-2 border-primary-base' : 'text-text-muted hover:text-text-heading'}`}
             onClick={() => setActiveTab('patungan')}
           >
             Patungan
           </button>
-          <button 
+          <button
             className={`pb-2 text-sm font-bold transition ${activeTab === 'komunitas' ? 'text-primary-base border-b-2 border-primary-base' : 'text-text-muted hover:text-text-heading'}`}
             onClick={() => setActiveTab('komunitas')}
           >
-            Komunitas
+            Rekomendasi
           </button>
         </div>
       </div>
@@ -121,8 +121,8 @@ export default function ProfileHistory() {
               const dateObj = new Date(act.date);
               const dateStr = dateObj.toLocaleDateString("id-ID", { day: '2-digit', month: 'short' }) + " " + dateObj.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' });
               return (
-                <div 
-                  key={act.id} 
+                <div
+                  key={act.id}
                   onClick={() => setSelectedActivity(act)}
                   className="py-2 border-b border-border-subtle last:border-0 flex flex-col gap-0 cursor-pointer hover:bg-bg-subtle transition px-2 -mx-2 rounded-lg"
                 >
@@ -151,8 +151,8 @@ export default function ProfileHistory() {
               const dateObj = new Date(act.createdAt || Date.now()); // fallback if missing
               const dateStr = dateObj.toLocaleDateString("id-ID", { day: '2-digit', month: 'short' }) + " " + dateObj.toLocaleTimeString("id-ID", { hour: '2-digit', minute: '2-digit' });
               return (
-                <div 
-                  key={act.id} 
+                <div
+                  key={act.id}
                   onClick={() => setSelectedCommunity(act)}
                   className="py-2 border-b border-border-subtle last:border-0 flex flex-col gap-0 cursor-pointer hover:bg-bg-subtle transition px-2 -mx-2 rounded-lg"
                 >
@@ -177,10 +177,10 @@ export default function ProfileHistory() {
         )}
       </div>
 
-      <HistoryDetailModal 
-        isOpen={!!selectedActivity} 
-        onClose={() => setSelectedActivity(null)} 
-        activity={selectedActivity} 
+      <HistoryDetailModal
+        isOpen={!!selectedActivity}
+        onClose={() => setSelectedActivity(null)}
+        activity={selectedActivity}
         onReviewed={handleReviewed}
       />
 
@@ -196,7 +196,7 @@ export default function ProfileHistory() {
 
       {isEditCommunityOpen && selectedCommunity && (
         <CenterModalWrapper title="Edit Info Komunitas" onClose={() => setIsEditCommunityOpen(false)}>
-          <CommunityForm 
+          <CommunityForm
             initialData={selectedCommunity}
             onSuccess={() => {
               setIsEditCommunityOpen(false);

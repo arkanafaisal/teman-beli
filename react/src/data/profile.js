@@ -27,7 +27,7 @@ export const profileData = {
   },
   historyCard: {
     title: "Aktivitas Saya",
-    subtitle: "Daftar patungan dan komunitas",
+    subtitle: "Daftar patungan dan rekomendasi",
     loadingText: "Memuat riwayat...",
     emptyText: "Belum ada riwayat patungan.",
     statusFinished: "Selesai",
