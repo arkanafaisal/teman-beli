@@ -12,6 +12,7 @@ import PatunganCard from "../components/patungan/PatunganCard";
 import PatunganDetailModal from "../components/patungan/PatunganDetailModal";
 import CenterModalWrapper from "../components/common/CenterModalWrapper";
 import PatunganForm from "../components/patungan/PatunganForm";
+import PatunganSkeletonCard from "../components/patungan/PatunganSkeletonCard";
 
 export default function Patungan() {
   const { user } = useAuth();
@@ -25,6 +26,7 @@ export default function Patungan() {
     return patunganId ? { id: patunganId } : null;
   });
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const url = new URL(window.location);
@@ -53,6 +55,7 @@ export default function Patungan() {
   }, []);
 
   const fetchPatungans = async () => {
+    setIsLoading(true);
     let params = {};
     if (searchQuery) params.q = searchQuery;
     if (activeCategories.length > 0) params.category = activeCategories.join(",");
@@ -72,6 +75,7 @@ export default function Patungan() {
       }));
       setItems(mappedData);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -119,7 +123,13 @@ export default function Patungan() {
         setActiveTab={handleTabChange}
       />
       
-      {items.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <PatunganSkeletonCard key={i} />
+          ))}
+        </div>
+      ) : items.length === 0 ? (
         <div className="py-16 text-center flex flex-col items-center">
           <div className="mb-4 text-text-muted"><SearchX size={56} strokeWidth={1.5} /></div>
           <h3 className="text-lg font-bold text-text-heading mb-2">{patunganData.feed.emptyState.message}</h3>

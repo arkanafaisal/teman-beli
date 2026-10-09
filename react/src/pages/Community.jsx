@@ -11,6 +11,7 @@ import CommunityCard from "../components/community/CommunityCard";
 import CommunityDetailModal from "../components/community/CommunityDetailModal";
 import CenterModalWrapper from "../components/common/CenterModalWrapper";
 import CommunityForm from "../components/community/CommunityForm";
+import CommunitySkeletonCard from "../components/community/CommunitySkeletonCard";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../services/api";
 
@@ -190,7 +191,13 @@ export default function Community() {
         searchPlaceholder={communityData.search.placeholder}
       />
 
-      {items.length === 0 && !isLoading ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5" id="info-cards-grid">
+          {[...Array(6)].map((_, i) => (
+            <CommunitySkeletonCard key={i} />
+          ))}
+        </div>
+      ) : items.length === 0 ? (
         <div className="py-16 text-center flex flex-col items-center">
           <div className="mb-4 text-text-muted"><SearchX size={56} strokeWidth={1.5} /></div>
           <h3 className="text-lg font-bold text-text-heading mb-2">Informasi tidak ditemukan</h3>
