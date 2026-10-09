@@ -24,7 +24,7 @@ export default function Home() {
       <HeroSection />
       <CategorySection />
       <FeatureSection />
-      <HistorySection />
+      {/* <HistorySection /> */}
       <TestimonialSection />
       <FaqSection />
       <CtaSection />
