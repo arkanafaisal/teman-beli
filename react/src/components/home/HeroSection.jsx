@@ -27,12 +27,12 @@ export default function HeroSection() {
             <span>{homeData.hero.primaryButton}</span>
             <span className="group-hover:translate-x-1 transition-transform">&rarr;</span>
           </a>
-          <a
+          {/* <a
             href="#history-hemat"
             className="w-full sm:w-auto bg-bg-surface border border-border-base hover:bg-bg-base text-text-base font-semibold px-6 py-3.5 rounded-2xl transition text-center shadow-sm active:scale-95"
           >
             {homeData.hero.secondaryButton}
-          </a>
+          </a> */}
         </div>
       </div>
 
