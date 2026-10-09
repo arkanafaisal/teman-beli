@@ -3,9 +3,9 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import { adminData } from '../../data/admin';
 import { api } from '../../services/api';
 import { toast } from 'sonner';
-import { 
-  BarChart, Bar, PieChart, Pie, Cell, 
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
+import {
+  BarChart, Bar, PieChart, Pie, Cell,
+  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer
 } from 'recharts';
 
 export default function AdminDashboard() {
@@ -171,7 +171,7 @@ export default function AdminDashboard() {
             </ResponsiveContainer>
           </div>
         </div>
-        
+
         <div className="bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm flex flex-col items-center lg:col-span-1">
           <h3 className="text-sm font-semibold text-text-muted mb-4 w-full text-left">Status Patungan</h3>
           <div className="h-48 w-full">
@@ -210,7 +210,7 @@ export default function AdminDashboard() {
       {/* --- KOMUNITAS SECTION --- */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4 mt-8">
         <h2 className="text-lg font-bold text-text-heading flex items-center">
-          <i className="ph ph-users-three text-primary-base mr-2"></i>Analitik Komunitas
+          <i className="ph ph-users-three text-primary-base mr-2"></i>Analitik Rekomendasi
         </h2>
         <div className="flex gap-2 text-xs font-semibold">
           <span className="px-2.5 py-1 bg-bg-surface border border-border-base rounded-full shadow-sm">
@@ -223,7 +223,7 @@ export default function AdminDashboard() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
         <div className="lg:col-span-2 bg-bg-surface border border-border-base rounded-2xl p-5 shadow-sm">
-          <h3 className="text-sm font-semibold text-text-muted mb-4">Komunitas Dibuat Bulan Ini</h3>
+          <h3 className="text-sm font-semibold text-text-muted mb-4">Rekomendasi Dibuat Bulan Ini</h3>
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={data.community.growthChart}>

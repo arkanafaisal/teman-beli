@@ -36,13 +36,13 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
   return (
     <div className="flex min-h-screen relative overflow-x-hidden bg-bg-base text-text-base font-sans antialiased transition-colors duration-200">
       {/* BACKDROP OVERLAY */}
-      <div 
-        onClick={toggleSidebar} 
+      <div
+        onClick={toggleSidebar}
         className={`fixed inset-0 bg-black/50 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${isSidebarOpen ? 'block' : 'hidden'}`}
       ></div>
 
       {/* SIDEBAR RESPONSIVE */}
-      <aside 
+      <aside
         className={`fixed lg:static top-0 bottom-0 left-0 w-60 bg-bg-surface border-r border-border-base flex flex-col shrink-0 z-50 transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0 transition-transform duration-300 ease-in-out`}
       >
         {/* Brand Admin */}
@@ -56,7 +56,7 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
         {/* Menu Navigasi Admin */}
         <nav className="flex-1 p-4 space-y-1.5 overflow-y-auto">
           <p className="px-4 text-[10px] font-semibold text-text-muted uppercase tracking-wider mb-2">{adminData.layout.sidebar.menuSection1}</p>
-          
+
           <Link to="/admin" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath === '/admin' || currentPath === '/admin/' ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-squares-four text-lg"></i>
             {adminData.layout.sidebar.dashboard}
@@ -79,7 +79,7 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
             {adminData.layout.sidebar.patungan}
           </Link>
 
-          <Link to="/admin/komunitas" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/komunitas') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
+          <Link to="/admin/rekomendasi" className={`flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium text-sm transition ${currentPath.includes('/admin/rekomendasi') ? 'bg-primary-soft text-primary-text font-semibold' : 'text-text-base hover:bg-bg-subtle'}`}>
             <i className="ph ph-users-three text-lg"></i>
             {adminData.layout.sidebar.komunitas}
           </Link>
@@ -91,11 +91,11 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
             <i className="ph ph-arrow-square-out text-base"></i>
             {adminData.layout.sidebar.backToApp}
           </Link>
-          
+
           <div className="relative">
             {isProfilePopupOpen && (
               <>
-                <div 
+                <div
                   className="fixed inset-0 z-40"
                   onClick={() => setIsProfilePopupOpen(false)}
                 ></div>
@@ -107,7 +107,7 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
                 </div>
               </>
             )}
-            <button 
+            <button
               onClick={() => setIsProfilePopupOpen(!isProfilePopupOpen)}
               className="w-full bg-bg-surface shadow-sm hover:bg-bg-subtle active:scale-[0.98] ring-1 ring-border-base p-2.5 rounded-xl flex items-center justify-between transition cursor-pointer"
             >
@@ -128,7 +128,7 @@ export default function AdminLayout({ children, title = adminData.dashboard.titl
 
       {/* MAIN CONTENT AREA */}
       <div className="flex-1 flex flex-col min-w-0">
-        
+
         {/* TOP HEADER */}
         <header className="bg-bg-surface border-b border-border-base px-4 sm:px-8 py-4 flex justify-between items-center transition-colors duration-200">
           <div className="flex items-center gap-3">

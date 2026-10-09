@@ -1,6 +1,6 @@
 export const communityData = {
   header: {
-    title: "Info Kampus & Direktori Komunitas",
+    title: "Info Kampus & Rekomendasi",
     subtitle: "Rekomendasi tempat makan murah, laundry, toko cetak, dan promo kantong mahasiswa.",
     shareButton: "+ Bagikan Rekomendasi"
   },

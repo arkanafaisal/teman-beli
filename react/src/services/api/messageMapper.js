@@ -99,7 +99,7 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/users/communities": {
       GET: {
-        200: "Komunitas berhasil dimuat.",
+        200: "Rekomendasi berhasil dimuat.",
         401: "Anda belum masuk."
       }
     },
@@ -221,31 +221,31 @@ export const getApiMessage = (path, code, method = "GET") => {
     },
     "/community": {
       GET: {
-        200: "Daftar komunitas berhasil dimuat."
+        200: "Daftar rekomendasi berhasil dimuat."
       },
       POST: {
         201: "Informasi berhasil ditambahkan!",
-        400: "Data pengajuan komunitas tidak valid.",
-        401: "Anda harus login untuk membuat komunitas.",
-        409: "Nama komunitas tersebut sudah pernah diajukan atau sudah ada."
+        400: "Data pengajuan rekomendasi tidak valid.",
+        401: "Anda harus login untuk membuat rekomendasi.",
+        409: "Nama rekomendasi tersebut sudah pernah diajukan atau sudah ada."
       }
     },
     "/community/:id": {
       GET: {
-        200: "Detail komunitas berhasil dimuat.",
-        404: "Komunitas tidak ditemukan."
+        200: "Detail rekomendasi berhasil dimuat.",
+        404: "Rekomendasi tidak ditemukan."
       },
       PUT: {
-        200: "Data komunitas berhasil diperbarui.",
+        200: "Data rekomendasi berhasil diperbarui.",
         400: "Data pembaruan tidak lengkap atau tidak valid.",
-        403: "Anda tidak diizinkan untuk mengedit komunitas ini.",
-        404: "Komunitas tidak ditemukan.",
-        409: "Nama komunitas sudah digunakan."
+        403: "Anda tidak diizinkan untuk mengedit rekomendasi ini.",
+        404: "Rekomendasi tidak ditemukan.",
+        409: "Nama rekomendasi sudah digunakan."
       },
       DELETE: {
-        200: "Komunitas berhasil dihapus.",
-        403: "Anda tidak memiliki hak untuk menghapus komunitas ini.",
-        404: "Komunitas tidak ditemukan."
+        200: "Rekomendasi berhasil dihapus.",
+        403: "Anda tidak memiliki hak untuk menghapus rekomendasi ini.",
+        404: "Rekomendasi tidak ditemukan."
       }
     },
     "/community/:id/comments": {
@@ -253,14 +253,14 @@ export const getApiMessage = (path, code, method = "GET") => {
         201: "Komentar berhasil ditambahkan!",
         400: "Komentar tidak valid. (Minimal 2 karakter, Maksimal 500 karakter).",
         401: "Anda harus login untuk menambahkan komentar.",
-        404: "Komunitas tidak ditemukan."
+        404: "Rekomendasi tidak ditemukan."
       }
     },
     "/community/:id/like": {
       POST: {
-        200: "Berhasil mengubah like komunitas.",
-        401: "Anda harus login untuk menyukai komunitas.",
-        404: "Komunitas tidak ditemukan."
+        200: "Berhasil mengubah like rekomendasi.",
+        401: "Anda harus login untuk menyukai rekomendasi.",
+        404: "Rekomendasi tidak ditemukan."
       }
     },
     "/community/:id/leave": {
@@ -303,7 +303,7 @@ export const getApiMessage = (path, code, method = "GET") => {
 
   // Fallback Sukses (Tanpa Pesan)
   if (code >= 200 && code < 300) {
-    return null; 
+    return null;
   }
 
   // Fallback Pesan Umum HTTP (Reverse Engineering)

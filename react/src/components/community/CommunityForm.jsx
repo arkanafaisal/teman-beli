@@ -8,7 +8,7 @@ import { api } from "../../services/api";
 
 export default function CommunityForm({ onSuccess, initialData = null, onDelete }) {
   const { user } = useAuth();
-  
+
   const [formData, setFormData] = useState({
     judul: initialData?.judul || "",
     kategoriKey: initialData?.kategoriKey || "MAKAN",
@@ -41,7 +41,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
         if (err.path[0]) fieldErrors[err.path[0]] = err.message;
       });
       setErrors(fieldErrors);
-      
+
       // Auto-scroll to the first field with error
       setTimeout(() => {
         const firstErrorEl = document.querySelector('.border-danger-base');
@@ -50,7 +50,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
           firstErrorEl.focus();
         }
       }, 100);
-      
+
       return;
     }
 
@@ -63,7 +63,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
       res = await api.community.create(formData);
     }
     setIsSubmitting(false);
-    
+
     if (res.success) {
       toast.success(res.message);
       if (onSuccess) {
@@ -76,7 +76,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
-      <FormInput 
+      <FormInput
         label={communityData.form.title.label}
         name="judul"
         required
@@ -87,7 +87,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <FormInput 
+        <FormInput
           type="select"
           label={communityData.form.category.label}
           name="kategoriKey"
@@ -96,7 +96,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
           options={communityData.form.category.options}
           error={errors.kategoriKey}
         />
-        <FormInput 
+        <FormInput
           label={communityData.form.location.label}
           name="lokasi"
           required
@@ -107,7 +107,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
         />
       </div>
 
-      <FormInput 
+      <FormInput
         label={communityData.form.summary.label}
         name="ringkasan"
         required
@@ -118,7 +118,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
         error={errors.ringkasan}
       />
 
-      <FormInput 
+      <FormInput
         type="textarea"
         label={communityData.form.description.label}
         name="deskripsiLengkap"
@@ -140,7 +140,7 @@ export default function CommunityForm({ onSuccess, initialData = null, onDelete 
           onClick={onDelete}
           className="cursor-pointer mt-3 w-full border border-danger-base text-danger-base hover:bg-danger-base hover:text-text-inverted font-medium py-3 rounded-xl transition"
         >
-          Hapus Komunitas
+          Hapus Rekomendasi
         </button>
       )}
     </form>

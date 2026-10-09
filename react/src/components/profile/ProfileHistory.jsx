@@ -172,7 +172,7 @@ export default function ProfileHistory() {
               );
             })
           ) : (
-            <p className="text-xs text-text-muted text-center py-6">Belum ada komunitas yang dibuat.</p>
+            <p className="text-xs text-text-muted text-center py-6">Belum ada rekomendasi yang dibuat.</p>
           )
         )}
       </div>
@@ -195,7 +195,7 @@ export default function ProfileHistory() {
       />
 
       {isEditCommunityOpen && selectedCommunity && (
-        <CenterModalWrapper title="Edit Info Komunitas" onClose={() => setIsEditCommunityOpen(false)}>
+        <CenterModalWrapper title="Edit Info Rekomendasi" onClose={() => setIsEditCommunityOpen(false)}>
           <CommunityForm
             initialData={selectedCommunity}
             onSuccess={() => {
@@ -215,8 +215,8 @@ export default function ProfileHistory() {
         isOpen={isDeleteCommunityOpen}
         type="confirm"
         icon="warning"
-        title="Hapus Komunitas"
-        description="Tindakan ini tidak dapat dibatalkan. Komunitas ini akan dihapus secara permanen beserta komentar dan likes."
+        title="Hapus Rekomendasi"
+        description="Tindakan ini tidak dapat dibatalkan. Rekomendasi ini akan dihapus secara permanen beserta komentar dan likes."
         confirmText="Hapus"
         cancelText="Batal"
         onConfirm={handleCommunityDelete}

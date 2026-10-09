@@ -9,7 +9,7 @@ export const adminData = {
       patungan: "Patungan",
       pengguna: "Pengguna",
       ulasan: "Ulasan",
-      komunitas: "Komunitas",
+      komunitas: "Rekomendasi",
       backToApp: "Lihat Tampilan User",
       logout: "Keluar",
       logoutToast: "Anda telah keluar dari sesi admin."
@@ -25,7 +25,7 @@ export const adminData = {
       activePatunganLabel: "Patungan",
       totalUsersLabel: "Pengguna",
       totalReviewsLabel: "Ulasan",
-      communityLabel: "Komunitas"
+      communityLabel: "Rekomendasi"
     },
     activeProjects: {
       title: "Patungan Aktif & Kategori",
@@ -42,7 +42,7 @@ export const adminData = {
     }
   },
   komunitas: {
-    title: "Kelola Komunitas",
+    title: "Kelola Rekomendasi",
     filters: {
       all: "Semua",
       active: "Aktif",

@@ -24,7 +24,7 @@ export default function Komunitas() {
     let params = {};
     if (searchQuery) params.q = searchQuery;
     if (activeCategories.length > 0) params.category = activeCategories.join(',');
-    
+
     // activeTab map ke status API
     if (activeTab === "active") {
       params.status = "active";
@@ -55,7 +55,7 @@ export default function Komunitas() {
     if (!itemToCancel) return;
     const res = await api.community.delete({ id: itemToCancel.id });
     if (res.success) {
-      toast.success("Komunitas berhasil dinonaktifkan");
+      toast.success("Rekomendasi berhasil dinonaktifkan");
       fetchCommunities();
     } else {
       toast.error(res.message);
@@ -67,7 +67,7 @@ export default function Komunitas() {
     if (!itemToRestore) return;
     const res = await api.community.delete({ id: itemToRestore.id, action: 'restore' });
     if (res.success) {
-      toast.success("Komunitas berhasil dipulihkan menjadi aktif");
+      toast.success("Rekomendasi berhasil dipulihkan menjadi aktif");
       fetchCommunities();
     } else {
       toast.error(res.message);
@@ -101,7 +101,7 @@ export default function Komunitas() {
     <AdminLayout title={data.title}>
       {/* FILTER & PENCARIAN */}
       <div className="mb-6">
-        <PageFilter 
+        <PageFilter
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           activeCategory={activeCategories}
@@ -110,7 +110,7 @@ export default function Komunitas() {
           setActiveTab={setActiveTab}
           tabs={filterTabs}
           filters={categoryOptions}
-          searchPlaceholder="Cari info komunitas..."
+          searchPlaceholder="Cari info Rekomendasi..."
         />
       </div>
 
@@ -136,15 +136,15 @@ export default function Komunitas() {
                 </tr>
               ) : communities.length === 0 ? (
                 <tr>
-                  <td colSpan="7" className="px-6 py-8 text-center text-text-muted">Belum ada komunitas.</td>
+                  <td colSpan="7" className="px-6 py-8 text-center text-text-muted">Belum ada Rekomendasi.</td>
                 </tr>
               ) : (
                 communities.map((item) => (
-                  <KomunitasRow 
-                    key={item.id} 
-                    item={item} 
-                    onCancel={() => triggerCancelModal(item)} 
-                    onRestore={() => triggerRestoreModal(item)} 
+                  <KomunitasRow
+                    key={item.id}
+                    item={item}
+                    onCancel={() => triggerCancelModal(item)}
+                    onRestore={() => triggerRestoreModal(item)}
                   />
                 ))
               )}
@@ -154,11 +154,11 @@ export default function Komunitas() {
       </div>
 
       {/* MODAL KONFIRMASI */}
-      <ActionModal 
+      <ActionModal
         isOpen={!!itemToCancel}
         type="confirm"
         title="Konfirmasi Penonaktifan"
-        description={`Apakah Anda yakin ingin menonaktifkan info komunitas "${itemToCancel?.judul}"?`}
+        description={`Apakah Anda yakin ingin menonaktifkan info rekomendasi "${itemToCancel?.judul}"?`}
         confirmText="Ya, Nonaktifkan"
         cancelText="Batal"
         icon="warning"
@@ -166,11 +166,11 @@ export default function Komunitas() {
         onCancel={() => setItemToCancel(null)}
       />
 
-      <ActionModal 
+      <ActionModal
         isOpen={!!itemToRestore}
         type="confirm"
         title="Konfirmasi Pemulihan"
-        description={`Apakah Anda yakin ingin mengaktifkan kembali info komunitas "${itemToRestore?.judul}"?`}
+        description={`Apakah Anda yakin ingin mengaktifkan kembali info rekomendasi "${itemToRestore?.judul}"?`}
         confirmText="Ya, Pulihkan"
         cancelText="Batal"
         icon="info"

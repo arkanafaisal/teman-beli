@@ -10,11 +10,10 @@ export default function KomunitasRow({ item, onCancel, onRestore }) {
         <p className="text-[10px] sm:text-[11px] text-text-muted">ID: {item.id}</p>
       </td>
       <td className="px-3 sm:px-4 py-4">
-        <span className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium whitespace-nowrap ${
-          item.kategoriKey === 'KAMPUS' ? 'bg-primary-soft text-primary-text border border-primary-ring/30' :
+        <span className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-medium whitespace-nowrap ${item.kategoriKey === 'KAMPUS' ? 'bg-primary-soft text-primary-text border border-primary-ring/30' :
           item.kategoriKey === 'KOS' ? 'bg-warning-soft text-warning-text border border-warning-base/30' :
-          'bg-success-soft text-success-text border border-success-base/30'
-        }`}>{item.kategoriKey}</span>
+            'bg-success-soft text-success-text border border-success-base/30'
+          }`}>{item.kategoriKey}</span>
       </td>
       <td className="px-3 sm:px-4 py-4 font-medium text-text-base">
         <span className="inline-flex items-center gap-1"><i className="ph ph-map-pin text-text-muted"></i> {item.lokasi}</span>
@@ -35,20 +34,20 @@ export default function KomunitasRow({ item, onCancel, onRestore }) {
       </td>
       <td className="px-3 sm:px-4 py-4 text-center whitespace-nowrap space-x-2">
         {!item.isActive ? (
-          <button 
+          <button
             onClick={() => {
               if (onRestore) onRestore();
             }}
-            title="Pulihkan Komunitas"
+            title="Pulihkan Rekomendasi"
             className="cursor-pointer p-2 text-text-muted hover:text-success-base transition">
             <i className="ph ph-arrow-counter-clockwise text-lg"></i>
           </button>
         ) : (
-          <button 
+          <button
             onClick={() => {
               if (onCancel) onCancel();
             }}
-            title="Nonaktifkan Komunitas"
+            title="Nonaktifkan Rekomendasi"
             className="cursor-pointer p-2 text-text-muted hover:text-danger-base transition">
             <i className="ph ph-trash text-lg"></i>
           </button>

@@ -93,7 +93,7 @@ export default function CommunityDetailModal({ item, onClose, onAddComment, onLi
             <button
               onClick={() => onEdit(localItem)}
               className="absolute right-0 top-0 p-2 bg-warning-base text-text-inverted rounded-xl flex items-center justify-center transition hover:bg-warning-hover shadow-sm cursor-pointer"
-              title="Edit Komunitas"
+              title="Edit Rekomendasi"
             >
               <Edit className="w-4 h-4" />
             </button>
